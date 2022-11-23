@@ -1,0 +1,70 @@
+﻿
+using Application.Commands;
+using Application.Commands;
+using Application.Queries;
+using Domain.Models;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using static Application.Commands.RestoreEmployeeCommand;
+
+namespace Web.Api.Controllers
+{
+  
+    public class EmployeeController : BaseController
+    {
+        private readonly IMediator _mediator;
+
+        public EmployeeController(IMediator mediator)
+        {
+            this._mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<Employee>>> GetAllEmployees([FromQuery ]GetEmployeeListQueryParam param) {
+           
+            IReadOnlyList<Employee> emps = await _mediator.Send(new GetEmployeesListQuery(param));
+            return Ok(emps);
+        }
+
+        [HttpGet("DeletedEmployees")]
+        public async Task<ActionResult<IReadOnlyList<Employee>>> DeletedEmployees([FromQuery] GetDeltetdEmployeeListQueryParam param)
+        {
+
+            IReadOnlyList<Employee> emps = await _mediator.Send(new GetDeletedEmployeesQuery(param));
+            return Ok(emps);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IReadOnlyList<Employee>>> GetEmployeesbyId(Guid id)
+        {
+
+            Employee emp = await _mediator.Send(new GetEmployeesByIdQuery(id));
+            return Ok(emp);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegisterEmployee([FromBody] RegisterNewEmployeeCommand command) {
+           await _mediator.Send(command);
+            return Ok();
+        }
+        [HttpPut]
+        public async Task<ActionResult> RegisterEmployee([FromBody] UpdateEmployeeInfoCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpDelete()]
+        public async Task<ActionResult> DeleteEmployee([FromBody] DeleteEmployeeCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        [HttpPut("RestoreEmployee")]
+        public async Task<ActionResult> RestoreEmployee([FromBody] RestorEmployeeCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+
+    }
+}
