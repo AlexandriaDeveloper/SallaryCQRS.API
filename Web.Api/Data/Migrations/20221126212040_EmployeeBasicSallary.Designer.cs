@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
 #nullable disable
 
-namespace Web.Api.Migrations
+namespace Web.Api.Data.Migrations
 {
     [DbContext(typeof(SallaryCQRSAppContext))]
-    partial class SallaryCQRSAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221126212040_EmployeeBasicSallary")]
+    partial class EmployeeBasicSallary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,6 +126,11 @@ namespace Web.Api.Migrations
                     b.Property<decimal?>("Mokamel")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<decimal?>("Ta3widi")
                         .HasColumnType("decimal(18,2)");
 
@@ -207,6 +215,9 @@ namespace Web.Api.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("FinancialYearId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
@@ -221,6 +232,8 @@ namespace Web.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FinancialYearId");
+
                     b.ToTable("FinancialYears");
                 });
 
@@ -232,7 +245,7 @@ namespace Web.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.FinancialYear", "FinancialYear")
+                    b.HasOne("Domain.Models.FinancialYear", "MyProperty")
                         .WithMany("EmployeeBasicSallaries")
                         .HasForeignKey("FinancialYearId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,7 +253,7 @@ namespace Web.Api.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("FinancialYear");
+                    b.Navigation("MyProperty");
                 });
 
             modelBuilder.Entity("Domain.Models.EmployeePartTime", b =>
@@ -254,6 +267,13 @@ namespace Web.Api.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("Domain.Models.FinancialYear", b =>
+                {
+                    b.HasOne("Domain.Models.FinancialYear", null)
+                        .WithMany("FinancialYears")
+                        .HasForeignKey("FinancialYearId");
+                });
+
             modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
                     b.Navigation("PartTimeDurations");
@@ -262,6 +282,8 @@ namespace Web.Api.Migrations
             modelBuilder.Entity("Domain.Models.FinancialYear", b =>
                 {
                     b.Navigation("EmployeeBasicSallaries");
+
+                    b.Navigation("FinancialYears");
                 });
 #pragma warning restore 612, 618
         }

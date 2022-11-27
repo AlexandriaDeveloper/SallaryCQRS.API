@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models
+namespace Domain.Primitives
 {
-    public class Entity
+    public abstract class Entity
     {
         public Guid Id { get; set; }
         [MaxLength(150), Required]
-        public string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         //Audtiting
         [MaxLength(40)]
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = "";
         public DateTime CreatedDate { get; set; }
         [MaxLength(40)]
         public string? ModifiedBy { get; set; }

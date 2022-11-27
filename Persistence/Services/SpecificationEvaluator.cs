@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Models;
+using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

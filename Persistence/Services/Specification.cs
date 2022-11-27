@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Models;
+using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Commands
+namespace Application.Employees.Commands
 {
     public class RestoreEmployeeCommand
     {
@@ -28,7 +28,7 @@ namespace Application.Commands
 
 
                     await _uow.EmployeeRepository.Restore(request.id);
-                    await _uow.SaveChangesAsync();
+                    await _uow.SaveChangesAsync(cancellationToken);
 
                 }
                 return Unit.Value;

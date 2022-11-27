@@ -8,7 +8,7 @@ using Domain.Models;
 using Application.Interfaces;
 using Application.Common;
 
-namespace Application.Queries
+namespace Application.Employees.Queries
 {
 
     public class GetEmployeeListQueryParam : Param {

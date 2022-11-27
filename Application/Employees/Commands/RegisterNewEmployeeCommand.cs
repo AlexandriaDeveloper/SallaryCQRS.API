@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 
-namespace Application.Commands
+namespace Application.Employees.Commands
 {
-    public record class RegisterNewEmployeeCommand (string Name , string TabCode ,string TegaraCode,string NationalId) :IRequest<Unit>;
+    public record class RegisterNewEmployeeCommand (string Name , string TabCode ,string TegaraCode,string NationalId,string? CollageName,string? Section ) :IRequest<Unit>;
 
     public class RegisterNewEmployeeCommandHandler : IRequestHandler<RegisterNewEmployeeCommand, Unit>
     {
@@ -22,9 +22,9 @@ namespace Application.Commands
         public async Task<Unit> Handle(RegisterNewEmployeeCommand request, CancellationToken cancellationToken)
         {
 
-            await _uow.EmployeeRepository.AddItem(new Employee(request.Name,request.NationalId, request.TabCode, request.TegaraCode));
+            await _uow.EmployeeRepository.AddItem( new Employee(request.Name,request.NationalId, request.TabCode, request.TegaraCode,request.CollageName,request.Section));
 
-            await _uow.SaveChangesAsync();
+            await _uow.SaveChangesAsync(cancellationToken);
             return await Unit.Task;
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Models;
+using Domain.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -65,7 +65,7 @@ namespace Persistence.Interceptors
                 throw new Exception(ex.InnerException.Message);
             }
 
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
+           
         }
     }
 }

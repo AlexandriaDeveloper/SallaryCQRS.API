@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Queries
+namespace Application.Employees.Queries
 {
     public class GetDeltetdEmployeeListQueryParam : Param
     {
@@ -19,15 +19,15 @@ namespace Application.Queries
         public string? NationalId { get; set; }
     };
     public record GetDeletedEmployeesQuery (GetDeltetdEmployeeListQueryParam param) :IRequest<IReadOnlyList<Employee>>;
-    public class GetDeletedEmployeesQueryHandler : IRequestHandler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
+    public class GetDeletedEmployeesQueryHandler : Handler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
     {
         private readonly IUOW _uow;
 
-        public GetDeletedEmployeesQueryHandler(IUOW uow)
+        public GetDeletedEmployeesQueryHandler(IUOW uow):base(uow) 
         {
             this._uow = uow;
         }
-        public async Task<IReadOnlyList<Employee>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
+        public override async Task<IReadOnlyList<Employee>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetDeletedEmployeeListQuerySpecification(request.param);
             return await _uow.EmployeeRepository.GetAlDeletedlAsync(spec);

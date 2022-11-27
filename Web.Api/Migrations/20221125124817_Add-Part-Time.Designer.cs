@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Data;
 
@@ -11,9 +12,11 @@ using Persistence.Data;
 namespace Web.Api.Migrations
 {
     [DbContext(typeof(SallaryCQRSAppContext))]
-    partial class SallaryCQRSAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221125124817_Add-Part-Time")]
+    partial class AddPartTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,61 +86,6 @@ namespace Web.Api.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Domain.Models.EmployeeBasicSallary", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("BasicSallary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FinancialYearId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("Mokamel")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Ta3widi")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Wazifi")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("FinancialYearId");
-
-                    b.ToTable("EmployeeBasicSallaries");
-                });
-
             modelBuilder.Entity("Domain.Models.EmployeePartTime", b =>
                 {
                     b.Property<Guid>("Id")
@@ -186,63 +134,6 @@ namespace Web.Api.Migrations
                     b.ToTable("EmployeesPartTimes");
                 });
 
-            modelBuilder.Entity("Domain.Models.FinancialYear", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FinancialYears");
-                });
-
-            modelBuilder.Entity("Domain.Models.EmployeeBasicSallary", b =>
-                {
-                    b.HasOne("Domain.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Models.FinancialYear", "FinancialYear")
-                        .WithMany("EmployeeBasicSallaries")
-                        .HasForeignKey("FinancialYearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("FinancialYear");
-                });
-
             modelBuilder.Entity("Domain.Models.EmployeePartTime", b =>
                 {
                     b.HasOne("Domain.Models.Employee", "Employee")
@@ -257,11 +148,6 @@ namespace Web.Api.Migrations
             modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
                     b.Navigation("PartTimeDurations");
-                });
-
-            modelBuilder.Entity("Domain.Models.FinancialYear", b =>
-                {
-                    b.Navigation("EmployeeBasicSallaries");
                 });
 #pragma warning restore 612, 618
         }

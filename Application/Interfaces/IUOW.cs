@@ -10,7 +10,9 @@ namespace Application.Interfaces
 {
     public interface IUOW:IDisposable
     {
-        IRepository<Employee> EmployeeRepository { get; }
-        Task<int> SaveChangesAsync();
+        IEmployeeRepository EmployeeRepository { get; }
+        IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository { get; }
+        IRepository<EmployeePartTime> EmployeePartTimeRepository { get; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

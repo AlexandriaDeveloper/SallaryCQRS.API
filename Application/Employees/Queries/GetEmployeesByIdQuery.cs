@@ -2,7 +2,7 @@
 using Domain.Models;
 using Application.Interfaces;
 
-namespace Application.Queries
+namespace Application.Employees.Queries
 {
     public record GetEmployeesByIdQuery(Guid Id) : IRequest<Employee>;
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Commands
+namespace Application.Employees.Commands
 {
     public record class DeleteEmployeeCommand(Guid id) : IRequest<Unit>;
     public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Unit>
@@ -26,7 +26,7 @@ namespace Application.Commands
 
                 
                 await _uow.EmployeeRepository.Delete(request.id);
-                await _uow.SaveChangesAsync();
+                await _uow.SaveChangesAsync(cancellationToken);
 
             }
             return Unit.Value;

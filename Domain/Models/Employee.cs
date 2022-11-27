@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Primitives;
 
 namespace Domain.Models
 {
@@ -17,12 +20,24 @@ namespace Domain.Models
         [MaxLength(5)]
         public string TegaraCode { get; set; }
 
-        public Employee(string name, string nationalId, string tabCode, string tegaraCode)
+        [MaxLength(20)]
+        public string? CollageName { get; set; }
+        [MaxLength(20)]
+        public string? Section { get; set; }
+
+        public ICollection<EmployeePartTime>? PartTimeDurations { get; set; }
+
+
+        public Employee(string name, string nationalId, string tabCode, string tegaraCode, string? collageName, string? section)
         {
             Name = name;
             NationalId = nationalId;
             TabCode = tabCode;
             TegaraCode = tegaraCode;
+            Section = section;
+            CollageName = collageName;
         }
+
+    
     }
 }

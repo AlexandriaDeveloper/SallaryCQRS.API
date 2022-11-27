@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Models;
+using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
 using System;
@@ -51,7 +51,7 @@ namespace Persistence.Data.Repository
          
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> spec = null)
+        public async Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T>? spec = null)
         {
             return  await ApplySpecification(spec).ToListAsync() ;
         }
@@ -61,7 +61,7 @@ namespace Persistence.Data.Repository
             return await _dbSet.SingleOrDefaultAsync(x=> x.Id== id);
         }
 
-        public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T> spec = null)
+        public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null)
         {
             return await ApplySpecification(spec).SingleOrDefaultAsync();
         }
@@ -87,9 +87,11 @@ namespace Persistence.Data.Repository
         {
             return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate==null).AsQueryable(), spec); ;
         }
-        public async Task<IReadOnlyList<T>> GetAlDeletedlAsync(ISpecification<T> spec = null)
+        public async Task<IReadOnlyList<T>> GetAlDeletedlAsync(ISpecification<T>? spec = null)
         {
-            return await ApplyDeletedSpecification(spec).ToListAsync();
+           
+                return await ApplyDeletedSpecification(spec).ToListAsync();
+ 
         }
         public async Task Restore(Guid id)
         {

@@ -1,12 +1,13 @@
 ﻿
-using Application.Commands;
-using Application.Commands;
-using Application.Queries;
+
+using Application.Common;
+using Application.Employees.Commands;
+using Application.Employees.Queries;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Application.Commands.RestoreEmployeeCommand;
+using static Application.Employees.Commands.RestoreEmployeeCommand;
 
 namespace Web.Api.Controllers
 {
@@ -53,6 +54,25 @@ namespace Web.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("EmployeeStartPartTime")]
+        public async Task<ActionResult<Guid?>> EmployeeStartPartTime([FromBody] EmployeeStartPartTimeCommand command)
+        {
+         var result =    await _mediator.Send(command);
+            if (result.HasErrors) { 
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Result);
+        }
+        [HttpPut("EmployeeEndPartTime")]
+        public async Task<ActionResult<Guid?>> EmployeeEndPartTime([FromBody] EmployeeEndPartTimeCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result.HasErrors)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Result);
+        }
         [HttpDelete()]
         public async Task<ActionResult> DeleteEmployee([FromBody] DeleteEmployeeCommand command)
         {
