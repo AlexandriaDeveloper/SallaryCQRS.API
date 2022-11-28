@@ -11,16 +11,15 @@ using System.Threading.Tasks;
 namespace Application.Employees.Commands
 {
     public record class EmployeeEndPartTimeCommand(Guid PartTimeId ,DateTime EndPartTimeDate,string? Details) :IRequest<Response<Unit>>;
-    public class EmployeeEndPartTimeCommandHandler : IRequestHandler<EmployeeEndPartTimeCommand, Response<Unit>>
+    public class EmployeeEndPartTimeCommandHandler : Handler<EmployeeEndPartTimeCommand, Response<Unit>>
     {
-        private readonly IUOW _uow;
+   
 
-        public EmployeeEndPartTimeCommandHandler(IUOW uow)
+        public EmployeeEndPartTimeCommandHandler(IUOW uow) : base(uow)
         {
-            this._uow = uow;
         }
 
-       public async Task<Response<Unit>> Handle  ( EmployeeEndPartTimeCommand request, CancellationToken cancellationToken)
+        public override async Task<Response<Unit>> Handle  ( EmployeeEndPartTimeCommand request, CancellationToken cancellationToken)
         {
             Response<Unit> response = new Response<Unit>();
             EmployeePartTime selectedPartTime =await _uow.EmployeePartTimeRepository.GetByIdAsync(request.PartTimeId);

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Common;
+using Application.Interfaces;
 using Domain.Models;
 using MediatR;
 using System;
@@ -21,17 +22,13 @@ namespace Application.EmployeesSallaries
             decimal? mokamelMaxAmount
 
         ) :IRequest<EmployeeBasicSallary>;
-    public class EmployeeGetRaisedCommandHandler : IRequestHandler<EmployeeGetRaisedCommand, EmployeeBasicSallary>
+    public class EmployeeGetRaisedCommandHandler : Handler<EmployeeGetRaisedCommand, EmployeeBasicSallary>
     {
-        private readonly IUOW _uow;
-        private readonly IAuthService _authService;
-
-        public EmployeeGetRaisedCommandHandler(IUOW uow ,IAuthService authService)
+        public EmployeeGetRaisedCommandHandler(IUOW uow) : base(uow)
         {
-            this._uow = uow;
-            this._authService = authService;
         }
-        public async Task<EmployeeBasicSallary> Handle(EmployeeGetRaisedCommand request, CancellationToken cancellationToken)
+
+        public override async Task<EmployeeBasicSallary> Handle(EmployeeGetRaisedCommand request, CancellationToken cancellationToken)
         {
            var result= await _uow.EmployeeBasicSallaryRepository.EmployeeGetRaise(request.lasyEmployeeSallaryId,
                 request.newFinancialYear,

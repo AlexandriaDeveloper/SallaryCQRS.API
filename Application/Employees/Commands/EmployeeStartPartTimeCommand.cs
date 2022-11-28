@@ -10,23 +10,20 @@ using System.Threading.Tasks;
 namespace Application.Employees.Commands
 {
    public record class EmployeeStartPartTimeCommand ( Guid  EmployeeId, DateTime StartPartTime,string? Details) :IRequest<Response<Guid?>>;
-    public class EmployeeStartPartTimeCommandHandler : IRequestHandler<EmployeeStartPartTimeCommand, Response<Guid?>>
+    public class EmployeeStartPartTimeCommandHandler : Handler<EmployeeStartPartTimeCommand, Response<Guid?>>
     {
-        private readonly IUOW _uow;
-
-        public EmployeeStartPartTimeCommandHandler(IUOW uow)
+        public EmployeeStartPartTimeCommandHandler(IUOW uow) : base(uow)
         {
-            this._uow = uow;
         }
 
-        public async Task<Response<Guid?>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
+        public override async Task<Response<Guid?>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
         {
             var result = await _uow.EmployeeRepository.EmployeeStartPartTimeDuration(request.EmployeeId, request.StartPartTime, request.Details);
 
             return result;
         }
 
-     
+      
     }
 
 

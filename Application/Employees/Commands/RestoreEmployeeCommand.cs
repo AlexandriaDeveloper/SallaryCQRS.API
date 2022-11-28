@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Common;
+using Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,13 @@ namespace Application.Employees.Commands
     public class RestoreEmployeeCommand
     {
         public record class RestorEmployeeCommand(Guid id) : IRequest<Unit>;
-        public class RestoreEmployeeCommandHandler : IRequestHandler<RestorEmployeeCommand, Unit>
+        public class RestoreEmployeeCommandHandler : Handler<RestorEmployeeCommand, Unit>
         {
-            private readonly IUOW _uow;
-
-            public RestoreEmployeeCommandHandler(IUOW uow)
+            public RestoreEmployeeCommandHandler(IUOW uow) : base(uow)
             {
-                this._uow = uow;
             }
-            public async Task<Unit> Handle(RestorEmployeeCommand request, CancellationToken cancellationToken)
+
+            public override async Task<Unit> Handle(RestorEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var entity = await _uow.EmployeeRepository.GetByIdAsync( request.id);
 

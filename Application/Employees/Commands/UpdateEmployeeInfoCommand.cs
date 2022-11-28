@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Common;
+using Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,13 @@ using System.Threading.Tasks;
 namespace Application.Employees.Commands { 
     public record class UpdateEmployeeInfoCommand(Guid id, string Name, string TabCode, string TegaraCode, string NationalId) : IRequest<Unit?>;
 
-    public class UpdateEmployeeInfoCommandHandler : IRequestHandler<UpdateEmployeeInfoCommand, Unit?>
+    public class UpdateEmployeeInfoCommandHandler : Handler<UpdateEmployeeInfoCommand, Unit?>
     {
-        private readonly IUOW _uow;
-        
-
-        public UpdateEmployeeInfoCommandHandler(IUOW uow)
+        public UpdateEmployeeInfoCommandHandler(IUOW uow) : base(uow)
         {
-            this._uow = uow;
         }
-        public async Task<Unit?> Handle(UpdateEmployeeInfoCommand request, CancellationToken cancellationToken)
+
+        public override async Task<Unit?> Handle(UpdateEmployeeInfoCommand request, CancellationToken cancellationToken)
         {
             var entity =await _uow.EmployeeRepository.GetByIdAsync(request.id);
             if(entity == null)

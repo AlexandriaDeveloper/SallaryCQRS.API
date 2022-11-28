@@ -29,5 +29,11 @@ namespace Web.Api.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+        [HttpPut("UpdateEmployeeFinaicialData")]
+        public async Task<ActionResult> AssignEmployeeFinaicialData([FromQuery] UpdateEmployeeBasicSallaryCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }
