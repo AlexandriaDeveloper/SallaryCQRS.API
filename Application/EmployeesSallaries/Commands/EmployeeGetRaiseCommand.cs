@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeesSallaries
+namespace Application.EmployeesSallaries.Commands
 {
     public record EmployeeGetRaisedCommand(Guid lasyEmployeeSallaryId
             , Guid newFinancialYear,
@@ -21,7 +21,7 @@ namespace Application.EmployeesSallaries
             decimal? mokamelMinAmount,
             decimal? mokamelMaxAmount
 
-        ) :IRequest<EmployeeBasicSallary>;
+        ) : IRequest<EmployeeBasicSallary>;
     public class EmployeeGetRaisedCommandHandler : Handler<EmployeeGetRaisedCommand, EmployeeBasicSallary>
     {
         public EmployeeGetRaisedCommandHandler(IUOW uow) : base(uow)
@@ -30,13 +30,13 @@ namespace Application.EmployeesSallaries
 
         public override async Task<EmployeeBasicSallary> Handle(EmployeeGetRaisedCommand request, CancellationToken cancellationToken)
         {
-           var result= await _uow.EmployeeBasicSallaryRepository.EmployeeGetRaise(request.lasyEmployeeSallaryId,
-                request.newFinancialYear,
-                request.wazifiPercentage,
-                request.wazifiAmount,
-                request.wazifiMinAmount,
-                request.wazifiMaxAmount,
-                request.mokamelPercentage, request.mokamelAmount, request.mokamelMinAmount, request.mokamelMaxAmount);
+            var result = await _uow.EmployeeBasicSallaryRepository.EmployeeGetRaise(request.lasyEmployeeSallaryId,
+                 request.newFinancialYear,
+                 request.wazifiPercentage,
+                 request.wazifiAmount,
+                 request.wazifiMinAmount,
+                 request.wazifiMaxAmount,
+                 request.mokamelPercentage, request.mokamelAmount, request.mokamelMinAmount, request.mokamelMaxAmount);
             return result;
         }
     }

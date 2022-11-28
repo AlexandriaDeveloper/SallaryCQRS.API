@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeesSallaries
+namespace Application.EmployeesSallaries.Commands
 {
-    public record UpdateEmployeeBasicSallaryCommand(Guid Id, Guid? FinancialYearId ,decimal?BasicSallary, decimal? Wazifi ,decimal? Mokamel ,decimal? Ta3widi ) :IRequest<Unit?>;
+    public record UpdateEmployeeBasicSallaryCommand(Guid Id, Guid? FinancialYearId, decimal? BasicSallary, decimal? Wazifi, decimal? Mokamel, decimal? Ta3widi) : IRequest<Unit?>;
 
     public class UpdateEmployeeBasicSallaryCommandHandler : Handler<UpdateEmployeeBasicSallaryCommand, Unit?>
     {
@@ -20,12 +20,14 @@ namespace Application.EmployeesSallaries
 
         public override async Task<Unit?> Handle(UpdateEmployeeBasicSallaryCommand request, CancellationToken cancellationToken)
         {
-            EmployeeBasicSallary currentEmployeeSallaryData =await _uow.EmployeeBasicSallaryRepository.GetByIdAsync(request.Id);
-            if (currentEmployeeSallaryData == null) {
+            EmployeeBasicSallary currentEmployeeSallaryData = await _uow.EmployeeBasicSallaryRepository.GetByIdAsync(request.Id);
+            if (currentEmployeeSallaryData == null)
+            {
                 return null;
             }
-            if (request.FinancialYearId.HasValue) { 
-                currentEmployeeSallaryData.FinancialYearId=request.FinancialYearId.Value;
+            if (request.FinancialYearId.HasValue)
+            {
+                currentEmployeeSallaryData.FinancialYearId = request.FinancialYearId.Value;
             }
             if (request.BasicSallary.HasValue)
             {

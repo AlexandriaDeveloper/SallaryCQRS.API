@@ -1,5 +1,6 @@
 ﻿using Application.Employees.Commands;
-using Application.EmployeesSallaries;
+using Application.EmployeesSallaries.Commands;
+using Application.EmployeesSallaries.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,13 @@ namespace Web.Api.Controllers
         public EmployeeBasicSallaryController(IMediator mediator)
         {
             this._mediator = mediator;
+        }
+
+        [HttpGet("GetEmployeeBasicSallaryByFinancialYear")]
+        public async Task<ActionResult> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryByFinancialYearQuery command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
         [HttpPost]
