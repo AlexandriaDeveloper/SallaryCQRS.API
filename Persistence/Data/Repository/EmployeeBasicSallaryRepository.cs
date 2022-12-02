@@ -36,7 +36,7 @@ namespace Persistence.Data.Repository
             EmployeeBasicSallary lastSallary= await _context.EmployeeBasicSallaries.OrderBy(x  => x.CreatedDate) .LastOrDefaultAsync(x => x.EmployeeId == lasyEmployeeSallaryId);
 
             EmployeeBasicSallary newSallary = new EmployeeBasicSallary();
-            newSallary.EmployeeId = lastSallary.EmployeeId;
+            newSallary.EmployeeId = lastSallary!.EmployeeId;
             newSallary.FinancialYearId = newFinancialYear;
             newSallary.Ta3widi=lastSallary.Ta3widi;
             newSallary.BasicSallary = lastSallary.BasicSallary;

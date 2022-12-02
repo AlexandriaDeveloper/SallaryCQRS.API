@@ -30,7 +30,7 @@ namespace Application.Employees.Commands {
                 entity.TegaraCode=entity.TegaraCode;
                 entity.NationalId = request.NationalId;
             }
-            await _uow.EmployeeRepository.Update(entity);
+            await _uow.EmployeeRepository.Update(entity!);
             await _uow.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

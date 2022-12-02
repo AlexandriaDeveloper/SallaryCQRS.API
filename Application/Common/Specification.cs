@@ -10,7 +10,7 @@ namespace Application.Common
 {
     public class Specification<T> :ISpecification<T>
     {
-        public Expression<Func<T, bool>>? Criteria { get; }
+        public Expression<Func<T, bool>>? Criteria{ get; }
         public List<Expression<Func<T, bool>>> Criteries { get; } = new List<Expression<Func<T, bool>>>();
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         public Expression<Func<T, object>>? OrderBy { get; private set; }

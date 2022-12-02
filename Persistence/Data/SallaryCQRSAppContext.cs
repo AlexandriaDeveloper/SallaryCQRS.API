@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Constant;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,17 @@ namespace Persistence.Data
 
         public DbSet<EmployeeBasicSallary> EmployeeBasicSallaries { get; set; }
         public DbSet<FinancialYear> FinancialYears { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public SallaryCQRSAppContext(DbContextOptions<SallaryCQRSAppContext> options):base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Employee>().HasOne(x => x.EmployeeBank).WithOne(t => t.Employee).HasForeignKey<EmployeeBank>(fk => fk.EmployeeId);
+            modelBuilder.Entity<Order>().HasData(
+                new Order() { Id=Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.absense },
+                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.punishment },
+                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.vacation });
+
             base.OnModelCreating(modelBuilder);
         }
     }

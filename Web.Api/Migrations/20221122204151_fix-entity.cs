@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class fixentity : Migration
+    public partial class FixEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

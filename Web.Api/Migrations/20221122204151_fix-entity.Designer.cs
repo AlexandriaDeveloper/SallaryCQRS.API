@@ -12,8 +12,8 @@ using Persistence.Data;
 namespace Web.Api.Migrations
 {
     [DbContext(typeof(SallaryCQRSAppContext))]
-    [Migration("20221122204151_fix-entity")]
-    partial class fixentity
+    [Migration("20221122204151_Fix-Entity")]
+    partial class FixEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

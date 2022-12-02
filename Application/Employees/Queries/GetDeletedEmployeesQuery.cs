@@ -21,7 +21,7 @@ namespace Application.Employees.Queries
     public record GetDeletedEmployeesQuery (GetDeltetdEmployeeListQueryParam param) :IRequest<IReadOnlyList<Employee>>;
     public class GetDeletedEmployeesQueryHandler : Handler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
     {
-        private readonly IUOW _uow;
+        private new readonly IUOW _uow;
 
         public GetDeletedEmployeesQueryHandler(IUOW uow):base(uow) 
         {
@@ -41,7 +41,7 @@ namespace Application.Employees.Queries
             {
                 if (!string.IsNullOrEmpty(param.Name))
                 {
-                    AddCriteries(x => x.Name.Contains(param.Name));
+                    AddCriteries(x => x.Name!.Contains(param.Name));
                 }
                 if (!string.IsNullOrEmpty(param.TabCode))
                 {

@@ -10,12 +10,7 @@ namespace Web.Api.Controllers
 
     public class EmployeeBasicSallaryController : BaseController
     {
-        private readonly IMediator _mediator;
 
-        public EmployeeBasicSallaryController(IMediator mediator)
-        {
-            this._mediator = mediator;
-        }
 
         [HttpGet("GetEmployeeBasicSallaryByFinancialYear")]
         public async Task<ActionResult> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryByFinancialYearQuery command)

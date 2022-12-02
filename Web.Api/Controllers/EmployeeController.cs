@@ -14,12 +14,7 @@ namespace Web.Api.Controllers
   
     public class EmployeeController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public EmployeeController(IMediator mediator)
-        {
-            this._mediator = mediator;
-        }
+       
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Employee>>> GetAllEmployees([FromQuery ]GetEmployeeListQueryParam param) {
            
