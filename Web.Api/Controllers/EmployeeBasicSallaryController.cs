@@ -1,6 +1,8 @@
-﻿using Application.Employees.Commands;
+﻿using Application.Common;
+using Application.Employees.Commands;
 using Application.EmployeesSallaries.Commands;
 using Application.EmployeesSallaries.Queries;
+using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,30 +15,27 @@ namespace Web.Api.Controllers
 
 
         [HttpGet("GetEmployeeBasicSallaryByFinancialYear")]
-        public async Task<ActionResult> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryByFinancialYearQuery command)
+        public async Task<ActionResult<Result<EmployeeBasicSallary>>> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryByFinancialYearQuery command)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(  await Mediator.Send(command));
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegisterEmployee([FromQuery] EmployeeGetRaisedCommand command)
+        public async Task<ActionResult<Result<EmployeeBasicSallary>>> RegisterEmployee([FromQuery] EmployeeGetRaisedCommand command)
         {
-          var result =   await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(await Mediator.Send(command));
         }
 
         [HttpPost("AssignEmployeeFinaicialData")]
-        public async Task<ActionResult> AssignEmployeeFinaicialData ([FromQuery] AssignEmployeeBasicSallaryCommand command)
+        public async Task<ActionResult<Result<Guid>>> AssignEmployeeFinaicialData ([FromQuery] AssignEmployeeBasicSallaryCommand command)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(await Mediator.Send(command));
         }
         [HttpPut("UpdateEmployeeFinaicialData")]
-        public async Task<ActionResult> AssignEmployeeFinaicialData([FromQuery] UpdateEmployeeBasicSallaryCommand command)
+        public async Task<ActionResult<Result<Unit?>>> AssignEmployeeFinaicialData([FromQuery] UpdateEmployeeBasicSallaryCommand command)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            return HandleResult(await Mediator.Send(command));
         }
+  
     }
 }

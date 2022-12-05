@@ -15,5 +15,8 @@ namespace Application.Interfaces
           decimal? mokamelMinAmount,
           decimal? mokamelMaxAmount
           );
+        Task<EmployeeBasicSallary?> GetLastEmployeeBasicSallaryAsync(Guid employeeId) ;
+        Task<EmployeeBasicSallary?> GetEmployeeBasicSallaryByFinancialIdAsync(Guid employeeId, Guid financialYearId);
     }
+
 }

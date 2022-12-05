@@ -56,7 +56,7 @@ namespace Persistence.Data.Repository
             return  await ApplySpecification(spec).ToListAsync() ;
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _dbSet.SingleOrDefaultAsync(x=> x.Id== id);
         }
@@ -65,7 +65,7 @@ namespace Persistence.Data.Repository
         {
             return await ApplySpecification(spec).SingleOrDefaultAsync();
         }
-
+     
         public Task Update(T entity)
         {
             if (entity == null)

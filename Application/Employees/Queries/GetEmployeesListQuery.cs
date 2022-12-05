@@ -40,17 +40,17 @@ namespace Application.Employees.Queries
 
         }
     }
-    public record GetEmployeesListQuery (GetEmployeeListQueryParam param) : IRequest<IReadOnlyList<Employee> >;
-    public class GetEmployeesListQueryHandler : Handler<GetEmployeesListQuery, IReadOnlyList<Employee>>
+    public record GetEmployeesListQuery (GetEmployeeListQueryParam param) : IRequest<Result<IReadOnlyList<Employee> >>;
+    public class GetEmployeesListQueryHandler : Handler<GetEmployeesListQuery, Result<IReadOnlyList<Employee>>>
     {
         public GetEmployeesListQueryHandler(IUOW uow) : base(uow)
         {
         }
 
-        public override async Task<IReadOnlyList<Employee>> Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
+        public override async Task<Result<IReadOnlyList<Employee>>> Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetEmployeeListQuerySpecification(request.param);
-            return await _uow.EmployeeRepository.GetAllAsync(spec);
+            return Result<IReadOnlyList<Employee>>.Success( await _uow.EmployeeRepository.GetAllAsync(spec));
         }
     }
   

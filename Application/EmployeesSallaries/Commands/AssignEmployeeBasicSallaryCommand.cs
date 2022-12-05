@@ -1,5 +1,6 @@
 ﻿using Application.Common;
 using Application.Interfaces;
+using Domain.Constant;
 using Domain.Models;
 using MediatR;
 using System;
@@ -11,9 +12,9 @@ using System.Threading.Tasks;
 namespace Application.EmployeesSallaries.Commands
 {
 
-    public record AssignEmployeeBasicSallaryCommand(Guid EmployeeId, Guid FinancialYearId, decimal BasicSallary, decimal Wazifi, decimal Mokamel, decimal Ta3widi) : IRequest<Guid>;
+    public record AssignEmployeeBasicSallaryCommand(Guid EmployeeId, Guid FinancialYearId, decimal BasicSallary, decimal Wazifi, decimal Mokamel, decimal Ta3widi) : IRequest<Result< Guid>>;
 
-    public class AssignEmployeeBasicSallaryCommandHandler : Handler<AssignEmployeeBasicSallaryCommand, Guid>
+    public class AssignEmployeeBasicSallaryCommandHandler : Handler<AssignEmployeeBasicSallaryCommand, Result<Guid>>
     {
 
 
@@ -21,7 +22,7 @@ namespace Application.EmployeesSallaries.Commands
         {
 
         }
-        public override async Task<Guid> Handle(AssignEmployeeBasicSallaryCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<Guid>> Handle(AssignEmployeeBasicSallaryCommand request, CancellationToken cancellationToken)
         {
 
             EmployeeBasicSallary employeeBasicSallary = new EmployeeBasicSallary()
@@ -34,8 +35,10 @@ namespace Application.EmployeesSallaries.Commands
                 FinancialYearId = request.FinancialYearId,
             };
             await _uow.EmployeeBasicSallaryRepository.AddItem(employeeBasicSallary);
-            await _uow.SaveChangesAsync(cancellationToken);
-            return employeeBasicSallary.EmployeeId;
+            var result=   await _uow.SaveChangesAsync(cancellationToken)>0;
+            if (!result)
+                return Result<Guid>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+            return Result<Guid>.Success( employeeBasicSallary.EmployeeId);
 
         }
 

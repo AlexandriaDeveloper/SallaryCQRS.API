@@ -10,9 +10,12 @@ namespace Application.Interfaces
 {
     public interface IUOW:IDisposable
     {
+      //  IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository { get; }
-        IRepository<EmployeePartTime> EmployeePartTimeRepository { get; }
+        IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository { get; }
+        IEmployeePartTimeRepository EmployeePartTimeRepository { get; }
+        IOrderRepository OrderRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

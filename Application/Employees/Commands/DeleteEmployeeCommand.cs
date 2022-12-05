@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Common;
+using Application.Interfaces;
+using Domain.Constant;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Application.Employees.Commands
 {
-    public record class DeleteEmployeeCommand(Guid id) : IRequest<Unit>;
-    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Unit>
+    public record class DeleteEmployeeCommand(Guid id) : IRequest<Result<Unit>>;
+    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Result<Unit>>
     {
         private readonly IUOW _uow;
 
@@ -17,19 +19,20 @@ namespace Application.Employees.Commands
         {
             this._uow = uow;
         }
-        public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
             var entity = await _uow.EmployeeRepository.GetByIdAsync(request.id);
-
-            if (entity != null)
+            if (entity == null)
             {
 
-                //hello world
-                await _uow.EmployeeRepository.Delete(request.id);
-                await _uow.SaveChangesAsync(cancellationToken);
-
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
-            return Unit.Value;
+                await _uow.EmployeeRepository.Delete(request.id);
+              var result =  await _uow.SaveChangesAsync(cancellationToken)>0;
+            if(!result)
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+
+            return  Result<Unit>.Success(Unit.Value);
             }
     }
 }

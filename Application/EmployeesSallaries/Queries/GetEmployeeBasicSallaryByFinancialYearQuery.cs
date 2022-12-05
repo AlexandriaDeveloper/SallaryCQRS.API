@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeesSallaries.Queries
 {
-    public record GetEmployeeBasicSallaryByFinancialYearQuery (Guid? EmployeeId,Guid? FinancialYearId) :IRequest<EmployeeBasicSallary>;
-    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : Handler<GetEmployeeBasicSallaryByFinancialYearQuery, EmployeeBasicSallary>
+    public record GetEmployeeBasicSallaryByFinancialYearQuery (Guid? EmployeeId,Guid? FinancialYearId) :IRequest<Result< EmployeeBasicSallary>>;
+    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : Handler<GetEmployeeBasicSallaryByFinancialYearQuery, Result<EmployeeBasicSallary>>
     {
         public GetEmployeeBasicSallaryByFinancialYearQueryHandler(IUOW uow) : base(uow)
         {
         }
 
-        public override async Task<EmployeeBasicSallary> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
+        public override async Task<Result<EmployeeBasicSallary>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
         {
             ISpecification<EmployeeBasicSallary> spec = new GetEmployeeBasicSallaryByFinancialYearSpecification(request);
             
-            return await _uow.EmployeeBasicSallaryRepository.GetBySingleOrDefaultAsync(spec) ;
+            return Result<EmployeeBasicSallary>.Success(  await _uow.EmployeeBasicSallaryRepository.GetBySingleOrDefaultAsync(spec) );
         }
     }
 

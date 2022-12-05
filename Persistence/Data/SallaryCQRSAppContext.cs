@@ -24,11 +24,23 @@ namespace Persistence.Data
         {
             modelBuilder.Entity<Employee>().HasOne(x => x.EmployeeBank).WithOne(t => t.Employee).HasForeignKey<EmployeeBank>(fk => fk.EmployeeId);
             modelBuilder.Entity<Order>().HasData(
-                new Order() { Id=Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.absense },
-                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.punishment },
-                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.OrderConstants.vacation });
+                new Order() { Id=Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.ABSENCE },
+                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT },
+                new Order() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY });
 
-            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Order>().HasData(
+                new BudgetItems() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.BudgetItems.WAZIFI },
+                  new BudgetItems() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.BudgetItems.MOKAMEL },
+                  new BudgetItems() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.BudgetItems.TA3WIDI },
+                  new BudgetItems() { Id = Guid.NewGuid(), CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.BudgetItems.GAZAA }
+                  
+
+
+
+                );
+
+          base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Common;
 using Application.Interfaces;
+using Domain.Constant;
 using Domain.Models;
 using MediatR;
 using System;
@@ -21,14 +22,14 @@ namespace Application.EmployeesSallaries.Commands
             decimal? mokamelMinAmount,
             decimal? mokamelMaxAmount
 
-        ) : IRequest<EmployeeBasicSallary>;
-    public class EmployeeGetRaisedCommandHandler : Handler<EmployeeGetRaisedCommand, EmployeeBasicSallary>
+        ) : IRequest<Result< EmployeeBasicSallary>>;
+    public class EmployeeGetRaisedCommandHandler : Handler<EmployeeGetRaisedCommand, Result<EmployeeBasicSallary>>
     {
         public EmployeeGetRaisedCommandHandler(IUOW uow) : base(uow)
         {
         }
 
-        public override async Task<EmployeeBasicSallary> Handle(EmployeeGetRaisedCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<EmployeeBasicSallary>> Handle(EmployeeGetRaisedCommand request, CancellationToken cancellationToken)
         {
             var result = await _uow.EmployeeBasicSallaryRepository.EmployeeGetRaise(request.lasyEmployeeSallaryId,
                  request.newFinancialYear,
@@ -37,7 +38,12 @@ namespace Application.EmployeesSallaries.Commands
                  request.wazifiMinAmount,
                  request.wazifiMaxAmount,
                  request.mokamelPercentage, request.mokamelAmount, request.mokamelMinAmount, request.mokamelMaxAmount);
-            return result;
+
+
+            if (result == null) {
+                return Result<EmployeeBasicSallary>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+            }
+            return Result<EmployeeBasicSallary>.Success(result);
         }
     }
 }
