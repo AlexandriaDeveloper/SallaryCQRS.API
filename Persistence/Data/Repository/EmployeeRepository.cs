@@ -23,21 +23,21 @@ namespace Persistence.Data.Repository
         }
 
 
-        public async Task<Result<Guid?>> EmployeeStartPartTimeDuration(Guid employeeId, DateTime startDate, string? details) {
+        public async Task<Result<int?>> EmployeeStartPartTimeDuration(int employeeId, DateTime startDate, string? details) {
 
-            Result<Guid?> response = new Result<Guid?>();
+            Result<int?> response = new Result<int?>();
 
             var employee = _context.Employees.Include(x => x.PartTimeDurations).SingleOrDefault(x => x.Id == employeeId);
             if (employee == null)
             {
-               return Result<Guid?>.Failure("Employee Not Found");
+               return Result<int?>.Failure("Employee Not Found");
               
             }
             if(employee.PartTimeDurations== null) { 
                 employee.PartTimeDurations= new List<EmployeePartTime>();
             }
             if (employee.PartTimeDurations.Any(x => x.IsPartTimeActive)) {
-                 return Result<Guid?>.Failure ("Employee Alredy In PartTime");
+                 return Result<int?>.Failure ("Employee Alredy In PartTime");
               
             }
 
@@ -52,11 +52,11 @@ namespace Persistence.Data.Repository
             employee.PartTimeDurations.Add(createdEmployeePartTime);
             await _context.SaveChangesAsync();
             
-            return Result<Guid?>.Success(createdEmployeePartTime.Id);
+            return Result<int?>.Success(createdEmployeePartTime.Id);
         }
 
 
-        public async Task EmployeeEndtPartTimeDuration(Guid partTimeId, DateTime endDate, string? details)
+        public async Task EmployeeEndtPartTimeDuration(int partTimeId, DateTime endDate, string? details)
         {
 
             var existPartTime=await _context.EmployeesPartTimes.FindAsync(partTimeId);

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Application.EmployeesSallaries.Commands
 {
 
-    public record AssignEmployeeBasicSallaryCommand(Guid EmployeeId, Guid FinancialYearId, decimal BasicSallary, decimal Wazifi, decimal Mokamel, decimal Ta3widi) : IRequest<Result< Guid>>;
+    public record AssignEmployeeBasicSallaryCommand(int EmployeeId, int FinancialYearId, decimal BasicSallary, decimal Wazifi, decimal Mokamel, decimal Ta3widi) : IRequest<Result< int>>;
 
-    public class AssignEmployeeBasicSallaryCommandHandler : Handler<AssignEmployeeBasicSallaryCommand, Result<Guid>>
+    public class AssignEmployeeBasicSallaryCommandHandler : Handler<AssignEmployeeBasicSallaryCommand, Result<int>>
     {
 
 
@@ -22,7 +22,7 @@ namespace Application.EmployeesSallaries.Commands
         {
 
         }
-        public override async Task<Result<Guid>> Handle(AssignEmployeeBasicSallaryCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<int>> Handle(AssignEmployeeBasicSallaryCommand request, CancellationToken cancellationToken)
         {
 
             EmployeeBasicSallary employeeBasicSallary = new EmployeeBasicSallary()
@@ -37,8 +37,8 @@ namespace Application.EmployeesSallaries.Commands
             await _uow.EmployeeBasicSallaryRepository.AddItem(employeeBasicSallary);
             var result=   await _uow.SaveChangesAsync(cancellationToken)>0;
             if (!result)
-                return Result<Guid>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
-            return Result<Guid>.Success( employeeBasicSallary.EmployeeId);
+                return Result<int>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+            return Result<int>.Success( employeeBasicSallary.EmployeeId);
 
         }
 

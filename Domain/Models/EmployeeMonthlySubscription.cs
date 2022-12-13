@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Primitives;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models
 {
-    public class EmployeeMonthlySubscription {
+    public class EmployeeMonthlySubscription :Entity {
+        [NotMapped]
+        public override string? Name { get; set; }
         public Guid EmployeeId  { get; set; }
         public Guid SubscriptionId{ get; set; }
         [MaxLength(30)]

@@ -15,10 +15,17 @@ namespace Persistence.Data.Repository
         private IEmployeeBasicSallaryRepository _employeeSallaryRepository;
         private IEmployeePartTimeRepository _employeePartTimeRrepository;
         private IOrderRepository _orderRepository;
-        private IEmployeeOrderExecuationRepository _employeeOrderExecuationRepository;
+   
         private readonly SallaryCQRSAppContext _context;
         private readonly IAuthService _authService;
+        private IBudgetItemRepository _budgetItemRepository;
 
+        private IEmployeeOrderRepository _employeeOrderRepository;
+        private IEmployeeOrderExecuationRepository _employeeOrderExecuationRepository;
+
+
+        private IEmployeeOrderDeductionRepository _employeeOrderDeductionRepository;
+        private IEmployeeOrderDeductionExecuationRepository _employeeOrderDeductionExecuationRepository;
         public UOW(SallaryCQRSAppContext context, IAuthService authService)
         {
             this._context = context;
@@ -36,6 +43,11 @@ namespace Persistence.Data.Repository
         public IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository => _employeeSallaryRepository = _employeeSallaryRepository ?? new EmployeeBasicSallaryRepository(_context, _authService);
         public IOrderRepository OrderRepository => _orderRepository = _orderRepository ?? new OrderRepository(_context, _authService);
         public IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository => _employeeOrderExecuationRepository = _employeeOrderExecuationRepository ?? new EmployeeOrderExecuationRepository(_context, _authService);
+        public IBudgetItemRepository BudgetItemRepository => _budgetItemRepository = _budgetItemRepository ?? new BudgetItemRepository(_context, _authService);
+        public IEmployeeOrderRepository EmployeeOrderRepository => _employeeOrderRepository = _employeeOrderRepository ?? new EmployeeOrderRepository(_context, _authService);
+
+        public IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository => _employeeOrderDeductionRepository = _employeeOrderDeductionRepository ?? new EmployeeOrderDeductionRepository(_context, _authService);
+        public IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository => _employeeOrderDeductionExecuationRepository = _employeeOrderDeductionExecuationRepository ?? new EmployeeOrderDeductionExecuationRepository(_context, _authService);
 
         public void Dispose()
         {

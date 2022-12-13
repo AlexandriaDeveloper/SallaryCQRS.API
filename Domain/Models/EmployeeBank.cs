@@ -9,8 +9,8 @@ namespace Domain.Models
 
         [NotMapped]
         public override string Name { get; set; }
-        public Guid BranchId { get; set; }
-        public Guid EmployeeId{ get; set; }
+        public int BranchId { get; set; }
+        public int EmployeeId{ get; set; }
         [MaxLength(22)]
         public string? AccountNumber { get; set; }
         public required Branche Branche { get; set; }

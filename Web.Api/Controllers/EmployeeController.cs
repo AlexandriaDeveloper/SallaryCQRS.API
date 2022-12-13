@@ -29,7 +29,7 @@ namespace Web.Api.Controllers
             return HandleResult( await Mediator.Send(new GetDeletedEmployeesQuery(param)));
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult <Result<Employee>>> GetEmployeesbyId(Guid id)
+        public async Task<ActionResult <Result<Employee>>> GetEmployeesbyId(int id)
         {
             return HandleResult( await Mediator.Send(new GetEmployeesByIdQuery(id)));
         }

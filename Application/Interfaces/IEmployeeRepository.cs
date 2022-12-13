@@ -4,8 +4,8 @@ using Domain.Models;
 namespace Application.Interfaces
 {
     public interface IEmployeeRepository: IRepository<Employee> {
-        Task<Result<Guid?>> EmployeeStartPartTimeDuration(Guid employeeId, DateTime startDate, string? details);
-        Task  EmployeeEndtPartTimeDuration(Guid partTimeId, DateTime endDate, string? details);
+        Task<Result<int?>> EmployeeStartPartTimeDuration(int employeeId, DateTime startDate, string? details);
+        Task  EmployeeEndtPartTimeDuration(int partTimeId, DateTime endDate, string? details);
 
 
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Employees.Commands
 {
-    public record class DeleteEmployeeCommand(Guid id) : IRequest<Result<Unit>>;
+    public record class DeleteEmployeeCommand(int id) : IRequest<Result<Unit>>;
     public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Result<Unit>>
     {
         private readonly IUOW _uow;

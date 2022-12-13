@@ -12,7 +12,7 @@ namespace Application.Employees.Commands
 {
     public class RestoreEmployeeCommand
     {
-        public record class RestorEmployeeCommand(Guid id) : IRequest <Result<Unit>>;
+        public record class RestorEmployeeCommand(int id) : IRequest <Result<Unit>>;
         public class RestoreEmployeeCommandHandler : Handler<RestorEmployeeCommand, Result<Unit>>
         {
             public RestoreEmployeeCommandHandler(IUOW uow) : base(uow)

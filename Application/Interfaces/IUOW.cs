@@ -13,9 +13,16 @@ namespace Application.Interfaces
       //  IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository { get; }
-        IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository { get; }
+       
         IEmployeePartTimeRepository EmployeePartTimeRepository { get; }
         IOrderRepository OrderRepository { get; }
+      
+        IEmployeeOrderRepository EmployeeOrderRepository { get; }
+        IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository { get; }
+
+        IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository { get; }
+        IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository { get; }
+        IBudgetItemRepository BudgetItemRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

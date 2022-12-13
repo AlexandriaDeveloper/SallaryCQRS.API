@@ -12,18 +12,28 @@ public static class Constant
     public static class OrderConstants {
 
         public static string ABSENCE = "غياب بدون إذن";
-        public static string PUNISHMENT = "امر عقاب";
+        public static string PUNISHMENT_ABSENCE = "امر عقاب جزاء عن الغياب بدون إذن";
         public static string VACATION_WITHOT_SALLARY = "أجازة بدون مرتب";
+        public static string PUNISHMENT_EXAMINATION_REWARD = "أمر عقاب خصم من مكافأة الامتحانات";
 
-    }
+       public static string ABSENCE_DEDUCTION = "خصم غياب بدون إذن";
+       public static string PUNISHMENT_ABSENCE_DEDUCTION = "خصم من المرتب امر عقاب";
+       public static string VACATION_WITHOT_SALLARY_DEDUCTION = "أجازة بدون مرتب";
+       public static string PUNISHMENT_EXAMINATION_REWARD_DEDUCTION = "أمر عقاب خصم من مكافأة الامتحانات";
+
+
+
+        }
 
     public static class BudgetItems {
-        public static string WAZIFI = "اجر وظيفى وظيفى";
+        public static string WAZIFI = "اجر وظيفى ";
         public static string MOKAMEL = "اجر مكمل";
         public static string TA3WIDI = "أجر تعويضى";
         public static string GAZAA = "جزاء";
+        public static string ABSENCE = "غياب";
+       public static string SUBSCRIPTIONS = "اشتراكات";
 
-    } 
+        } 
 }
 
     public static class ResultMessages

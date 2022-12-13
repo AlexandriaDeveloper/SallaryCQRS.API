@@ -6,9 +6,9 @@ namespace Application.Interfaces
     public interface IEmployeePartTimeRepository : IRepository<EmployeePartTime>
     {
 
-        Task<bool?> IsEmployeeInPartTime(Guid employeeId);
-        Task<Result<Guid?>> EmployeeStartPartTime(EmployeePartTime employeePartTime);
-        Task<EmployeePartTime?> EmployeeEndPartTime(Guid partTimeId, DateTime endDate);
+        Task<bool?> IsEmployeeInPartTime(int employeeId);
+        Task<Result<int?>> EmployeeStartPartTime(EmployeePartTime employeePartTime);
+        Task<EmployeePartTime?> EmployeeEndPartTime(int partTimeId, DateTime endDate);
 
     }
 }

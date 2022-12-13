@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Employees.Commands { 
-    public record class UpdateEmployeeInfoCommand(Guid id, string Name, string TabCode, string TegaraCode, string NationalId) : IRequest <Result<Unit?>>;
+    public record class UpdateEmployeeInfoCommand(int id, string Name, string TabCode, string TegaraCode, string NationalId) : IRequest <Result<Unit?>>;
 
     public class UpdateEmployeeInfoCommandHandler : Handler<UpdateEmployeeInfoCommand, Result<Unit?>>
     {

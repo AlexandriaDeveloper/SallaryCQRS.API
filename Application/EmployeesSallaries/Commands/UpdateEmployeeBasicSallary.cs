@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeesSallaries.Commands
 {
-    public record UpdateEmployeeBasicSallaryCommand(Guid Id, Guid? FinancialYearId, decimal? BasicSallary, decimal? Wazifi, decimal? Mokamel, decimal? Ta3widi) : IRequest<Result< Unit?>>;
+    public record UpdateEmployeeBasicSallaryCommand(int Id, int? FinancialYearId, decimal? BasicSallary, decimal? Wazifi, decimal? Mokamel, decimal? Ta3widi) : IRequest<Result< Unit?>>;
 
     public class UpdateEmployeeBasicSallaryCommandHandler : Handler<UpdateEmployeeBasicSallaryCommand, Result<Unit?>?>
     {

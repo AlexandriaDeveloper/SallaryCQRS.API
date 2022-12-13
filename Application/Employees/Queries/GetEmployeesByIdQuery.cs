@@ -5,7 +5,7 @@ using Application.Common;
 
 namespace Application.Employees.Queries
 {
-    public record GetEmployeesByIdQuery(Guid Id) : IRequest <Result<Employee>>;
+    public record GetEmployeesByIdQuery(int Id) : IRequest <Result<Employee>>;
 
     public class GetEmployeesByIdQueryHandler : Handler<GetEmployeesByIdQuery, Result<Employee>>
     {

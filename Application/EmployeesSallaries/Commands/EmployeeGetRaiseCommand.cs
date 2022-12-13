@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeesSallaries.Commands
 {
-    public record EmployeeGetRaisedCommand(Guid lasyEmployeeSallaryId
-            , Guid newFinancialYear,
+    public record EmployeeGetRaisedCommand(int lasyEmployeeSallaryId
+            , int newFinancialYear,
             decimal? wazifiPercentage,
             decimal? wazifiAmount,
             decimal? wazifiMinAmount,

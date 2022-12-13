@@ -24,7 +24,16 @@ namespace Application.Employees.Commands
         public override async Task<Result<Unit>> Handle(RegisterNewEmployeeCommand request, CancellationToken cancellationToken)
         {
 
-            await _uow.EmployeeRepository.AddItem( new Employee(request.Name,request.NationalId, request.TabCode, request.TegaraCode,request.CollageName,request.Section));
+            await _uow.EmployeeRepository.AddItem( new Employee() {
+
+                Name= request.Name,
+                NationalId= request.NationalId,
+                TabCode=request.TabCode,
+                TegaraCode =    request.TegaraCode,
+                CollageName = request.CollageName,
+                Section = request.Section
+
+            });
             var result = await _uow.SaveChangesAsync(cancellationToken)>0;
             if (!result) {
 

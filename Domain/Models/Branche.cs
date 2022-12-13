@@ -4,9 +4,9 @@ namespace Domain.Models
 {
     public class Branche : Entity
     {
-        public Guid BankId { get; set; }
+        public int BankId { get; set; }
 
-        public Bank Bank { get; set; }
+        public required Bank Bank { get; set; }
 
     }
 }

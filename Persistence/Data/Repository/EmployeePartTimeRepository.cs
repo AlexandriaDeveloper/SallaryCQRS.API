@@ -23,7 +23,7 @@ namespace Persistence.Data.Repository
             this._authService = authService;
         }
 
-        public async Task<EmployeePartTime?> EmployeeEndPartTime(Guid partTimeId, DateTime endDate)
+        public async Task<EmployeePartTime?> EmployeeEndPartTime(int partTimeId, DateTime endDate)
         {
             EmployeePartTime? result = await _context.EmployeesPartTimes.FindAsync(partTimeId);
             if (result == null)
@@ -37,14 +37,14 @@ namespace Persistence.Data.Repository
        
         }
 
-        public async Task<Result<Guid?>> EmployeeStartPartTime(EmployeePartTime employeePartTime)
+        public async Task<Result<int?>> EmployeeStartPartTime(EmployeePartTime employeePartTime)
         {
         
             var employee = _context.Employees.Include(x => x.PartTimeDurations).SingleOrDefault(x => x.Id == employeePartTime.EmployeeId);
             if (employee == null)
             {
 
-                return Result<Guid?>.Failure("Employee Not Found"); ;
+                return Result<int?>.Failure("Employee Not Found"); ;
             }
             if (employee.PartTimeDurations == null)
             {
@@ -53,7 +53,7 @@ namespace Persistence.Data.Repository
             if (employee.PartTimeDurations.Any(x => x.IsPartTimeActive))
             {
 
-                return Result<Guid?>.Failure("Employee Alredy In PartTime"); ; 
+                return Result<int?>.Failure("Employee Alredy In PartTime"); ; 
             }
 
             EmployeePartTime createdEmployeePartTime = new EmployeePartTime()
@@ -67,10 +67,10 @@ namespace Persistence.Data.Repository
             employee.PartTimeDurations.Add(createdEmployeePartTime);
             await _context.SaveChangesAsync();
        
-            return Result<Guid?>.Success(createdEmployeePartTime.Id);
+            return Result<int?>.Success(createdEmployeePartTime.Id);
         }
 
-        public async Task<bool?> IsEmployeeInPartTime(Guid employeeId)
+        public async Task<bool?> IsEmployeeInPartTime(int employeeId)
         {
             var result =await  _context.EmployeesPartTimes.Where(x => x.EmployeeId == employeeId).ToListAsync();
             if (result == null) {

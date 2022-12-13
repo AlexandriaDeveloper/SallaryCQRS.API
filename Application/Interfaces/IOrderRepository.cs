@@ -8,5 +8,4 @@ namespace Application.Interfaces
 
 
     }
-
 }

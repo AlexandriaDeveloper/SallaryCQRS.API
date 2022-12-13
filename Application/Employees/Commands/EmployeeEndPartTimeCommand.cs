@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Employees.Commands
 {
-    public record class EmployeeEndPartTimeCommand(Guid PartTimeId ,DateTime EndPartTimeDate,string? Details) :IRequest<Result<Unit>>;
+    public record class EmployeeEndPartTimeCommand(int PartTimeId ,DateTime EndPartTimeDate,string? Details) :IRequest<Result<Unit>>;
     public class EmployeeEndPartTimeCommandHandler : Handler<EmployeeEndPartTimeCommand, Result<Unit>>
     {
    

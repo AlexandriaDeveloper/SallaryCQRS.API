@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Application.Employees.Commands
 {
-   public record class EmployeeStartPartTimeCommand ( Guid  EmployeeId, DateTime StartPartTime,string? Details) :IRequest<Result<Guid?>>;
-    public class EmployeeStartPartTimeCommandHandler : Handler<EmployeeStartPartTimeCommand, Result<Guid?>>
+   public record class EmployeeStartPartTimeCommand ( int  EmployeeId, DateTime StartPartTime,string? Details) :IRequest<Result<int?>>;
+    public class EmployeeStartPartTimeCommandHandler : Handler<EmployeeStartPartTimeCommand, Result<int?>>
     {
         public EmployeeStartPartTimeCommandHandler(IUOW uow) : base(uow)
         {
         }
 
-        public override async Task<Result<Guid?>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<int?>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
         {
             var result = await _uow.EmployeeRepository.EmployeeStartPartTimeDuration(request.EmployeeId, request.StartPartTime, request.Details);
 

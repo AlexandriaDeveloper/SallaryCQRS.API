@@ -13,7 +13,7 @@ namespace Domain.Models
         public string? Details { get; set; }
 
 
-        public Guid EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
 
 
         [NotMapped]

@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.DTOS;
+using Application.Interfaces;
+using Azure;
 using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
@@ -36,7 +38,7 @@ namespace Persistence.Data.Repository
        
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
            var entity = await GetByIdAsync(id);
             if(entity == null)
@@ -53,14 +55,35 @@ namespace Persistence.Data.Repository
 
         public async Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T>? spec = null)
         {
-            return  await ApplySpecification(spec).ToListAsync() ;
+            if (spec == null) { 
+            return await _dbSet.ToListAsync();
+            }
+          return await ApplySpecification(spec).ToListAsync() ;       
         }
+        //public async Task<IPagination< T>> GetAllPaginatedAsync(IParam? param, ISpecification<T>? spec = null)
+        //{
+        //    IPagination<T> result;
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        //    if (spec == null)
+        //    {
+        //      result= await Pagination<T>.CreateAsync(_dbSet.AsQueryable(),param.PageIndex,
+        //          param.PageSize);
+        //    }
+        //     result = await Pagination<T>.CreateAsync(ApplySpecification(spec).AsQueryable(), param.PageIndex,
+        //          param.PageSize);
+
+          
+        //    return result;
+
+        //}
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.SingleOrDefaultAsync(x=> x.Id== id);
         }
-
+        public async Task<T?> GetByNameAsync(string name)
+        {
+            return await _dbSet.SingleOrDefaultAsync(x => x.Name == name);
+        }
         public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null)
         {
             return await ApplySpecification(spec).SingleOrDefaultAsync();
@@ -93,7 +116,7 @@ namespace Persistence.Data.Repository
                 return await ApplyDeletedSpecification(spec).ToListAsync();
  
         }
-        public async Task Restore(Guid id)
+        public async Task Restore(int id)
         {
             var entity = await GetByIdAsync(id);
             
