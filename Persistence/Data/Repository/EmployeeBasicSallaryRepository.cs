@@ -20,8 +20,8 @@ namespace Persistence.Data.Repository
             this._authService = authService;
         }
 
-        public async Task<EmployeeBasicSallary> EmployeeGetRaise(Guid lasyEmployeeSallaryId
-            ,Guid newFinancialYear,
+        public async Task<EmployeeBasicSallary> EmployeeGetRaise(int lasyEmployeeSallaryId
+            ,int newFinancialYear,
             decimal? wazifiPercentage,
             decimal? wazifiAmount,
             decimal? wazifiMinAmount,
@@ -36,7 +36,7 @@ namespace Persistence.Data.Repository
             EmployeeBasicSallary lastSallary= await _context.EmployeeBasicSallaries.OrderBy(x  => x.CreatedDate) .LastOrDefaultAsync(x => x.EmployeeId == lasyEmployeeSallaryId);
 
             EmployeeBasicSallary newSallary = new EmployeeBasicSallary();
-            newSallary.EmployeeId = lastSallary.EmployeeId;
+            newSallary.EmployeeId = lastSallary!.EmployeeId;
             newSallary.FinancialYearId = newFinancialYear;
             newSallary.Ta3widi=lastSallary.Ta3widi;
             newSallary.BasicSallary = lastSallary.BasicSallary;
@@ -70,6 +70,9 @@ namespace Persistence.Data.Repository
         
         
         }
+
+        public async Task<EmployeeBasicSallary?> GetLastEmployeeBasicSallaryAsync(int employeeId) => await _context.EmployeeBasicSallaries.OrderBy(x => x.CreatedDate).LastOrDefaultAsync();
+        public async Task<EmployeeBasicSallary?> GetEmployeeBasicSallaryByFinancialIdAsync(int employeeId,int financialYearId) => await _context.EmployeeBasicSallaries.OrderBy(x => x.CreatedDate).LastOrDefaultAsync( x=> x.EmployeeId==employeeId&& x.FinancialYearId==financialYearId);
 
         private async Task<decimal?> CaluclateRaiseByPercentage(decimal? AmountBefor ,decimal? Percentage,decimal? HasMin,decimal? HasMax) {
             

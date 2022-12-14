@@ -13,6 +13,9 @@ namespace Domain.Models
         public string? Details { get; set; }
 
 
+        public int EmployeeId { get; set; }
+
+
         [NotMapped]
         public bool IsPartTimeActive { get {
                 if (!EndAt.HasValue) 

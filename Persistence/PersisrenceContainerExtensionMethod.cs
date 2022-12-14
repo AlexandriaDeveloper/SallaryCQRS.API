@@ -30,8 +30,9 @@ namespace Persistence
               //  opt.AddInterceptors(auditableInterceptor)
                 opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
                     , o => o.MigrationsAssembly("Web.Api")
-
+                  
                     .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+                opt.EnableSensitiveDataLogging(true);
                 
                // .AddInterceptors(auditableInterceptor);
             });

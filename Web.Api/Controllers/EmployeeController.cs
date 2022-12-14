@@ -3,10 +3,12 @@
 using Application.Common;
 using Application.Employees.Commands;
 using Application.Employees.Queries;
+using Application.Employees.Queries.GetEmployeesListQuery;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
 using static Application.Employees.Commands.RestoreEmployeeCommand;
 
 namespace Web.Api.Controllers
@@ -14,76 +16,59 @@ namespace Web.Api.Controllers
   
     public class EmployeeController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public EmployeeController(IMediator mediator)
-        {
-            this._mediator = mediator;
-        }
+       
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Employee>>> GetAllEmployees([FromQuery ]GetEmployeeListQueryParam param) {
-           
-            IReadOnlyList<Employee> emps = await _mediator.Send(new GetEmployeesListQuery(param));
-            return Ok(emps);
+        public async Task<ActionResult<Result<IReadOnlyList<Employee>>>> GetAllEmployees([FromQuery ]GetEmployeeListQueryParam param) {
+
+
+            return HandleResult( await Mediator.Send(new GetEmployeesListQuery(param)));
         }
 
         [HttpGet("DeletedEmployees")]
-        public async Task<ActionResult<IReadOnlyList<Employee>>> DeletedEmployees([FromQuery] GetDeltetdEmployeeListQueryParam param)
+        public async Task<ActionResult<Result<IReadOnlyList<Employee>>>> DeletedEmployees([FromQuery] GetDeltetdEmployeeListQueryParam param)
         {
-
-            IReadOnlyList<Employee> emps = await _mediator.Send(new GetDeletedEmployeesQuery(param));
-            return Ok(emps);
+            return HandleResult( await Mediator.Send(new GetDeletedEmployeesQuery(param)));
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<IReadOnlyList<Employee>>> GetEmployeesbyId(Guid id)
+        public async Task<ActionResult <Result<Employee>>> GetEmployeesbyId(int id)
         {
-
-            Employee emp = await _mediator.Send(new GetEmployeesByIdQuery(id));
-            return Ok(emp);
+            return HandleResult( await Mediator.Send(new GetEmployeesByIdQuery(id)));
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegisterEmployee([FromBody] RegisterNewEmployeeCommand command) {
-           await _mediator.Send(command);
-            return Ok();
+        public async Task<ActionResult<Result<Unit>>> RegisterEmployee([FromBody] RegisterNewEmployeeCommand command) {
+           
+            return HandleResult(await Mediator.Send(command));
         }
         [HttpPut]
-        public async Task<ActionResult> RegisterEmployee([FromBody] UpdateEmployeeInfoCommand command)
+        public async Task<ActionResult<Result<Unit?>>> RegisterEmployee([FromBody] UpdateEmployeeInfoCommand command)
         {
-            await _mediator.Send(command);
-            return Ok();
+           
+            return HandleResult(await Mediator.Send(command));
         }
 
         [HttpPost("EmployeeStartPartTime")]
-        public async Task<ActionResult<Guid?>> EmployeeStartPartTime([FromBody] EmployeeStartPartTimeCommand command)
+        public async Task<ActionResult<Result<Guid?>>> EmployeeStartPartTime([FromBody] EmployeeStartPartTimeCommand command)
         {
-         var result =    await _mediator.Send(command);
-            if (result.HasErrors) { 
-                return BadRequest(result.Errors);
-            }
-            return Ok(result.Result);
+
+            return HandleResult( await Mediator.Send(command) );
         }
         [HttpPut("EmployeeEndPartTime")]
-        public async Task<ActionResult<Guid?>> EmployeeEndPartTime([FromBody] EmployeeEndPartTimeCommand command)
-        {
-            var result = await _mediator.Send(command);
-            if (result.HasErrors)
-            {
-                return BadRequest(result.Errors);
-            }
-            return Ok(result.Result);
+        public async Task<ActionResult<Result< Guid?>>> EmployeeEndPartTime([FromBody] EmployeeEndPartTimeCommand command)
+        {      
+            return HandleResult(await Mediator.Send(command));
         }
         [HttpDelete()]
-        public async Task<ActionResult> DeleteEmployee([FromBody] DeleteEmployeeCommand command)
+        public async Task<ActionResult<Result<Unit>>> DeleteEmployee([FromBody] DeleteEmployeeCommand command)
         {
-            await _mediator.Send(command);
-            return Ok();
+           
+            return HandleResult(await Mediator.Send(command));
         }
         [HttpPut("RestoreEmployee")]
-        public async Task<ActionResult> RestoreEmployee([FromBody] RestorEmployeeCommand command)
+        public async Task<ActionResult<Result<Unit>>> RestoreEmployee([FromBody] RestorEmployeeCommand command)
         {
-            await _mediator.Send(command);
-            return Ok();
+           
+            return HandleResult(await Mediator.Send(command));
         }
 
     }

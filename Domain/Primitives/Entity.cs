@@ -5,7 +5,9 @@ namespace Domain.Primitives
 {
     public abstract class Entity
     {
-        public Guid Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [MaxLength(150), Required]
         public virtual string? Name { get; set; }
 

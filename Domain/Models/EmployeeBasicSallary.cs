@@ -7,8 +7,8 @@ namespace Domain.Models
 
         [NotMapped]
         public virtual string Name { get; set; }
-        public Guid EmployeeId { get; set; }
-        public Guid FinancialYearId { get; set; }
+        public int EmployeeId { get; set; }
+        public int FinancialYearId { get; set; }
         public decimal? BasicSallary { get; set; }
         public decimal? Wazifi { get; set; }
         public decimal? Mokamel { get; set; }

@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\EmployeeMonthlySallary.cs" />
+    <Compile Remove="Models\EmployeeMonthlySubscription.cs" />
+    <Compile Remove="Models\Subscriptions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Exceptions\Base\" />
   </ItemGroup>
 

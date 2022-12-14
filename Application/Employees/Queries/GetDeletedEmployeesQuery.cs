@@ -18,19 +18,19 @@ namespace Application.Employees.Queries
 
         public string? NationalId { get; set; }
     };
-    public record GetDeletedEmployeesQuery (GetDeltetdEmployeeListQueryParam param) :IRequest<IReadOnlyList<Employee>>;
-    public class GetDeletedEmployeesQueryHandler : Handler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
+    public record GetDeletedEmployeesQuery (GetDeltetdEmployeeListQueryParam param) :IRequest<Result< IReadOnlyList<Employee>>>;
+    public class GetDeletedEmployeesQueryHandler : Handler<GetDeletedEmployeesQuery, Result<IReadOnlyList<Employee>>>
     {
-        private readonly IUOW _uow;
+        private new readonly IUOW _uow;
 
         public GetDeletedEmployeesQueryHandler(IUOW uow):base(uow) 
         {
             this._uow = uow;
         }
-        public override async Task<IReadOnlyList<Employee>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
+        public override async Task<Result<IReadOnlyList<Employee>>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetDeletedEmployeeListQuerySpecification(request.param);
-            return await _uow.EmployeeRepository.GetAlDeletedlAsync(spec);
+            return  Result < IReadOnlyList < Employee >>.Success( await _uow.EmployeeRepository.GetAlDeletedlAsync(spec));
         }
 
 
@@ -41,7 +41,7 @@ namespace Application.Employees.Queries
             {
                 if (!string.IsNullOrEmpty(param.Name))
                 {
-                    AddCriteries(x => x.Name.Contains(param.Name));
+                    AddCriteries(x => x.Name!.Contains(param.Name));
                 }
                 if (!string.IsNullOrEmpty(param.TabCode))
                 {

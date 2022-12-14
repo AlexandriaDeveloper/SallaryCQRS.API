@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 using Application.Common;
+using Domain.Constant;
 
 namespace Application.Employees.Commands
 {
-    public record class RegisterNewEmployeeCommand (string Name , string TabCode ,string TegaraCode,string NationalId,string? CollageName,string? Section ) :IRequest<Unit>;
+    public record class RegisterNewEmployeeCommand (string Name , string TabCode ,string TegaraCode,string NationalId,string? CollageName,string? Section ) :IRequest <Result<Unit>>;
 
-    public class RegisterNewEmployeeCommandHandler : Handler<RegisterNewEmployeeCommand, Unit>
+    public class RegisterNewEmployeeCommandHandler : Handler<RegisterNewEmployeeCommand, Result<Unit>>
     {
 
 
@@ -20,13 +21,25 @@ namespace Application.Employees.Commands
         {
       
         }
-        public override async Task<Unit> Handle(RegisterNewEmployeeCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<Unit>> Handle(RegisterNewEmployeeCommand request, CancellationToken cancellationToken)
         {
 
-            await _uow.EmployeeRepository.AddItem( new Employee(request.Name,request.NationalId, request.TabCode, request.TegaraCode,request.CollageName,request.Section));
+            await _uow.EmployeeRepository.AddItem( new Employee() {
 
-            await _uow.SaveChangesAsync(cancellationToken);
-            return await Unit.Task;
+                Name= request.Name,
+                NationalId= request.NationalId,
+                TabCode=request.TabCode,
+                TegaraCode =    request.TegaraCode,
+                CollageName = request.CollageName,
+                Section = request.Section
+
+            });
+            var result = await _uow.SaveChangesAsync(cancellationToken)>0;
+            if (!result) {
+
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+            };
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 
