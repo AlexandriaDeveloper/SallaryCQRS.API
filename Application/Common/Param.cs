@@ -22,6 +22,6 @@ namespace Application.Common
         }
         public string? Sort { get; set; }
         public int PageCount { get ; set ; }
-        public string Order { get ; set ; }
+        public string? Order { get ; set ; }
     }
 }

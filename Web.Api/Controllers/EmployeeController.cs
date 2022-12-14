@@ -3,6 +3,7 @@
 using Application.Common;
 using Application.Employees.Commands;
 using Application.Employees.Queries;
+using Application.Employees.Queries.GetEmployeesListQuery;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
