@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EmployeeOrders\Specifications\**" />
+    <EmbeddedResource Remove="EmployeeOrders\Specifications\**" />
+    <None Remove="EmployeeOrders\Specifications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -18,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EmployeeOrders\Specifications\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

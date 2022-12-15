@@ -1,6 +1,9 @@
 ﻿using Application.Common;
-using Application.EmployeeOrders.Command;
+using Application.EmployeeOrders.Commands.NewOrderToEmployee;
+using Application.EmployeeOrders.Commands.PayDeductionEmployee;
 using Application.EmployeeOrders.Queries;
+using Application.EmployeeOrders.Queries.EmployeeOrderDeductionBalance;
+using Application.EmployeeOrders.Queries.GetEmployeeOrderData;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;

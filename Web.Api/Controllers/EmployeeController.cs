@@ -1,19 +1,26 @@
 ﻿
 
 using Application.Common;
-using Application.Employees.Commands;
+using Application.Employees.Commands.DeleteEmployee;
+using Application.Employees.Commands.EmployeeEndPartTime;
+using Application.Employees.Commands.EmployeeStratPartTime;
+using Application.Employees.Commands.RegisterEmployee;
+using Application.Employees.Commands.RestoreEmployee;
+using Application.Employees.Commands.UpdateEmployeeInfo;
 using Application.Employees.Queries;
+using Application.Employees.Queries.GetDeletedEmployee;
+using Application.Employees.Queries.GetEmployeeById;
 using Application.Employees.Queries.GetEmployeesListQuery;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
-using static Application.Employees.Commands.RestoreEmployeeCommand;
+
 
 namespace Web.Api.Controllers
 {
-  
+
     public class EmployeeController : BaseController
     {
        

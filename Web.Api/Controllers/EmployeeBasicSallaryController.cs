@@ -1,7 +1,9 @@
 ﻿using Application.Common;
 using Application.Employees.Commands;
-using Application.EmployeesSallaries.Commands;
-using Application.EmployeesSallaries.Queries;
+using Application.EmployeesSallaries.Commands.AssignEmployeeBasicSallary;
+using Application.EmployeesSallaries.Commands.EmployeeGetRaise;
+using Application.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
+using Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
