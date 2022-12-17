@@ -15,6 +15,11 @@ namespace Application.Employees.Queries.GetEmployeeById
 
         public override async Task<Result<Employee>> Handle(GetEmployeesByIdQuery request, CancellationToken cancellationToken)
         {
+            var validation = new GetEmployeesByIdQueryValidator();
+            var validate =await validation.ValidateAsync(request,cancellationToken);
+            if (!validate.IsValid) {
+                return Result<Employee>.Failure(validate.Errors.First().ErrorMessage);
+            }
             return Result<Employee>.Success(await _uow.EmployeeRepository.GetByIdAsync(request.Id));
         }
     }

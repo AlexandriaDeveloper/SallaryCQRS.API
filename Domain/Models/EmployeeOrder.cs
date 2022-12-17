@@ -20,6 +20,8 @@ namespace Domain.Models
         public int OrderId { get; set; }
         public int EmployeeId { get; set; }
 
+        public int FormId { get; set; }
+
         public int? Quantity { get; set; }
         public char CreditOrDebit { get; set; }
 
@@ -30,5 +32,7 @@ namespace Domain.Models
         public Employee Employee { get; set; }
 
         public ICollection<EmployeeOrderExecuation> EmployeeOrderExecuations { get; set; }
+
+        public Form Form { get; set; }
     }
 }

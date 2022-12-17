@@ -11,7 +11,7 @@ namespace Persistence.Services
     {
         public string GetCurrentLoggedInUser()
         {
-            return "Test";
+            return "Admin";
         }
 
         public bool IsLoggedIn() { return true; }

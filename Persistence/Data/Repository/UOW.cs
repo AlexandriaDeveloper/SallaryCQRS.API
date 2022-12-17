@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Models;
+using Persistence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,44 +11,40 @@ namespace Persistence.Data.Repository
 {
     internal class UOW : IUOW
     {
-
-        private  IEmployeeRepository _employeeRepository;
-        private IEmployeeBasicSallaryRepository _employeeSallaryRepository;
-        private IEmployeePartTimeRepository _employeePartTimeRrepository;
-        private IOrderRepository _orderRepository;
-   
         private readonly SallaryCQRSAppContext _context;
         private readonly IAuthService _authService;
-        private IBudgetItemRepository _budgetItemRepository;
-
-        private IEmployeeOrderRepository _employeeOrderRepository;
-        private IEmployeeOrderExecuationRepository _employeeOrderExecuationRepository;
 
 
-        private IEmployeeOrderDeductionRepository _employeeOrderDeductionRepository;
-        private IEmployeeOrderDeductionExecuationRepository _employeeOrderDeductionExecuationRepository;
+        private Lazy<IEmployeeRepository> _employeeRepository;
+        private Lazy< IEmployeeBasicSallaryRepository> _employeeSallaryRepository;
+        private Lazy<IEmployeePartTimeRepository> _employeePartTimeRrepository;
+        private Lazy<IOrderRepository> _orderRepository;
+        private Lazy<IBudgetItemRepository> _budgetItemRepository;
+        private  Lazy<IEmployeeOrderRepository> _employeeOrderRepository;
+        private Lazy< IEmployeeOrderExecuationRepository> _employeeOrderExecuationRepository;
+        private Lazy<IEmployeeOrderDeductionRepository> _employeeOrderDeductionRepository;
+        private  Lazy<IEmployeeOrderDeductionExecuationRepository> _employeeOrderDeductionExecuationRepository;
+        private Lazy<IEmployeeGradeRepository> _employeeGradeRepository;
+        private Lazy<IGradeRepository> _gradeRepository;
         public UOW(SallaryCQRSAppContext context, IAuthService authService)
         {
             this._context = context;
             this._authService = authService;
+            LazyInitializer(context,authService);
+
         }
 
-
-      
-
-        public IEmployeePartTimeRepository EmployeePartTimeRepository => _employeePartTimeRrepository = _employeePartTimeRrepository ?? new EmployeePartTimeRepository(_context, _authService);
-
-        public IEmployeeRepository EmployeeRepository => _employeeRepository = _employeeRepository ?? new EmployeeRepository(_context, _authService);
-       // public IEmployeeBasicSallaryRepository EmployeeSallaryRepository => _employeeSallaryRepository = _employeeSallaryRepository ?? new EmployeeBasicSallaryRepository(_context, _authService);
-
-        public IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository => _employeeSallaryRepository = _employeeSallaryRepository ?? new EmployeeBasicSallaryRepository(_context, _authService);
-        public IOrderRepository OrderRepository => _orderRepository = _orderRepository ?? new OrderRepository(_context, _authService);
-        public IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository => _employeeOrderExecuationRepository = _employeeOrderExecuationRepository ?? new EmployeeOrderExecuationRepository(_context, _authService);
-        public IBudgetItemRepository BudgetItemRepository => _budgetItemRepository = _budgetItemRepository ?? new BudgetItemRepository(_context, _authService);
-        public IEmployeeOrderRepository EmployeeOrderRepository => _employeeOrderRepository = _employeeOrderRepository ?? new EmployeeOrderRepository(_context, _authService);
-
-        public IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository => _employeeOrderDeductionRepository = _employeeOrderDeductionRepository ?? new EmployeeOrderDeductionRepository(_context, _authService);
-        public IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository => _employeeOrderDeductionExecuationRepository = _employeeOrderDeductionExecuationRepository ?? new EmployeeOrderDeductionExecuationRepository(_context, _authService);
+        public IEmployeePartTimeRepository EmployeePartTimeRepository => _employeePartTimeRrepository.Value;
+        public IEmployeeRepository EmployeeRepository => _employeeRepository.Value;
+        public IEmployeeBasicSallaryRepository EmployeeBasicSallaryRepository => _employeeSallaryRepository.Value;
+        public IOrderRepository OrderRepository => _orderRepository.Value;
+        public IEmployeeOrderExecuationRepository EmployeeOrderExecuationRepository => _employeeOrderExecuationRepository.Value;
+        public IBudgetItemRepository BudgetItemRepository => _budgetItemRepository.Value;
+        public IEmployeeOrderRepository EmployeeOrderRepository => _employeeOrderRepository.Value;
+        public IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository => _employeeOrderDeductionRepository.Value;
+        public IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository => _employeeOrderDeductionExecuationRepository.Value;
+        public IEmployeeGradeRepository EmployeeGradeRepository => _employeeGradeRepository.Value;
+        public IGradeRepository GradeRepository => _gradeRepository.Value;
 
         public void Dispose()
         {
@@ -59,6 +56,21 @@ namespace Persistence.Data.Repository
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
+
+        private void LazyInitializer(SallaryCQRSAppContext context, IAuthService authService)
+        {
+            this._employeeRepository= this._employeeRepository??  new Lazy<IEmployeeRepository>(() => new EmployeeRepository(context, authService));
+            this._employeePartTimeRrepository = this._employeePartTimeRrepository ?? new Lazy<IEmployeePartTimeRepository>(() => new EmployeePartTimeRepository(context, authService)); 
+            this._orderRepository = this._orderRepository ?? new Lazy<IOrderRepository>(() => new OrderRepository(context, authService));
+            this._employeeOrderExecuationRepository = this._employeeOrderExecuationRepository ?? new Lazy<IEmployeeOrderExecuationRepository>(() => new EmployeeOrderExecuationRepository(context, authService));
+            this._budgetItemRepository = this._budgetItemRepository ?? new Lazy<IBudgetItemRepository>(() => new BudgetItemRepository(context, authService));
+            this._employeeOrderRepository = this._employeeOrderRepository ?? new Lazy<IEmployeeOrderRepository>(() => new EmployeeOrderRepository(context, authService));
+            this._employeeOrderDeductionRepository = this._employeeOrderDeductionRepository ?? new Lazy<IEmployeeOrderDeductionRepository>(() => new EmployeeOrderDeductionRepository(context, authService));
+            this._employeeOrderDeductionExecuationRepository = this._employeeOrderDeductionExecuationRepository ?? new Lazy<IEmployeeOrderDeductionExecuationRepository>(() => new EmployeeOrderDeductionExecuationRepository(context, authService));
+            this._employeeGradeRepository = this._employeeGradeRepository ?? new Lazy<IEmployeeGradeRepository>(() => new EmployeeGradeRepository(context, authService));
+            this._gradeRepository = this._gradeRepository ?? new Lazy<IGradeRepository>(() => new GradeRepository(context, authService));
+            this._employeeSallaryRepository = this._employeeSallaryRepository ?? new Lazy<IEmployeeBasicSallaryRepository>(() => new EmployeeBasicSallaryRepository(context, authService));
+        }
       
     }
 }

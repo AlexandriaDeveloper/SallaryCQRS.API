@@ -20,8 +20,9 @@ namespace Persistence.Data.Repository
             this._authService = authService;
         }
 
-        public async Task<EmployeeBasicSallary> EmployeeGetRaise(int lasyEmployeeSallaryId
-            ,int newFinancialYear,
+        public async Task<EmployeeBasicSallary> EmployeeGetRaise(
+            int employeeId,
+            int newFinancialYear,
             decimal? wazifiPercentage,
             decimal? wazifiAmount,
             decimal? wazifiMinAmount,
@@ -32,36 +33,43 @@ namespace Persistence.Data.Repository
             decimal? mokamelMaxAmount
             )
         {
-            //Get Existing Employee Sallary Data 
-            EmployeeBasicSallary lastSallary= await _context.EmployeeBasicSallaries.OrderBy(x  => x.CreatedDate) .LastOrDefaultAsync(x => x.EmployeeId == lasyEmployeeSallaryId);
+            //Get Existing Employee Last Sallary Data 
+            var lastSallary = await _context.EmployeeBasicSallaries
+                .Where(e => e.EmployeeId==employeeId)
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(t => t).FirstAsync();
+         
 
             EmployeeBasicSallary newSallary = new EmployeeBasicSallary();
             newSallary.EmployeeId = lastSallary!.EmployeeId;
             newSallary.FinancialYearId = newFinancialYear;
             newSallary.Ta3widi=lastSallary.Ta3widi;
             newSallary.BasicSallary = lastSallary.BasicSallary;
+
+            newSallary.Wazifi = lastSallary.Wazifi;
+            newSallary.Mokamel= lastSallary.Mokamel;
             if(wazifiPercentage!= null )
             {
-              newSallary.Wazifi= await  CaluclateRaiseByPercentage(lastSallary.Wazifi,wazifiPercentage,wazifiMinAmount,wazifiMaxAmount); 
+              newSallary.Wazifi= await  CaluclateRaiseByPercentage(newSallary.Wazifi,wazifiPercentage,wazifiMinAmount,wazifiMaxAmount); 
             }
 
             if (wazifiAmount != null)
             {
-                newSallary.Wazifi = await CaluclateRaiseByFixedAmount(lastSallary.Wazifi, wazifiAmount);
+                newSallary.Wazifi = await CaluclateRaiseByFixedAmount(newSallary.Wazifi, wazifiAmount);
             }
 
             if (mokamelPercentage != null)
             {
-                newSallary.Mokamel = await CaluclateRaiseByPercentage(lastSallary.Mokamel, mokamelPercentage, mokamelMinAmount, mokamelMaxAmount);
+                newSallary.Mokamel = await CaluclateRaiseByPercentage(newSallary.Mokamel, mokamelPercentage, mokamelMinAmount, mokamelMaxAmount);
             }
             if (mokamelAmount != null)
             {
-                newSallary.Mokamel = await CaluclateRaiseByFixedAmount(lastSallary.Mokamel, mokamelAmount);
+                newSallary.Mokamel = await CaluclateRaiseByFixedAmount(newSallary.Mokamel, mokamelAmount);
             }
 
             if (mokamelMaxAmount != null)
             {
-                newSallary.Mokamel = await CaluclateRaiseByFixedAmount(lastSallary.Mokamel, mokamelAmount);
+                newSallary.Mokamel = await CaluclateRaiseByFixedAmount(newSallary.Mokamel, mokamelAmount);
             }
             // var existingEmployeeData = _context.
 

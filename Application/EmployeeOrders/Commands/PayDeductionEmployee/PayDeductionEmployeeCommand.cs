@@ -48,6 +48,7 @@ namespace Application.EmployeeOrders.Commands.PayDeductionEmployee
             employeeOrderDeduction.CreatedBy = _authService.GetCurrentLoggedInUser();
             employeeOrderDeduction.EmployeeId = request.employeeOrder.EmployeeId;
             employeeOrderDeduction.CreditOrDebit = request.employeeOrder.CreditOrDepit;
+            employeeOrderDeduction.FormId= request.employeeOrder.FormId;
             employeeOrderDeduction.Details = request.employeeOrder.Details;
 
             if (order.Name == Constant.Model.OrderConstants.PUNISHMENT_ABSENCE)

@@ -2,6 +2,7 @@
 using Application.Employees.Queries;
 using Application.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
 using Application.Interfaces;
+using Domain.Constant;
 using Domain.Models;
 using MediatR;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
-    public record GetEmployeeBasicSallaryByFinancialYearQuery(Guid? EmployeeId, Guid? FinancialYearId) : IRequest<Result<EmployeeBasicSallary>>;
+    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IRequest<Result<EmployeeBasicSallary>>;
     public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : Handler<GetEmployeeBasicSallaryByFinancialYearQuery, Result<EmployeeBasicSallary>>
     {
         public GetEmployeeBasicSallaryByFinancialYearQueryHandler(IUOW uow) : base(uow)
@@ -31,7 +32,14 @@ namespace Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinanc
             }
             ISpecification<EmployeeBasicSallary> spec = new GetEmployeeBasicSallaryByFinancialYearSpecification(request);
 
-            return Result<EmployeeBasicSallary>.Success(await _uow.EmployeeBasicSallaryRepository.GetBySingleOrDefaultAsync(spec));
+
+            var result = await _uow.EmployeeBasicSallaryRepository.GetBySingleOrDefaultAsync(spec);
+            if (result == null) {
+
+                return Result<EmployeeBasicSallary>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+            }
+
+            return Result<EmployeeBasicSallary>.Success(result);
         }
     }
 

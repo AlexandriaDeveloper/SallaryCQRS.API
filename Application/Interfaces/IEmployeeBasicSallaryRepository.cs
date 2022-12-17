@@ -4,8 +4,9 @@ namespace Application.Interfaces
 {
     public interface IEmployeeBasicSallaryRepository :IRepository<EmployeeBasicSallary>
     {
-        Task<EmployeeBasicSallary> EmployeeGetRaise(int lasyEmployeeSallaryId
-          , int newFinancialYear,
+        Task<EmployeeBasicSallary> EmployeeGetRaise(
+           int employeeId,
+           int newFinancialYear,
           decimal? wazifiPercentage,
           decimal? wazifiAmount,
           decimal? wazifiMinAmount,

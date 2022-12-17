@@ -23,6 +23,9 @@ namespace Application.Interfaces
         IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository { get; }
         IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository { get; }
         IBudgetItemRepository BudgetItemRepository { get; }
+
+        IEmployeeGradeRepository EmployeeGradeRepository { get; }
+        IGradeRepository GradeRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

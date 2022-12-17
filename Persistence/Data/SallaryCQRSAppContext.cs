@@ -1,6 +1,7 @@
 ﻿using Domain.Constant;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Persistence.Data
 {
     public class SallaryCQRSAppContext :DbContext
     {
+        private readonly AuthService _authService;
+
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeePartTime> EmployeesPartTimes { get; set; }
 
@@ -24,10 +27,10 @@ namespace Persistence.Data
         public DbSet<EmployeeOrder> EmployeeOrders { get; set; }
         public DbSet<EmployeeOrderExecuation> EmployeeOrderExecuations { get; set; }
         public DbSet<EmployeeOrderDeduction> EmployeeOrderDeductions { get; set; }
+        public DbSet<EmployeeGrade> EmployeeGrades { get; set; }
+        public DbSet<Grade> Grades { get; set; }
 
         public SallaryCQRSAppContext(DbContextOptions<SallaryCQRSAppContext> options):base(options) {
-    
-
 
         }
 
@@ -56,11 +59,17 @@ namespace Persistence.Data
              new Order() { Id = 6, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_ABSENCE_DEDUCTION },
              new Order() { Id = 7, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_EXAMINATION_REWARD_DEDUCTION },
              new Order() { Id = 8, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY_DEDUCTION }
-
-
-
-
              );
+
+            modelBuilder.Entity<Form>().HasData(
+                new Form() { Id=1 , Details="مرتبات شهر مارس",FormDate="2022-3" ,CreatedDate=DateTime.Now,CreatedBy="Admin",FileNumber224="1",FileNumber55="1"},
+                new Form() { Id = 2, Details = "مرتبات شهر ابريل", FormDate = "2022-4", CreatedDate = DateTime.Now, CreatedBy = "Admin", FileNumber224 = "1", FileNumber55 = "1" },
+                new Form() { Id = 3, Details = "مرتبات شهر مايو", FormDate = "2022-5", CreatedDate = DateTime.Now, CreatedBy = "Admin", FileNumber224 = "2", FileNumber55 = "2" },
+                new Form() { Id = 4, Details = "مرتبات شهر يونيو", FormDate = "2022-6", CreatedDate = DateTime.Now, CreatedBy = "Admin", FileNumber224 = "3", FileNumber55 = "3" }
+
+
+
+                );
 
 
             modelBuilder.Entity<BudgetItem>().HasData(
@@ -103,13 +112,18 @@ namespace Persistence.Data
             new Subscription() { Id = 4, Name = "محمول شركه سيجنال ", CreatedBy = "Admin", CreatedDate = DateTime.Now },
             new Subscription() { Id = 5, Name = "خزنه تك  ", CreatedBy = "Admin", CreatedDate = DateTime.Now },
             new Subscription() { Id = 6, Name = "نفقه  ", CreatedBy = "Admin", CreatedDate = DateTime.Now }
-         
-
-           
-
      );
 
-  
+            modelBuilder.Entity<Grade>().HasData(
+          new Grade() { Id = 1, Name = "درجة كبير", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 2, Name = "درجة اولى", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 3, Name = "درجة ثانيه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 4, Name = "درجة ثالثه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 5, Name = "درجة رابعه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 6, Name = "درجة خامسه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Grade() { Id = 7, Name = "درجة سادسه", CreatedBy ="Admin", CreatedDate = DateTime.Now }
+   );
+
 
             base.OnModelCreating(modelBuilder);
         }

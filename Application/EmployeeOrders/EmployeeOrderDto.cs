@@ -8,6 +8,7 @@
         //  public Guid BudgetItemId { get; set; }
         public int EmployeeId { get; set; }
         // public decimal? Amount { get; set; }
+        public int FormId { get; set; }
         public int Quantity { get; set; }
         public char CreditOrDepit { get; set; } = 'd';
         public DateTime? StartFrom { get; set; }

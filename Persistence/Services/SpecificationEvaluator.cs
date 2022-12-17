@@ -11,9 +11,13 @@ namespace Persistence.Services
 {
     public class SpecificationEvaluator <TEntity>  where TEntity : Entity
     {
-        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
+        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery,bool trackingChange, ISpecification<TEntity> spec)
         {
             var query = inputQuery;
+
+            if (!trackingChange) {
+              query=  query.AsNoTracking();
+            }
             if (spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria);

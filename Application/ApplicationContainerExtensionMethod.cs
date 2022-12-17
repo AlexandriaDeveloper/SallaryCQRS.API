@@ -16,7 +16,7 @@ namespace Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddTransient<IParam, Param>();
+           // services.AddTransient<IParam, Param>();
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }

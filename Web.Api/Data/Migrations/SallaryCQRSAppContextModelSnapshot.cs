@@ -151,42 +151,42 @@ namespace Web.Api.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4815),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3564),
                             Name = "اجر وظيفى "
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4816),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3565),
                             Name = "اجر مكمل"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4817),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3566),
                             Name = "أجر تعويضى"
                         },
                         new
                         {
                             Id = 4,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4818),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3567),
                             Name = "جزاء"
                         },
                         new
                         {
                             Id = 5,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4819),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3568),
                             Name = "غياب"
                         },
                         new
                         {
                             Id = 6,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4820),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3569),
                             Name = "اشتراكات"
                         });
                 });
@@ -268,7 +268,7 @@ namespace Web.Api.Data.Migrations
                             Id = 1,
                             CollageName = "كلية الطب",
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4860),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3611),
                             Name = "محمد على شريف",
                             NationalId = "0123456781",
                             Section = "مكافأة شامله",
@@ -280,7 +280,7 @@ namespace Web.Api.Data.Migrations
                             Id = 2,
                             CollageName = "كلية الطب",
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4862),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3613),
                             Name = "محمود عبد الحميد شاهين",
                             NationalId = "0123456782",
                             Section = "مكافأة شامله",
@@ -292,7 +292,7 @@ namespace Web.Api.Data.Migrations
                             Id = 3,
                             CollageName = "كلية الطب",
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4863),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3615),
                             Name = " اسمهان موسى عيد ",
                             NationalId = "0123456783",
                             Section = "مكافأة شامله",
@@ -416,7 +416,7 @@ namespace Web.Api.Data.Migrations
                             Id = 1,
                             BasicSallary = 246m,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4884),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3635),
                             EmployeeId = 1,
                             FinancialYearId = 1,
                             Mokamel = 440m,
@@ -428,7 +428,7 @@ namespace Web.Api.Data.Migrations
                             Id = 2,
                             BasicSallary = 223.5m,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4886),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3637),
                             EmployeeId = 2,
                             FinancialYearId = 1,
                             Mokamel = 417.5m,
@@ -440,13 +440,64 @@ namespace Web.Api.Data.Migrations
                             Id = 3,
                             BasicSallary = 208.5m,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4889),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3639),
                             EmployeeId = 3,
                             FinancialYearId = 1,
                             Mokamel = 402.3m,
                             Ta3widi = 26.67m,
                             Wazifi = 1083.65m
                         });
+                });
+
+            modelBuilder.Entity("Domain.Models.EmployeeGrade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GradeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartFrom")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("GradeId");
+
+                    b.ToTable("EmployeeGrades");
                 });
 
             modelBuilder.Entity("Domain.Models.EmployeeOrder", b =>
@@ -486,6 +537,9 @@ namespace Web.Api.Data.Migrations
                     b.Property<DateTime?>("EndAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FormId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
@@ -505,6 +559,8 @@ namespace Web.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("FormId");
 
                     b.HasIndex("OrderId");
 
@@ -545,6 +601,9 @@ namespace Web.Api.Data.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("FormId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
@@ -558,6 +617,8 @@ namespace Web.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("FormId");
 
                     b.HasIndex("OrderId");
 
@@ -822,22 +883,208 @@ namespace Web.Api.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4841),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3593),
                             Name = "العام المالى 2017-2018"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4842),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3594),
                             Name = "العام المالى 2018-2019"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4843),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3595),
                             Name = "العام المالى 2020-2019"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Models.Form", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("FileNumber224")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<string>("FileNumber55")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<string>("FormDate")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Form");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3535),
+                            Details = "مرتبات شهر مارس",
+                            FileNumber224 = "1",
+                            FileNumber55 = "1",
+                            FormDate = "2022-3"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3541),
+                            Details = "مرتبات شهر ابريل",
+                            FileNumber224 = "1",
+                            FileNumber55 = "1",
+                            FormDate = "2022-4"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3542),
+                            Details = "مرتبات شهر مايو",
+                            FileNumber224 = "2",
+                            FileNumber55 = "2",
+                            FormDate = "2022-5"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3544),
+                            Details = "مرتبات شهر يونيو",
+                            FileNumber224 = "3",
+                            FileNumber55 = "3",
+                            FormDate = "2022-6"
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Models.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Grades");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3709),
+                            Name = "درجة كبير"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3711),
+                            Name = "درجة اولى"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3711),
+                            Name = "درجة ثانيه"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3712),
+                            Name = "درجة ثالثه"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3713),
+                            Name = "درجة رابعه"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3714),
+                            Name = "درجة خامسه"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedBy = "Admin",
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3715),
+                            Name = "درجة سادسه"
                         });
                 });
 
@@ -885,56 +1132,56 @@ namespace Web.Api.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4702),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3397),
                             Name = "غياب بدون إذن"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4712),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3409),
                             Name = "امر عقاب جزاء عن الغياب بدون إذن"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4713),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3410),
                             Name = "أمر عقاب خصم من مكافأة الامتحانات"
                         },
                         new
                         {
                             Id = 4,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4714),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3411),
                             Name = "أجازة بدون مرتب"
                         },
                         new
                         {
                             Id = 5,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4715),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3412),
                             Name = "خصم غياب بدون إذن"
                         },
                         new
                         {
                             Id = 6,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4716),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3413),
                             Name = "خصم من المرتب امر عقاب"
                         },
                         new
                         {
                             Id = 7,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4717),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3414),
                             Name = "أمر عقاب خصم من مكافأة الامتحانات"
                         },
                         new
                         {
                             Id = 8,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4718),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3414),
                             Name = "أجازة بدون مرتب"
                         });
                 });
@@ -983,42 +1230,42 @@ namespace Web.Api.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4904),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3687),
                             Name = "تأمين علاجى"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4905),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3688),
                             Name = "نقابه"
                         },
                         new
                         {
                             Id = 3,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4906),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3689),
                             Name = "محمول شركة ETI"
                         },
                         new
                         {
                             Id = 4,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4907),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3690),
                             Name = "محمول شركه سيجنال "
                         },
                         new
                         {
                             Id = 5,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4908),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3691),
                             Name = "خزنه تك  "
                         },
                         new
                         {
                             Id = 6,
                             CreatedBy = "Admin",
-                            CreatedDate = new DateTime(2022, 12, 10, 0, 40, 24, 351, DateTimeKind.Local).AddTicks(4909),
+                            CreatedDate = new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3691),
                             Name = "نفقه  "
                         });
                 });
@@ -1072,11 +1319,36 @@ namespace Web.Api.Data.Migrations
                     b.Navigation("FinancialYear");
                 });
 
+            modelBuilder.Entity("Domain.Models.EmployeeGrade", b =>
+                {
+                    b.HasOne("Domain.Models.Employee", "Employees")
+                        .WithMany("EmployeeGrades")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Grade", "Grade")
+                        .WithMany("EmployeeGrades")
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("Grade");
+                });
+
             modelBuilder.Entity("Domain.Models.EmployeeOrder", b =>
                 {
                     b.HasOne("Domain.Models.Employee", "Employee")
                         .WithMany("EmployeeOrders")
                         .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Form", "Form")
+                        .WithMany("EmployeeOrders")
+                        .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1087,6 +1359,8 @@ namespace Web.Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+
+                    b.Navigation("Form");
 
                     b.Navigation("Order");
                 });
@@ -1099,6 +1373,12 @@ namespace Web.Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Models.Form", "Form")
+                        .WithMany("EmployeeOrderDeductions")
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.Order", "Order")
                         .WithMany("EmployeeOrderDeduction")
                         .HasForeignKey("OrderId")
@@ -1106,6 +1386,8 @@ namespace Web.Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+
+                    b.Navigation("Form");
 
                     b.Navigation("Order");
                 });
@@ -1200,6 +1482,8 @@ namespace Web.Api.Data.Migrations
                 {
                     b.Navigation("EmployeeBank");
 
+                    b.Navigation("EmployeeGrades");
+
                     b.Navigation("EmployeeOrders");
 
                     b.Navigation("EmployeeSubscriptions");
@@ -1220,6 +1504,18 @@ namespace Web.Api.Data.Migrations
             modelBuilder.Entity("Domain.Models.FinancialYear", b =>
                 {
                     b.Navigation("EmployeeBasicSallaries");
+                });
+
+            modelBuilder.Entity("Domain.Models.Form", b =>
+                {
+                    b.Navigation("EmployeeOrderDeductions");
+
+                    b.Navigation("EmployeeOrders");
+                });
+
+            modelBuilder.Entity("Domain.Models.Grade", b =>
+                {
+                    b.Navigation("EmployeeGrades");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>

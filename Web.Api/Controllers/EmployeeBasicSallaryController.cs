@@ -2,6 +2,7 @@
 using Application.Employees.Commands;
 using Application.EmployeesSallaries.Commands.AssignEmployeeBasicSallary;
 using Application.EmployeesSallaries.Commands.EmployeeGetRaise;
+using Application.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade;
 using Application.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
 using Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear;
 using Domain.Models;
@@ -22,8 +23,14 @@ namespace Web.Api.Controllers
             return HandleResult(  await Mediator.Send(command));
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Result<EmployeeBasicSallary>>> RegisterEmployee([FromQuery] EmployeeGetRaisedCommand command)
+        [HttpPost("EmployeeGetRaised")]
+        public async Task<ActionResult<Result<EmployeeBasicSallary>>> EmployeeGetRaised([FromQuery] EmployeeGetRaisedCommand command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+
+        [HttpPost("EmployeesGetRaised")]
+        public async Task<ActionResult<Result<Unit>>> EmployeesGetRaised([FromQuery] EmployeesGetRaiseByGradeCommand command)
         {
             return HandleResult(await Mediator.Send(command));
         }

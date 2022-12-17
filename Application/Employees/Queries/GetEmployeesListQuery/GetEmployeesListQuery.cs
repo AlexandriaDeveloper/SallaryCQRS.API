@@ -29,7 +29,7 @@ namespace Application.Employees.Queries.GetEmployeesListQuery
             var spec = new GetEmployeeListQuerySpecification(request.param);
 
 
-            var EmployeeToReturn = _mapper.Map<List< EmployeeDto>>(await _uow.EmployeeRepository.GetAllAsync(spec));
+            var EmployeeToReturn = _mapper.Map<List< EmployeeDto>>(await _uow.EmployeeRepository.GetAllAsync(spec,false));
             return Result<IReadOnlyList<EmployeeDto>>.Success(EmployeeToReturn);
         }
 

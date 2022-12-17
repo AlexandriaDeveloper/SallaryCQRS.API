@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Application.Common
 {
-    public class Param :IParam
+    public abstract class Param //:IParam
     {
         private const int MaxPageSize = 50;
-        public int PageIndex { get; set; } = 0;
+        public int pageNumber { get; set; } = 1;
   
 
         private int _pageSize = 15;
         public int PageSize
         {
             get { return _pageSize; }
-            set { _pageSize = _pageSize > MaxPageSize ? MaxPageSize : value; }
+            set { _pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
         public string? Sort { get; set; }
         public int PageCount { get ; set ; }

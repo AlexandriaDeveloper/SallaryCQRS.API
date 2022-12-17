@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web.Api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialize : Migration
+    public partial class InitilizeDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -93,6 +93,47 @@ namespace Web.Api.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FinancialYears", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Form",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Details = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    FormDate = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    FileNumber55 = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    FileNumber224 = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Form", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grades", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +265,41 @@ namespace Web.Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeOrder",
+                name: "EmployeeGrades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    GradeId = table.Column<int>(type: "int", nullable: false),
+                    StartFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeGrades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeGrades_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeGrades_Grades_GradeId",
+                        column: x => x.GradeId,
+                        principalTable: "Grades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeOrderDeductions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -232,6 +307,48 @@ namespace Web.Api.Data.Migrations
                     Details = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    FormId = table.Column<int>(type: "int", nullable: false),
+                    CreditOrDebit = table.Column<string>(type: "nvarchar(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeOrderDeductions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderDeductions_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderDeductions_Form_FormId",
+                        column: x => x.FormId,
+                        principalTable: "Form",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderDeductions_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Details = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    FormId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     CreditOrDebit = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     StartFrom = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -245,49 +362,21 @@ namespace Web.Api.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeOrder", x => x.Id);
+                    table.PrimaryKey("PK_EmployeeOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeOrder_Employees_EmployeeId",
+                        name: "FK_EmployeeOrders_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeOrder_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeOrderDeduction",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Details = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    CreditOrDebit = table.Column<string>(type: "nvarchar(1)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeOrderDeduction", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmployeeOrderDeduction_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        name: "FK_EmployeeOrders_Form_FormId",
+                        column: x => x.FormId,
+                        principalTable: "Form",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeOrderDeduction_Orders_OrderId",
+                        name: "FK_EmployeeOrders_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -363,45 +452,6 @@ namespace Web.Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeOrderExecuation",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BudgetItemId = table.Column<int>(type: "int", nullable: true),
-                    SubscribtionId = table.Column<int>(type: "int", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EmployeeOrderId = table.Column<int>(type: "int", nullable: false),
-                    SubscriptionId = table.Column<int>(type: "int", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeOrderExecuation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmployeeOrderExecuation_BudgetItems_BudgetItemId",
-                        column: x => x.BudgetItemId,
-                        principalTable: "BudgetItems",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_EmployeeOrderExecuation_EmployeeOrder_EmployeeOrderId",
-                        column: x => x.EmployeeOrderId,
-                        principalTable: "EmployeeOrder",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeOrderExecuation_Subscriptions_SubscriptionId",
-                        column: x => x.SubscriptionId,
-                        principalTable: "Subscriptions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EmployeeOrderDeductionExecuation",
                 columns: table => new
                 {
@@ -428,13 +478,52 @@ namespace Web.Api.Data.Migrations
                         principalTable: "BudgetItems",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmployeeOrderDeductionExecuation_EmployeeOrderDeduction_EmployeeOrderDeductionId",
+                        name: "FK_EmployeeOrderDeductionExecuation_EmployeeOrderDeductions_EmployeeOrderDeductionId",
                         column: x => x.EmployeeOrderDeductionId,
-                        principalTable: "EmployeeOrderDeduction",
+                        principalTable: "EmployeeOrderDeductions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeOrderDeductionExecuation_Subscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
+                        principalTable: "Subscriptions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeOrderExecuations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BudgetItemId = table.Column<int>(type: "int", nullable: true),
+                    SubscribtionId = table.Column<int>(type: "int", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EmployeeOrderId = table.Column<int>(type: "int", nullable: false),
+                    SubscriptionId = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeOrderExecuations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderExecuations_BudgetItems_BudgetItemId",
+                        column: x => x.BudgetItemId,
+                        principalTable: "BudgetItems",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderExecuations_EmployeeOrders_EmployeeOrderId",
+                        column: x => x.EmployeeOrderId,
+                        principalTable: "EmployeeOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeOrderExecuations_Subscriptions_SubscriptionId",
                         column: x => x.SubscriptionId,
                         principalTable: "Subscriptions",
                         principalColumn: "Id");
@@ -445,12 +534,12 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ModifiedBy", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1314), null, null, null, null, "اجر وظيفى " },
-                    { 2, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1316), null, null, null, null, "اجر مكمل" },
-                    { 3, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1316), null, null, null, null, "أجر تعويضى" },
-                    { 4, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1317), null, null, null, null, "جزاء" },
-                    { 5, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1318), null, null, null, null, "غياب" },
-                    { 6, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1319), null, null, null, null, "اشتراكات" }
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3564), null, null, null, null, "اجر وظيفى " },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3565), null, null, null, null, "اجر مكمل" },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3566), null, null, null, null, "أجر تعويضى" },
+                    { 4, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3567), null, null, null, null, "جزاء" },
+                    { 5, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3568), null, null, null, null, "غياب" },
+                    { 6, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3569), null, null, null, null, "اشتراكات" }
                 });
 
             migrationBuilder.InsertData(
@@ -458,9 +547,9 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "CollageName", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "EmployeeBankId", "ModifiedBy", "ModifiedDate", "Name", "NationalId", "Section", "TabCode", "TegaraCode" },
                 values: new object[,]
                 {
-                    { 1, "كلية الطب", "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1364), null, null, null, null, null, "محمد على شريف", "0123456781", "مكافأة شامله", "2309", "1" },
-                    { 2, "كلية الطب", "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1366), null, null, null, null, null, "محمود عبد الحميد شاهين", "0123456782", "مكافأة شامله", "2310", "2" },
-                    { 3, "كلية الطب", "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1368), null, null, null, null, null, " اسمهان موسى عيد ", "0123456783", "مكافأة شامله", "2311", "3" }
+                    { 1, "كلية الطب", "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3611), null, null, null, null, null, "محمد على شريف", "0123456781", "مكافأة شامله", "2309", "1" },
+                    { 2, "كلية الطب", "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3613), null, null, null, null, null, "محمود عبد الحميد شاهين", "0123456782", "مكافأة شامله", "2310", "2" },
+                    { 3, "كلية الطب", "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3615), null, null, null, null, null, " اسمهان موسى عيد ", "0123456783", "مكافأة شامله", "2311", "3" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,9 +557,34 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ModifiedBy", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1343), null, null, null, null, "العام المالى 2017-2018" },
-                    { 2, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1344), null, null, null, null, "العام المالى 2018-2019" },
-                    { 3, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1345), null, null, null, null, "العام المالى 2020-2019" }
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3593), null, null, null, null, "العام المالى 2017-2018" },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3594), null, null, null, null, "العام المالى 2018-2019" },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3595), null, null, null, null, "العام المالى 2020-2019" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Form",
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "Details", "FileNumber224", "FileNumber55", "FormDate", "ModifiedBy", "ModifiedDate" },
+                values: new object[,]
+                {
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3535), null, null, "مرتبات شهر مارس", "1", "1", "2022-3", null, null },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3541), null, null, "مرتبات شهر ابريل", "1", "1", "2022-4", null, null },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3542), null, null, "مرتبات شهر مايو", "2", "2", "2022-5", null, null },
+                    { 4, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3544), null, null, "مرتبات شهر يونيو", "3", "3", "2022-6", null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Grades",
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ModifiedBy", "ModifiedDate", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3709), null, null, null, null, "درجة كبير" },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3711), null, null, null, null, "درجة اولى" },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3711), null, null, null, null, "درجة ثانيه" },
+                    { 4, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3712), null, null, null, null, "درجة ثالثه" },
+                    { 5, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3713), null, null, null, null, "درجة رابعه" },
+                    { 6, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3714), null, null, null, null, "درجة خامسه" },
+                    { 7, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3715), null, null, null, null, "درجة سادسه" }
                 });
 
             migrationBuilder.InsertData(
@@ -478,14 +592,14 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ModifiedBy", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1179), null, null, null, null, "غياب بدون إذن" },
-                    { 2, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1189), null, null, null, null, "امر عقاب جزاء عن الغياب بدون إذن" },
-                    { 3, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1190), null, null, null, null, "أمر عقاب خصم من مكافأة الامتحانات" },
-                    { 4, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1191), null, null, null, null, "أجازة بدون مرتب" },
-                    { 5, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1217), null, null, null, null, "خصم غياب بدون إذن" },
-                    { 6, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1218), null, null, null, null, "خصم من المرتب امر عقاب" },
-                    { 7, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1219), null, null, null, null, "أمر عقاب خصم من مكافأة الامتحانات" },
-                    { 8, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1220), null, null, null, null, "أجازة بدون مرتب" }
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3397), null, null, null, null, "غياب بدون إذن" },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3409), null, null, null, null, "امر عقاب جزاء عن الغياب بدون إذن" },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3410), null, null, null, null, "أمر عقاب خصم من مكافأة الامتحانات" },
+                    { 4, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3411), null, null, null, null, "أجازة بدون مرتب" },
+                    { 5, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3412), null, null, null, null, "خصم غياب بدون إذن" },
+                    { 6, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3413), null, null, null, null, "خصم من المرتب امر عقاب" },
+                    { 7, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3414), null, null, null, null, "أمر عقاب خصم من مكافأة الامتحانات" },
+                    { 8, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3414), null, null, null, null, "أجازة بدون مرتب" }
                 });
 
             migrationBuilder.InsertData(
@@ -493,12 +607,12 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ModifiedBy", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1410), null, null, null, null, "تأمين علاجى" },
-                    { 2, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1411), null, null, null, null, "نقابه" },
-                    { 3, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1412), null, null, null, null, "محمول شركة ETI" },
-                    { 4, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1413), null, null, null, null, "محمول شركه سيجنال " },
-                    { 5, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1414), null, null, null, null, "خزنه تك  " },
-                    { 6, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1415), null, null, null, null, "نفقه  " }
+                    { 1, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3687), null, null, null, null, "تأمين علاجى" },
+                    { 2, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3688), null, null, null, null, "نقابه" },
+                    { 3, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3689), null, null, null, null, "محمول شركة ETI" },
+                    { 4, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3690), null, null, null, null, "محمول شركه سيجنال " },
+                    { 5, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3691), null, null, null, null, "خزنه تك  " },
+                    { 6, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3691), null, null, null, null, "نفقه  " }
                 });
 
             migrationBuilder.InsertData(
@@ -506,9 +620,9 @@ namespace Web.Api.Data.Migrations
                 columns: new[] { "Id", "BasicSallary", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "EmployeeId", "FinancialYearId", "ModifiedBy", "ModifiedDate", "Mokamel", "Ta3widi", "Wazifi" },
                 values: new object[,]
                 {
-                    { 1, 246m, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1388), null, null, 1, 1, null, null, 440m, 31.17m, 1128.09m },
-                    { 2, 223.5m, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1391), null, null, 2, 1, null, null, 417.5m, 28.47m, 1123.49m },
-                    { 3, 208.5m, "Admin", new DateTime(2022, 12, 9, 20, 45, 36, 661, DateTimeKind.Local).AddTicks(1393), null, null, 3, 1, null, null, 402.3m, 26.67m, 1083.65m }
+                    { 1, 246m, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3635), null, null, 1, 1, null, null, 440m, 31.17m, 1128.09m },
+                    { 2, 223.5m, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3637), null, null, 2, 1, null, null, 417.5m, 28.47m, 1123.49m },
+                    { 3, 208.5m, "Admin", new DateTime(2022, 12, 16, 23, 34, 13, 14, DateTimeKind.Local).AddTicks(3639), null, null, 3, 1, null, null, 402.3m, 26.67m, 1083.65m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -538,24 +652,14 @@ namespace Web.Api.Data.Migrations
                 column: "FinancialYearId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrder_EmployeeId",
-                table: "EmployeeOrder",
+                name: "IX_EmployeeGrades_EmployeeId",
+                table: "EmployeeGrades",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrder_OrderId",
-                table: "EmployeeOrder",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrderDeduction_EmployeeId",
-                table: "EmployeeOrderDeduction",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrderDeduction_OrderId",
-                table: "EmployeeOrderDeduction",
-                column: "OrderId");
+                name: "IX_EmployeeGrades_GradeId",
+                table: "EmployeeGrades",
+                column: "GradeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeOrderDeductionExecuation_BudgetItemId",
@@ -573,19 +677,49 @@ namespace Web.Api.Data.Migrations
                 column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrderExecuation_BudgetItemId",
-                table: "EmployeeOrderExecuation",
+                name: "IX_EmployeeOrderDeductions_EmployeeId",
+                table: "EmployeeOrderDeductions",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrderDeductions_FormId",
+                table: "EmployeeOrderDeductions",
+                column: "FormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrderDeductions_OrderId",
+                table: "EmployeeOrderDeductions",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrderExecuations_BudgetItemId",
+                table: "EmployeeOrderExecuations",
                 column: "BudgetItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrderExecuation_EmployeeOrderId",
-                table: "EmployeeOrderExecuation",
+                name: "IX_EmployeeOrderExecuations_EmployeeOrderId",
+                table: "EmployeeOrderExecuations",
                 column: "EmployeeOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeOrderExecuation_SubscriptionId",
-                table: "EmployeeOrderExecuation",
+                name: "IX_EmployeeOrderExecuations_SubscriptionId",
+                table: "EmployeeOrderExecuations",
                 column: "SubscriptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrders_EmployeeId",
+                table: "EmployeeOrders",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrders_FormId",
+                table: "EmployeeOrders",
+                column: "FormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeOrders_OrderId",
+                table: "EmployeeOrders",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_NationalId",
@@ -625,10 +759,13 @@ namespace Web.Api.Data.Migrations
                 name: "EmployeeBasicSallaries");
 
             migrationBuilder.DropTable(
+                name: "EmployeeGrades");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeOrderDeductionExecuation");
 
             migrationBuilder.DropTable(
-                name: "EmployeeOrderExecuation");
+                name: "EmployeeOrderExecuations");
 
             migrationBuilder.DropTable(
                 name: "EmployeesPartTimes");
@@ -643,13 +780,16 @@ namespace Web.Api.Data.Migrations
                 name: "FinancialYears");
 
             migrationBuilder.DropTable(
-                name: "EmployeeOrderDeduction");
+                name: "Grades");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeOrderDeductions");
 
             migrationBuilder.DropTable(
                 name: "BudgetItems");
 
             migrationBuilder.DropTable(
-                name: "EmployeeOrder");
+                name: "EmployeeOrders");
 
             migrationBuilder.DropTable(
                 name: "Subscriptions");
@@ -659,6 +799,9 @@ namespace Web.Api.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Form");
 
             migrationBuilder.DropTable(
                 name: "Orders");

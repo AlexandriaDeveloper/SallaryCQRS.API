@@ -13,7 +13,7 @@ namespace Application.EmployeesSallaries.Commands.EmployeeGetRaise
         {
             this.CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(p => p.newFinancialYear).NotEmpty().NotNull();
-            RuleFor(p=>p.EmployeeSallaryId).NotEmpty().NotNull();
+         //   RuleFor(p=>p.EmployeeSallaryId).NotEmpty().NotNull();
         }
     }
 }

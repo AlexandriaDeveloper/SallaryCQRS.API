@@ -53,12 +53,10 @@ namespace Persistence.Data.Repository
          
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T>? spec = null)
+        public async Task<IReadOnlyList<T>> GetAllAsync(  ISpecification<T>? spec = null, bool trackChanges = true)
         {
-            if (spec == null) { 
-            return await _dbSet.ToListAsync();
-            }
-          return await ApplySpecification(spec).ToListAsync() ;       
+           
+          return await ApplySpecification(spec,trackChanges).ToListAsync() ;       
         }
         //public async Task<IPagination< T>> GetAllPaginatedAsync(IParam? param, ISpecification<T>? spec = null)
         //{
@@ -84,9 +82,9 @@ namespace Persistence.Data.Repository
         {
             return await _dbSet.SingleOrDefaultAsync(x => x.Name == name);
         }
-        public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null)
+        public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null, bool trackChanges = true)
         {
-            return await ApplySpecification(spec).SingleOrDefaultAsync();
+            return await ApplySpecification(spec,trackChanges).SingleOrDefaultAsync();
         }
      
         public Task Update(T entity)
@@ -106,14 +104,14 @@ namespace Persistence.Data.Repository
             return await ApplySpecification(spec).CountAsync();
         }
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec,bool trackingChanges=true)
         {
-            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate==null).AsQueryable(), spec); ;
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate==null).AsQueryable(),trackingChanges, spec); ;
         }
-        public async Task<IReadOnlyList<T>> GetAlDeletedlAsync(ISpecification<T>? spec = null)
+        public async Task<IReadOnlyList<T>> GetAlDeletedlAsync(ISpecification<T>? spec = null, bool trackingChanges = true)
         {
            
-                return await ApplyDeletedSpecification(spec).ToListAsync();
+                return await ApplyDeletedSpecification(trackingChanges, spec).ToListAsync();
  
         }
         public async Task Restore(int id)
@@ -130,9 +128,9 @@ namespace Persistence.Data.Repository
             _dbSet.Update(entity);
 
         }
-        private IQueryable<T> ApplyDeletedSpecification(ISpecification<T> spec)
+        private IQueryable<T> ApplyDeletedSpecification(bool trackingChanges ,ISpecification<T> spec)
         {
-            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate != null).AsQueryable(), spec); ;
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate != null).AsQueryable(),trackingChanges, spec); ;
         }
     }
 }

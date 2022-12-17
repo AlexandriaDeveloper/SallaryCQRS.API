@@ -13,6 +13,8 @@ namespace Application.EmployeeOrders.Commands.PayDeductionEmployee
         {
             RuleFor(x => x.employeeOrder.EmployeeId).NotEmpty().NotNull();
             RuleFor(x => x.employeeOrder.OrderId).NotEmpty().NotNull();
+            RuleFor(x => x.employeeOrder.FormId).NotNull().NotEmpty();
+
             RuleFor(x => x.employeeOrder.Amount).NotEmpty().NotNull();
             RuleFor(x => x.employeeOrder.CreditOrDepit).NotEmpty().NotNull();
            

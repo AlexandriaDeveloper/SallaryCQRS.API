@@ -64,6 +64,7 @@ namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
 
             employeeOrder.EmployeeId = request.employeeOrder.EmployeeId;
             employeeOrder.OrderId = request.employeeOrder.OrderId;
+            employeeOrder.FormId= request.employeeOrder.FormId;
             employeeOrder.Quantity = request.employeeOrder.Quantity;
             employeeOrder.Details = request.employeeOrder.Details;
             employeeOrder.CreditOrDebit = request.employeeOrder.CreditOrDepit;
