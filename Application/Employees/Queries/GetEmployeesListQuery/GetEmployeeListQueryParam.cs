@@ -1,7 +1,7 @@
-﻿using Application.Common;
+﻿using Domain.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.Employees.Queries.GetEmployeesListQuery
+namespace Domain.Employees.Queries.GetEmployeesListQuery
 {
     public class GetEmployeeListQueryParam : Param
     {

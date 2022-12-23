@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Models;
 
 namespace Persistence.Data.Repository

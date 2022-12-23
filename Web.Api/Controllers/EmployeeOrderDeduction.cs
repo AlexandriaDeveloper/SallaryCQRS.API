@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Api.Controllers
@@ -7,5 +8,8 @@ namespace Web.Api.Controllers
     [ApiController]
     public class EmployeeOrderDeduction : BaseController
     {
+        public EmployeeOrderDeduction(IMediator mediator) : base(mediator)
+        {
+        }
     }
 }

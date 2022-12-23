@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOS.EmployeeOrderDeductionBalance
+namespace Domain.DTOS.EmployeeOrderDeductionBalance
 {
     public class EmployeeOrderDeductionBalanceDto
     {

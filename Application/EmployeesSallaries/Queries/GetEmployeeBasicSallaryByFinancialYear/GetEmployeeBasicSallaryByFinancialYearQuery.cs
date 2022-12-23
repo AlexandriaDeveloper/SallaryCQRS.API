@@ -1,8 +1,8 @@
-﻿using Application.Common;
-using Application.Employees.Queries;
-using Application.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.Employees.Queries;
+using Domain.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -10,26 +10,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
+namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
-    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IRequest<Result<EmployeeBasicSallary>>;
-    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : Handler<GetEmployeeBasicSallaryByFinancialYearQuery, Result<EmployeeBasicSallary>>
+    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IQuery<EmployeeBasicSallary>;
+    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : IQueryHandler<GetEmployeeBasicSallaryByFinancialYearQuery, EmployeeBasicSallary>
     {
-        public GetEmployeeBasicSallaryByFinancialYearQueryHandler(IUOW uow) : base(uow)
+        private readonly IUOW _uow;
+
+        public GetEmployeeBasicSallaryByFinancialYearQueryHandler(IUOW uow)
         {
+            _uow = uow;
         }
 
-        public override async Task<Result<EmployeeBasicSallary>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<EmployeeBasicSallary>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
         {
 
 
-            var validation = new GetEmployeeBasicSallaryByFinancialYearQueryValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid)
-            {
-                return Result<EmployeeBasicSallary>.Failure(validate.Errors.First().ErrorMessage);
-            }
+            //var validation = new GetEmployeeBasicSallaryByFinancialYearQueryValidator();
+            //var validate = await validation.ValidateAsync(request, cancellationToken);
+            //if (!validate.IsValid)
+            //{
+            //    return Result<EmployeeBasicSallary>.Failure(validate.Errors.First().ErrorMessage);
+            //}
             ISpecification<EmployeeBasicSallary> spec = new GetEmployeeBasicSallaryByFinancialYearSpecification(request);
 
 

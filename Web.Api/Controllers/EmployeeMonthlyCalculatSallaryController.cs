@@ -1,40 +1,64 @@
-﻿using Application.Common;
-using Application.EmployeeOrders.Commands.NewOrderToEmployee;
-using Application.EmployeeOrders.Commands.PayDeductionEmployee;
-using Application.EmployeeOrders.Queries;
-using Application.EmployeeOrders.Queries.EmployeeOrderDeductionBalance;
-using Application.EmployeeOrders.Queries.GetEmployeeOrderData;
+﻿using Domain.Shared;
+using Domain.EmployeeOrders.Commands.NewOrderToEmployee;
+using Domain.EmployeeOrders.Commands.PayDeductionEmployee;
+using Domain.EmployeeOrders.Queries;
+using Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance;
+using Domain.EmployeeOrders.Queries.GetEmployeeOrderData;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using MySqlX.XDevAPI.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Web.Api.Controllers
 {
 
     public class EmployeeMonthlyCalculatSallaryController : BaseController
+
+       
     {
+
+        public EmployeeMonthlyCalculatSallaryController(IMediator mediator) :base(mediator) { }
+     
         [HttpGet("GetEmployeeOrderBalance")]
         public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand([FromQuery] int employeeId)
         {
 
 
-            return HandleResult(await Mediator.Send(new EmployeeOrderDeductionBalanceQuery(employeeId)));
+            var result = (await Mediator.Send(new EmployeeOrderDeductionBalanceQuery(employeeId)));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
         [HttpGet("GetEmployeeOrders")]
         public async Task<ActionResult<Result<Unit?>>> GetEmployeeOrders([FromQuery] int employeeId,int orderId)
         {
 
 
-            return HandleResult(await Mediator.Send(new GetEmployeeOrdersDataQuery(orderId, employeeId)));
+           var result = (await Mediator.Send(new GetEmployeeOrdersDataQuery(orderId, employeeId)));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
         [HttpPost("NewEmployeeOrder")]
         public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand([FromBody]NewEmployeeOrderCommand command) {
 
           
-        return HandleResult(await Mediator.Send(command));
+       var result =(await Mediator.Send(command));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
         [HttpPost("EmployeeOrderDeduction")]
@@ -42,7 +66,13 @@ namespace Web.Api.Controllers
         {
 
 
-            return HandleResult(await Mediator.Send(command));
+            var result =(await Mediator.Send(command));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
     }
 }

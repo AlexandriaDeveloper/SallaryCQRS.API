@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
+namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 {
     public class NewOrderToEmployeeCommandValidator :AbstractValidator<NewEmployeeOrderCommand>
     {

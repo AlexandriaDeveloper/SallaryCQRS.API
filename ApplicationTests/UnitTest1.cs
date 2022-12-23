@@ -1,5 +1,5 @@
-using Application;
-using Application.Interfaces;
+using Domain;
+using Domain.Interfaces;
 
 namespace ApplicationTests
 {

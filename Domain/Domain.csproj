@@ -10,9 +10,11 @@
     <Compile Remove="Models\EmployeeMonthlySallary.cs" />
     <Compile Remove="Models\EmployeeMonthlySubscription.cs" />
     <Compile Remove="Models\Subscriptions.cs" />
+    <Compile Remove="Shared\Handler.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Constant\" />
     <Folder Include="Exceptions\Base\" />
   </ItemGroup>
 

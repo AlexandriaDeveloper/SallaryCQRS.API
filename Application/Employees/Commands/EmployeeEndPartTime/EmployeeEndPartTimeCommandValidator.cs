@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Employees.Commands.EmployeeEndPartTime
+namespace Domain.Employees.Commands.EmployeeEndPartTime
 {
     public class EmployeeEndPartTimeCommandValidator:AbstractValidator<EmployeeEndPartTimeCommand>
     {

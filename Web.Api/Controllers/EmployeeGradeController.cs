@@ -1,36 +1,57 @@
-﻿using Application.Common;
+﻿using Domain.Shared;
 
-using Application.EmployeeGrades.Commands.AssignEmployeeToGrade;
-using Application.EmployeeGrades.Query.GetEmployeeCurrentGrade;
-using Application.EmployeeGrades.Query.GetEmployeeInSpecificGradeId;
+using Domain.EmployeeGrades.Commands.AssignEmployeeToGrade;
+using Domain.EmployeeGrades.Query.GetEmployeeCurrentGrade;
+using Domain.EmployeeGrades.Query.GetEmployeeInSpecificGradeId;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Domain.Employees.Queries.GetEmployeeById;
+using Domain.Models;
 
 namespace Web.Api.Controllers
 {
 
     public class EmployeeGradeController : BaseController
     {
+        public EmployeeGradeController(IMediator mediator) : base(mediator)
+        {
+        }
 
         [HttpGet("GetEmployeesInSpecificGradeIdQuery")]
         public async Task<ActionResult<Result<Unit>>> GetEmployeesInSpecificGradeIdQuery(int gradeId)
         {
+           
+            var result = await Mediator.Send(new GetEmployeesInSpecificGradeIdQuery(gradeId));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
 
-            return HandleResult(await Mediator.Send(new GetEmployeesInSpecificGradeIdQuery(gradeId)));
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
         [HttpGet("GetEmployeeCurrentGrade")]
         public async Task<ActionResult<Result<Unit>>> GetEmployeeCurrentGrade(int employeeId)
         {
-
-            return HandleResult(await Mediator.Send(new GetEmployeeCurrentGradeQuery(employeeId)));
+            var result = await Mediator.Send(new GetEmployeeCurrentGradeQuery(employeeId));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
         [HttpPost("AssignEmployeeToGrade")]
         public async Task<ActionResult<Result<Unit>>> AssignEmployeeToGrade(int employeeId, int gradeId, DateTime assignDate)
         {
 
-            return HandleResult(await Mediator.Send(new AssignEmployeeToGradeCommand(employeeId, gradeId, assignDate)));
+            var result = await Mediator.Send(new AssignEmployeeToGradeCommand(employeeId, gradeId, assignDate));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
     }

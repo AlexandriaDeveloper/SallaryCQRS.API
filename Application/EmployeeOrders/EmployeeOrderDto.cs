@@ -1,11 +1,11 @@
-﻿namespace Application.EmployeeOrders
+﻿namespace Domain.EmployeeOrders
 {
     public class EmployeeOrderDto
     {
         public int Id { get; set; }
         public string? Details { get; set; }
         public int OrderId { get; set; }
-        //  public Guid BudgetItemId { get; set; }
+        //public int EmployeeSubscriptionId { get; set; }
         public int EmployeeId { get; set; }
         // public decimal? Amount { get; set; }
         public int FormId { get; set; }
@@ -14,6 +14,8 @@
         public DateTime? StartFrom { get; set; }
         public DateTime? EndAt { get; set; }
     }
+
+    public record EmployeeSubscriptionOrderDto(int? Id, int SubscriptionId);
 
 
 }

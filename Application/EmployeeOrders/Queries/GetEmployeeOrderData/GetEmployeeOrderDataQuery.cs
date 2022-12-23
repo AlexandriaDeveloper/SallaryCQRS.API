@@ -1,8 +1,8 @@
-﻿using Application.Common;
-using Application.DTOS.EmploueeOrdersDtos;
-using Application.DTOS.EmployeeOrderDeductionBalance;
-using Application.EmployeeOrders.Queries.EmployeeOrderDeductionBalance;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.DTOS.EmploueeOrdersDtos;
+using Domain.DTOS.EmployeeOrderDeductionBalance;
+using Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance;
+using Domain.Interfaces;
 using AutoMapper;
 using MediatR;
 using System;
@@ -10,29 +10,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.EmployeeOrders.Queries.GetEmployeeOrderData
+namespace Domain.EmployeeOrders.Queries.GetEmployeeOrderData
 {
-    public record GetEmployeeOrdersDataQuery(int OrderId, int EmployeeId) : IRequest<Result<GetEmployeeOrdersDataDto>>;
+    public record GetEmployeeOrdersDataQuery(int OrderId, int EmployeeId) : IQuery<GetEmployeeOrdersDataDto>;
 
 
-    public class GetEmployeeOrdersDataQueryHandler : Handler<GetEmployeeOrdersDataQuery, Result<GetEmployeeOrdersDataDto>>
+    public class GetEmployeeOrdersDataQueryHandler : IQueryHandler<GetEmployeeOrdersDataQuery,GetEmployeeOrdersDataDto>
     {
+        private readonly IUOW _uow;
         private readonly IMapper _mapper;
 
-        public GetEmployeeOrdersDataQueryHandler(IUOW uow, IMapper mapper) : base(uow)
+        public GetEmployeeOrdersDataQueryHandler(IUOW uow, IMapper mapper)
         {
+            _uow = uow;
             this._mapper = mapper;
         }
 
-        public async override Task<Result<GetEmployeeOrdersDataDto>> Handle(GetEmployeeOrdersDataQuery request, CancellationToken cancellationToken)
+        public async  Task<Result<GetEmployeeOrdersDataDto>> Handle(GetEmployeeOrdersDataQuery request, CancellationToken cancellationToken)
         {
-            var validation = new GetEmployeeOrderDataQueryValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid)
-            {
-                return Result<GetEmployeeOrdersDataDto>.Failure(validate.Errors.First().ErrorMessage);
-            }
 
             GetEmployeeOrdersDataDto employeeOrderDto = new();
 

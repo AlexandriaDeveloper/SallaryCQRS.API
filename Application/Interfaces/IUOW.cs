@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces
+namespace Domain.Interfaces
 {
     public interface IUOW:IDisposable
     {
@@ -26,6 +26,8 @@ namespace Application.Interfaces
 
         IEmployeeGradeRepository EmployeeGradeRepository { get; }
         IGradeRepository GradeRepository { get; }
+        IEmployeeSubscriptionRepository EmployeeSubscriptionRepository { get; }
+        ISubscriptionRepository SubscriptionRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

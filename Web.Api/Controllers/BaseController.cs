@@ -1,34 +1,56 @@
-using Application.Common;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-
+using Domain.Shared;
 namespace Web.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public  class BaseController : ControllerBase
+    public class BaseController : ControllerBase
     {
 
-        private IMediator _mediator;
+        protected readonly IMediator Mediator;
 
-    
 
-        protected IMediator Mediator => _mediator ??=HttpContext.RequestServices.GetService<IMediator>();
 
-        protected ActionResult HandleResult<T>(Result<T> result)
-        {
-            if(result.IsSuccess && result.Value != null) {            
-                return Ok(result.Value);          
-            }
+        //protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-            if (result.IsSuccess && result.Value == null)
-            {
-                return NotFound();
-            }
-                return BadRequest(result.Error);
+        //protected readonly ISender Sender;
 
-            
-        }
+        protected BaseController(IMediator mediator) => Mediator = mediator;
+
+
+        protected ActionResult HandleFailureResult(Result result)
+       => result switch
+       {
+           { IsSuccess: true } => throw new InvalidOperationException(),
+           IValidationResult validationResult =>
+               BadRequest(
+                   CreateProblemDetails(
+                       "Validation Error", StatusCodes.Status400BadRequest,
+                       result.Error,
+                       validationResult.Errors)),
+           _ =>
+               BadRequest(
+                   CreateProblemDetails(
+                       "Bad Request",
+                       StatusCodes.Status400BadRequest,
+                       result.Error))
+       };
+
+        private static ProblemDetails CreateProblemDetails(
+      string title,
+      int status,
+      Error error,
+      Error[]? errors = null) =>
+      new()
+      {
+          Title = title,
+          Type = error.Code,
+          Detail = error.Message,
+          Status = status,
+          Extensions = { { nameof(errors), errors } }
+      };
     }
 }

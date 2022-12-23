@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Employees.Commands.UpdateEmployeeInfo
+namespace Domain.Employees.Commands.UpdateEmployeeInfo
 {
     public class UpdateEmployeeInfoCommandValidator : AbstractValidator<EmployeeDto> {
 

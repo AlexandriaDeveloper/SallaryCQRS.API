@@ -1,36 +1,41 @@
-﻿using Application.Common;
+﻿using Domain.Shared;
 
-using Application.Interfaces;
+using Domain.Interfaces;
 using Domain.Models;
+using Domain.Shared;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.EmployeeGrades.Query.GetEmployeeCurrentGrade
+namespace Domain.EmployeeGrades.Query.GetEmployeeCurrentGrade
 {
-    public record GetEmployeeCurrentGradeQuery(int employeeId):IRequest<Result<EmployeeGradeDto>>;
-    public class GetEmployeeCurrentGradeQueryHandler : Handler<GetEmployeeCurrentGradeQuery, Result<EmployeeGradeDto>>
+    public record GetEmployeeCurrentGradeQuery(int employeeId):IQuery<EmployeeGradeDto>;
+    public class GetEmployeeCurrentGradeQueryHandler : IQueryHandler<GetEmployeeCurrentGradeQuery, EmployeeGradeDto>
     {
-        public GetEmployeeCurrentGradeQueryHandler(IUOW uow) : base(uow)
+        private readonly IUOW _uow;
+
+        public GetEmployeeCurrentGradeQueryHandler(IUOW uow)
         {
+            _uow = uow;
         }
 
         
-        public override async Task<Result<EmployeeGradeDto>> Handle(GetEmployeeCurrentGradeQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<EmployeeGradeDto>> Handle(GetEmployeeCurrentGradeQuery request, CancellationToken cancellationToken)
         {
 
             var validation = new GetEmployeeCurrentGradeQueryHandlerValidator();
             var validate = await validation.ValidateAsync(request, cancellationToken);
             if (!validate.IsValid)
             {
-                return Result<EmployeeGradeDto>.Failure(validate.Errors.First().ErrorMessage);
+                return Result<EmployeeGradeDto>.Failure<EmployeeGradeDto>(new Error("", validate.Errors.First().ErrorMessage));
             }
             var grade = await _uow.EmployeeGradeRepository.GetEmployeeCurrentGrade(request.employeeId);
             if (grade == null) {
-                return Result<EmployeeGradeDto>.Failure("Employee Dosent Containe Grade Yet");
+                return Result<EmployeeGradeDto>.Failure<EmployeeGradeDto>(new Error("", "Employee Dosent Containe Grade Yet"));
             }
 
             EmployeeGradeDto employeeGrade= new EmployeeGradeDto();

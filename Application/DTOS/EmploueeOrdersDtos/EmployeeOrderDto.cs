@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOS.EmploueeOrdersDtos
+namespace Domain.DTOS.EmploueeOrdersDtos
 {
     //public class EmployeeOrderDto
     //{

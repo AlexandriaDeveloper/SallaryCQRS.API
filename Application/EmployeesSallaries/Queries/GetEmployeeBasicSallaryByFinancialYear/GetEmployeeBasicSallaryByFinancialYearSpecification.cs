@@ -1,7 +1,7 @@
-﻿using Application.Common;
+﻿using Domain.Shared;
 using Domain.Models;
 
-namespace Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
+namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
     public class GetEmployeeBasicSallaryByFinancialYearSpecification : Specification<EmployeeBasicSallary>
     {

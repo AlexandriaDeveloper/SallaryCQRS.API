@@ -1,8 +1,8 @@
-﻿using Application.DTOS.EmployeeOrderDeductionBalance;
+﻿using Domain.DTOS.EmployeeOrderDeductionBalance;
 using Domain.Models;
 using System.Linq;
 
-namespace Application.Interfaces
+namespace Domain.Interfaces
 {
     public interface IEmployeeOrderRepository : IRepository<EmployeeOrder>
     {

@@ -1,5 +1,5 @@
-﻿using Application.DTOS;
-using Application.Interfaces;
+﻿using Domain.DTOS;
+using Domain.Interfaces;
 using Azure;
 using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;

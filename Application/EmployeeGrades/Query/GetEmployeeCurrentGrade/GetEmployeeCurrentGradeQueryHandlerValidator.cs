@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.EmployeeGrades.Query.GetEmployeeCurrentGrade
+namespace Domain.EmployeeGrades.Query.GetEmployeeCurrentGrade
 {
     public class GetEmployeeCurrentGradeQueryHandlerValidator : AbstractValidator<GetEmployeeCurrentGradeQuery>
     {

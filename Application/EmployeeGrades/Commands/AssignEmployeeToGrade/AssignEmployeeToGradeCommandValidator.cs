@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.EmployeeGrades.Commands.AssignEmployeeToGrade
+namespace Domain.EmployeeGrades.Commands.AssignEmployeeToGrade
 {
     public partial class AssignEmployeeToGradeCommandHandler
     {

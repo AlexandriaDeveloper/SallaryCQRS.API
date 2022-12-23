@@ -1,4 +1,4 @@
-﻿namespace Application.EmployeeOrders
+﻿namespace Domain.EmployeeOrders
 {
     public class EmployeeOrderDeductionDto
     {

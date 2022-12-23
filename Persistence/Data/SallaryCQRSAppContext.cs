@@ -1,4 +1,4 @@
-﻿using Domain.Constant;
+﻿using Domain.Common;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
@@ -29,6 +29,8 @@ namespace Persistence.Data
         public DbSet<EmployeeOrderDeduction> EmployeeOrderDeductions { get; set; }
         public DbSet<EmployeeGrade> EmployeeGrades { get; set; }
         public DbSet<Grade> Grades { get; set; }
+       
+        public DbSet<EmployeeSubscription> EmployeeSubscriptions { get; set; }
 
         public SallaryCQRSAppContext(DbContextOptions<SallaryCQRSAppContext> options):base(options) {
 
@@ -51,14 +53,14 @@ namespace Persistence.Data
              new Order() {Id=1, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.ABSENCE },
              new Order() {Id=2,  CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_ABSENCE },
              new Order() { Id = 3, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_EXAMINATION_REWARD },
-             new Order() { Id = 4, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY },
+             new Order() { Id = 4, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY }
 
 
-             //Credit
-             new Order() { Id = 5, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.ABSENCE_DEDUCTION },
-             new Order() { Id = 6, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_ABSENCE_DEDUCTION },
-             new Order() { Id = 7, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_EXAMINATION_REWARD_DEDUCTION },
-             new Order() { Id = 8, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY_DEDUCTION }
+             ////Credit
+             //new Order() { Id = 5, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.ABSENCE_DEDUCTION },
+             //new Order() { Id = 6, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_ABSENCE_DEDUCTION },
+             //new Order() { Id = 7, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.PUNISHMENT_EXAMINATION_REWARD_DEDUCTION },
+             //new Order() { Id = 8, CreatedBy = "Admin", CreatedDate = DateTime.Now, Name = Constant.Model.OrderConstants.VACATION_WITHOT_SALLARY_DEDUCTION }
              );
 
             modelBuilder.Entity<Form>().HasData(

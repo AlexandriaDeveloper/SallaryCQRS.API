@@ -1,26 +1,30 @@
-﻿using Application.Common;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.Employees.Commands.EmployeeStratPartTime
+namespace Domain.Employees.Commands.EmployeeStratPartTime
 {
-    public record class EmployeeStartPartTimeCommand(int EmployeeId, DateTime StartPartTime, string? Details) : IRequest<Result<int?>>;
-    public class EmployeeStartPartTimeCommandHandler : Handler<EmployeeStartPartTimeCommand, Result<int?>>
+    public record class EmployeeStartPartTimeCommand(int EmployeeId, DateTime StartPartTime, string? Details) : ICommand<int>;
+    public class EmployeeStartPartTimeCommandHandler : ICommandHandler<EmployeeStartPartTimeCommand, int>
     {
-        public EmployeeStartPartTimeCommandHandler(IUOW uow) : base(uow)
+        private readonly IUOW _uow;
+
+        public EmployeeStartPartTimeCommandHandler(IUOW uow) 
         {
+            _uow = uow;
         }
 
-        public override async Task<Result<int?>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
+        public  async Task<Result<int>> Handle(EmployeeStartPartTimeCommand request, CancellationToken cancellationToken)
         {
             var result = await _uow.EmployeeRepository.EmployeeStartPartTimeDuration(request.EmployeeId, request.StartPartTime, request.Details);
 
-            return result;
+            return Result.Success( result.Value);
         }
 
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Employees.Commands.RestoreEmployee
+namespace Domain.Employees.Commands.RestoreEmployee
 {
     public class RestorEmployeeCommandValidator : AbstractValidator<RestorEmployeeCommand>
     {

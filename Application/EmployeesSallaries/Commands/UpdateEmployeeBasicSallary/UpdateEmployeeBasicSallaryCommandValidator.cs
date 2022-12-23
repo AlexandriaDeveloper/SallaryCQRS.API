@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary
+namespace Domain.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary
 {
     public class UpdateEmployeeBasicSallaryCommandValidator:AbstractValidator<UpdateEmployeeBasicSallaryCommand>
     {

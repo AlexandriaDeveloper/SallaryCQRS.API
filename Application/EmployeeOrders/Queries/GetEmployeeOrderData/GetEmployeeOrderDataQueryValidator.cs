@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeOrders.Queries.GetEmployeeOrderData
+namespace Domain.EmployeeOrders.Queries.GetEmployeeOrderData
 {
     public class GetEmployeeOrderDataQueryValidator :AbstractValidator<GetEmployeeOrdersDataQuery>
     {

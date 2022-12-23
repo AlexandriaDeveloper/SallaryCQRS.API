@@ -1,5 +1,5 @@
-﻿using Application.Common;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.Interfaces;
 using Domain.Models;
 using MediatR;
 using System;
@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.Employees.Queries.GetDeletedEmployee
+namespace Domain.Employees.Queries.GetDeletedEmployee
 {
     public class GetDeltetdEmployeeListQueryParam : Param
     {
@@ -18,45 +19,19 @@ namespace Application.Employees.Queries.GetDeletedEmployee
 
         public string? NationalId { get; set; }
     };
-    public record GetDeletedEmployeesQuery(GetDeltetdEmployeeListQueryParam param) : IRequest<Result<IReadOnlyList<Employee>>>;
-    public class GetDeletedEmployeesQueryHandler : Handler<GetDeletedEmployeesQuery, Result<IReadOnlyList<Employee>>>
+    public record GetDeletedEmployeesQuery(GetDeltetdEmployeeListQueryParam param) : IQuery<IReadOnlyList<Employee>>;
+    public partial class GetDeletedEmployeesQueryHandler : IQueryHandler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
     {
         private new readonly IUOW _uow;
 
-        public GetDeletedEmployeesQueryHandler(IUOW uow) : base(uow)
+        public GetDeletedEmployeesQueryHandler(IUOW uow) 
         {
             _uow = uow;
         }
-        public override async Task<Result<IReadOnlyList<Employee>>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<IReadOnlyList<Employee>>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetDeletedEmployeeListQuerySpecification(request.param);
             return Result<IReadOnlyList<Employee>>.Success(await _uow.EmployeeRepository.GetAlDeletedlAsync(spec));
-        }
-
-
-
-        internal class GetDeletedEmployeeListQuerySpecification : Specification<Employee>
-        {
-            public GetDeletedEmployeeListQuerySpecification(GetDeltetdEmployeeListQueryParam param) : base()
-            {
-                if (!string.IsNullOrEmpty(param.Name))
-                {
-                    AddCriteries(x => x.Name!.Contains(param.Name));
-                }
-                if (!string.IsNullOrEmpty(param.TabCode))
-                {
-                    AddCriteries(x => x.TabCode.Equals(param.TabCode));
-                }
-                if (!string.IsNullOrEmpty(param.TegaraCode))
-                {
-                    AddCriteries(x => x.TegaraCode.Equals(param.TegaraCode));
-                }
-                if (!string.IsNullOrEmpty(param.NationalId))
-                {
-                    AddCriteries(x => x.NationalId.Equals(param.NationalId));
-                }
-
-            }
         }
     }
 

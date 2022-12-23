@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
+namespace Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
 {
     public class EmployeeOrderDeductionBalanceQueryValidator:AbstractValidator<EmployeeOrderDeductionBalanceQuery>
     {

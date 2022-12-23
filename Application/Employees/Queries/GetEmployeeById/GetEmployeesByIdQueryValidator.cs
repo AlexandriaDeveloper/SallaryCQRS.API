@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Employees.Queries.GetEmployeeById
+namespace Domain.Employees.Queries.GetEmployeeById
 {
     public class GetEmployeesByIdQueryValidator:AbstractValidator<GetEmployeesByIdQuery>
     {

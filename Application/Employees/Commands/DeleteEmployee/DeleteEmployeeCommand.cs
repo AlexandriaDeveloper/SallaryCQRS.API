@@ -1,17 +1,19 @@
-﻿using Application.Common;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.Interfaces;
+using Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
+using Domain.Primitives;
 
-namespace Application.Employees.Commands.DeleteEmployee
+namespace Domain.Employees.Commands.DeleteEmployee
 {
-    public record class DeleteEmployeeCommand(int id) : IRequest<Result<Unit>>;
-    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Result<Unit>>
+    public record class DeleteEmployeeCommand(int id) : ICommand<Unit>;
+    public class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand, Unit>
     {
         private readonly IUOW _uow;
 
@@ -19,15 +21,10 @@ namespace Application.Employees.Commands.DeleteEmployee
         {
             _uow = uow;
         }
-        public async Task<Result<Unit>> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
-        {
-            var validator = new DeleteEmployeeCommandValidator();
-            var valid =await validator.ValidateAsync(request, cancellationToken);
-            if(valid.Errors.Any())
-            {
-                return Result<Unit>.Failure(valid.Errors.First().ErrorMessage);
+  
 
-            }
+       async Task<Result<Unit>> IRequestHandler<DeleteEmployeeCommand, Result<Unit>>.Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+        {
             var entity = await _uow.EmployeeRepository.GetByIdAsync(request.id);
             if (entity == null)
             {

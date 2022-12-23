@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Shared;
 
-namespace Domain.Constant;
+namespace Domain.Common;
 
 public static class Constant
 {
@@ -15,11 +11,8 @@ public static class Constant
         public static string PUNISHMENT_ABSENCE = "امر عقاب جزاء عن الغياب بدون إذن";
         public static string VACATION_WITHOT_SALLARY = "أجازة بدون مرتب";
         public static string PUNISHMENT_EXAMINATION_REWARD = "أمر عقاب خصم من مكافأة الامتحانات";
+       public static string SUBSCRIPTIONS = "أشتراكات";
 
-       public static string ABSENCE_DEDUCTION = "خصم غياب بدون إذن";
-       public static string PUNISHMENT_ABSENCE_DEDUCTION = "خصم من المرتب امر عقاب";
-       public static string VACATION_WITHOT_SALLARY_DEDUCTION = "أجازة بدون مرتب";
-       public static string PUNISHMENT_EXAMINATION_REWARD_DEDUCTION = "أمر عقاب خصم من مكافأة الامتحانات";
 
 
 
@@ -40,12 +33,12 @@ public static class Constant
     {
 
         public static class SuccessMessages {
-           // public static string SAVED_SUCCESSFULLY = "تم الحفظ بنجاح";
+            public static string SAVED_SUCCESSFULLY = "تم الحفظ بنجاح";
         }
         public static class ErrorMessages
         {
-            public static string FAIL_WHILE_SAVING_DATA = "خطأ اثناء الحفظ";
-            public static string ENTITY_NOT_EXIST = "العنصر المطلوب غير موجود";
+            public static Error FAIL_WHILE_SAVING_DATA =new Error("","خطأ اثناء الحفظ");
+            public static Error ENTITY_NOT_EXIST =new Error("Not Found", "العنصر المطلوب غير موجود");
 
         }
         public class CommonMessages {

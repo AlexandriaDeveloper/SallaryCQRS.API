@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Domain.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-namespace Application.DTOS
+namespace Domain.DTOS
 {
     public  class Pagination<T> : List<T>, IPagination<T> where T : class
     {

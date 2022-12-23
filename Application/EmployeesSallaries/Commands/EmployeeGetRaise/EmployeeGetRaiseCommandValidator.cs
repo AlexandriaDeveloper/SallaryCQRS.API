@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeesSallaries.Commands.EmployeeGetRaise
+namespace Domain.EmployeesSallaries.Commands.EmployeeGetRaise
 {
     public class EmployeeGetRaiseCommandValidator:AbstractValidator<EmployeeGetRaisedCommand>
     {

@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace Application.Interfaces
+namespace Domain.Interfaces
 {
     public interface IEmployeeOrderExecuationRepository : IRepository<EmployeeOrderExecuation>
     {

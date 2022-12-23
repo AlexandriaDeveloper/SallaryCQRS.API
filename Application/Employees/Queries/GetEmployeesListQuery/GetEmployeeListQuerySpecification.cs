@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
-using Application.Common;
+using Domain.Shared;
 
-namespace Application.Employees.Queries.GetEmployeesListQuery
+namespace Domain.Employees.Queries.GetEmployeesListQuery
 {
     public class GetEmployeeListQuerySpecification : Specification<Employee>
     {

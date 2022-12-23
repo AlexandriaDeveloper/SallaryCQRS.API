@@ -13,8 +13,9 @@ namespace Domain.Models
         public decimal Amount { get; set; }
         public int EmployeeId { get; set; }
         public int SubscriptionId { get; set; }
+        public bool IsActive { get; set; } = true;
 
-    
+
         public Employee Employee { get; set; }
         public Subscription Subscription { get; set; }
     }

@@ -1,25 +1,24 @@
 ﻿using MediatR;
 using Domain.Models;
-using Application.Interfaces;
-using Application.Common;
+using Domain.Interfaces;
+using Domain.Shared;
+using Application.Common.Messaging;
 
-namespace Application.Employees.Queries.GetEmployeeById
+namespace Domain.Employees.Queries.GetEmployeeById
 {
-    public record GetEmployeesByIdQuery(int Id) : IRequest<Result<Employee>>;
+    public record GetEmployeesByIdQuery(int Id) : IQuery<Employee>;
 
-    public class GetEmployeesByIdQueryHandler : Handler<GetEmployeesByIdQuery, Result<Employee>>
+    public class GetEmployeesByIdQueryHandler : IQueryHandler<GetEmployeesByIdQuery, Employee>
     {
-        public GetEmployeesByIdQueryHandler(IUOW uow) : base(uow)
+        private readonly IUOW _uow;
+
+        public GetEmployeesByIdQueryHandler(IUOW uow) 
         {
+            _uow = uow;
         }
 
-        public override async Task<Result<Employee>> Handle(GetEmployeesByIdQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<Employee>> Handle(GetEmployeesByIdQuery request, CancellationToken cancellationToken)
         {
-            var validation = new GetEmployeesByIdQueryValidator();
-            var validate =await validation.ValidateAsync(request,cancellationToken);
-            if (!validate.IsValid) {
-                return Result<Employee>.Failure(validate.Errors.First().ErrorMessage);
-            }
             return Result<Employee>.Success(await _uow.EmployeeRepository.GetByIdAsync(request.Id));
         }
     }

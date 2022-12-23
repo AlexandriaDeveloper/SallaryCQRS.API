@@ -1,31 +1,29 @@
-﻿using Application.Common;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.Interfaces;
+using Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.Employees.Commands.RestoreEmployee
+namespace Domain.Employees.Commands.RestoreEmployee
 {
 
-        public record class RestorEmployeeCommand(int id) : IRequest<Result<Unit>>;
-        public class RestoreEmployeeCommandHandler : Handler<RestorEmployeeCommand, Result<Unit>>
+        public record class RestorEmployeeCommand(int id) : ICommand<Unit>;
+        public class RestoreEmployeeCommandHandler : ICommandHandler<RestorEmployeeCommand, Unit>
         {
-            public RestoreEmployeeCommandHandler(IUOW uow) : base(uow)
-            {
-            }
+        private readonly IUOW _uow;
 
-            public override async Task<Result<Unit>> Handle(RestorEmployeeCommand request, CancellationToken cancellationToken)
+        public RestoreEmployeeCommandHandler(IUOW uow) 
             {
+            _uow = uow;
+        }
 
-            var validation = new RestorEmployeeCommandValidator();
-            var validator =await validation.ValidateAsync(request, cancellationToken);
-            if (!validator.IsValid) {
-                return Result<Unit>.Failure(validator.Errors.First().ErrorMessage);
-            }
+            public  async Task<Result<Unit>> Handle(RestorEmployeeCommand request, CancellationToken cancellationToken)
+            {
                 var entity = await _uow.EmployeeRepository.GetByIdAsync(request.id);
                 if (entity == null)
                 {

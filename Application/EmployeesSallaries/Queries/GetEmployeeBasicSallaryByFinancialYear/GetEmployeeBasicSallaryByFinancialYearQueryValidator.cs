@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
+namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
     public class GetEmployeeBasicSallaryByFinancialYearQueryValidator :AbstractValidator<GetEmployeeBasicSallaryByFinancialYearQuery>
     {

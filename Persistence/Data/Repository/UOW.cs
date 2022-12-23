@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Models;
 using Persistence.Services;
 using System;
@@ -26,6 +26,9 @@ namespace Persistence.Data.Repository
         private  Lazy<IEmployeeOrderDeductionExecuationRepository> _employeeOrderDeductionExecuationRepository;
         private Lazy<IEmployeeGradeRepository> _employeeGradeRepository;
         private Lazy<IGradeRepository> _gradeRepository;
+
+        private Lazy<ISubscriptionRepository> _subscriptionRepository;
+        private Lazy<IEmployeeSubscriptionRepository> _employeeSubscriptionRepository;
         public UOW(SallaryCQRSAppContext context, IAuthService authService)
         {
             this._context = context;
@@ -44,6 +47,8 @@ namespace Persistence.Data.Repository
         public IEmployeeOrderDeductionRepository EmployeeOrderDeductionRepository => _employeeOrderDeductionRepository.Value;
         public IEmployeeOrderDeductionExecuationRepository EmployeeOrderDeductionExecuationRepository => _employeeOrderDeductionExecuationRepository.Value;
         public IEmployeeGradeRepository EmployeeGradeRepository => _employeeGradeRepository.Value;
+        public ISubscriptionRepository SubscriptionRepository => _subscriptionRepository.Value;
+        public IEmployeeSubscriptionRepository EmployeeSubscriptionRepository => _employeeSubscriptionRepository.Value;
         public IGradeRepository GradeRepository => _gradeRepository.Value;
 
         public void Dispose()
@@ -70,6 +75,8 @@ namespace Persistence.Data.Repository
             this._employeeGradeRepository = this._employeeGradeRepository ?? new Lazy<IEmployeeGradeRepository>(() => new EmployeeGradeRepository(context, authService));
             this._gradeRepository = this._gradeRepository ?? new Lazy<IGradeRepository>(() => new GradeRepository(context, authService));
             this._employeeSallaryRepository = this._employeeSallaryRepository ?? new Lazy<IEmployeeBasicSallaryRepository>(() => new EmployeeBasicSallaryRepository(context, authService));
+            this._subscriptionRepository = this._subscriptionRepository ?? new Lazy<ISubscriptionRepository>(() => new SubscriptionRepository(context, authService));
+            this._employeeSubscriptionRepository = this._employeeSubscriptionRepository ?? new Lazy<IEmployeeSubscriptionRepository>(() => new EmployeeSubscriptionRepository(context, authService));
         }
       
     }

@@ -1,45 +1,49 @@
-﻿using Application.Common;
-using Application.DTOS.EmploueeOrdersDtos;
-using Application.EmployeeOrders.Commands.NewOrderToEmployee;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.DTOS.EmploueeOrdersDtos;
+using Domain.EmployeeOrders.Commands.NewOrderToEmployee;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
+using Domain.Shared;
+using Application.Common.Messaging;
 
-namespace Application.EmployeeOrders.Commands.PayDeductionEmployee
+namespace Domain.EmployeeOrders.Commands.PayDeductionEmployee
 {
 
-    public record PayDeductionEmployeeCommand(EmployeeOrderDeductionDto employeeOrder) : IRequest<Result<Unit?>>;
+    public record PayDeductionEmployeeCommand(EmployeeOrderDeductionDto employeeOrder) : ICommand<Unit>;
 
-    public class PayDeductionEmployeeCommandHandler : Handler<PayDeductionEmployeeCommand, Result<Unit?>>
+    public class PayDeductionEmployeeCommandHandler : ICommandHandler<PayDeductionEmployeeCommand, Unit>
     {
+        private readonly IUOW _uow;
         private readonly IAuthService _authService;
 
-        public PayDeductionEmployeeCommandHandler(IUOW uow, IAuthService authService) : base(uow)
+        public PayDeductionEmployeeCommandHandler(IUOW uow, IAuthService authService) 
         {
+            _uow = uow;
             _authService = authService;
         }
 
-        public override async Task<Result<Unit?>> Handle(PayDeductionEmployeeCommand request, CancellationToken cancellationToken)
+        public  async Task<Result<Unit>> Handle(PayDeductionEmployeeCommand request, CancellationToken cancellationToken)
         {
 
-            var validation = new PayDeductionEmployeeCommandValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid)
-            {
-                return Result<Unit?>.Failure(validate.Errors.First().ErrorMessage);
-            }
+            //var validation = new PayDeductionEmployeeCommandValidator();
+            //var validate = await validation.ValidateAsync(request, cancellationToken);
+            //if (!validate.IsValid)
+            //{
+            //    return Result<Unit?>.Failure( validate.Errors.First().ErrorMessage);
+            //}
 
             if (request == null || request.employeeOrder == null)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST));
             }
 
             Order order = await _uow.OrderRepository.GetByIdAsync(request.employeeOrder.OrderId);
             if (order == null)
             {
 
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST));
             }
 
             EmployeeOrderDeduction employeeOrderDeduction = new EmployeeOrderDeduction();
@@ -76,9 +80,9 @@ namespace Application.EmployeeOrders.Commands.PayDeductionEmployee
             if (!result)
             {
 
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+                return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA));
             }
-            return Result<Unit?>.Success(Unit.Value);
+            return Result<Unit>.Success(Unit.Value);
         }
 
         private EmployeeOrderDeductionExecuation CalculateEmployeeOrderExecuation(int budgetItemId, decimal amount)

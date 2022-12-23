@@ -1,6 +1,6 @@
-﻿using Application.Common;
-using Application.Interfaces;
-
+﻿using Domain.Shared;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
@@ -37,14 +37,14 @@ namespace Persistence.Data.Repository
        
         }
 
-        public async Task<Result<int?>> EmployeeStartPartTime(EmployeePartTime employeePartTime)
+        public async Task<Result<int>> EmployeeStartPartTime(EmployeePartTime employeePartTime)
         {
         
             var employee = _context.Employees.Include(x => x.PartTimeDurations).SingleOrDefault(x => x.Id == employeePartTime.EmployeeId);
             if (employee == null)
             {
 
-                return Result<int?>.Failure("Employee Not Found"); ;
+                return Result<int>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST); ;
             }
             if (employee.PartTimeDurations == null)
             {
@@ -53,7 +53,7 @@ namespace Persistence.Data.Repository
             if (employee.PartTimeDurations.Any(x => x.IsPartTimeActive))
             {
 
-                return Result<int?>.Failure("Employee Alredy In PartTime"); ; 
+                return Result<int>.Failure(new Error("","Employee Alredy In PartTime")) ; 
             }
 
             EmployeePartTime createdEmployeePartTime = new EmployeePartTime()

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Domain.Interfaces;
+using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Common
+namespace Domain.Shared
 {
-    public class Specification<T> :ISpecification<T>
+    public class Specification<T> :ISpecification<T> where T : Entity
     {
         public Expression<Func<T, bool>>? Criteria{ get; }
+        public bool IsSplitQuery { get; protected set; }
         public List<Expression<Func<T, bool>>> Criteries { get; } = new List<Expression<Func<T, bool>>>();
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
         public Expression<Func<T, object>>? OrderBy { get; private set; }

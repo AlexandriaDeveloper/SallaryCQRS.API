@@ -1,5 +1,5 @@
-﻿using Application.DTOS.EmployeeOrderDeductionBalance;
-using Application.Interfaces;
+﻿using Domain.DTOS.EmployeeOrderDeductionBalance;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 

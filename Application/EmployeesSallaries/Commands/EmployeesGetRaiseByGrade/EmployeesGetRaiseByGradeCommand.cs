@@ -1,6 +1,6 @@
-﻿using Application.Common;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
+namespace Domain.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
 {
     public record EmployeesGetRaiseByGradeCommand(
             int gradeId,
@@ -23,15 +24,18 @@ namespace Application.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
             decimal? mokamelMinAmount,
             decimal? mokamelMaxAmount
 
-        ) : IRequest<Result<Unit>>;
+        ) : ICommand<Unit>;
 
-    public class EmployeesGetRaiseByGradeCommandHandler : Handler<EmployeesGetRaiseByGradeCommand, Result<Unit>>
+    public class EmployeesGetRaiseByGradeCommandHandler : ICommandHandler<EmployeesGetRaiseByGradeCommand,Unit>
     {
-        public EmployeesGetRaiseByGradeCommandHandler(IUOW uow) : base(uow)
+        private readonly IUOW _uow;
+
+        public EmployeesGetRaiseByGradeCommandHandler(IUOW uow) 
         {
+            _uow = uow;
         }
 
-        public async override Task<Result<Unit>> Handle(EmployeesGetRaiseByGradeCommand request, CancellationToken cancellationToken)
+        public async  Task<Result<Unit>> Handle(EmployeesGetRaiseByGradeCommand request, CancellationToken cancellationToken)
         {
             var employees = await _uow.EmployeeGradeRepository.GetEmployeeInSpecificGradeId(request.gradeId);
             if (employees == null)
@@ -50,7 +54,7 @@ namespace Application.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
             if (!saveResult) {
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }
-            return new Result<Unit>();
+            return  Result<Unit>.Success(Unit.Value);
         }
     }
 }

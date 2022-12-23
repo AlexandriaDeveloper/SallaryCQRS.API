@@ -1,5 +1,5 @@
-﻿using Application.Common;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeOrders.Queries
+namespace Domain.EmployeeOrders.Queries
 {
    public record  GetEmployeesOrdersBalance : IRequest< Result<IPagination<EmployeeOrderBalanceDto>>>;
    

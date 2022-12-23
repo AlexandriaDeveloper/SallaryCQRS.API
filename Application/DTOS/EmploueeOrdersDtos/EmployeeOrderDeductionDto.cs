@@ -1,4 +1,4 @@
-﻿namespace Application.DTOS.EmploueeOrdersDtos
+﻿namespace Domain.DTOS.EmploueeOrdersDtos
 {
     //public class EmployeeOrderDeductionDto
     //{

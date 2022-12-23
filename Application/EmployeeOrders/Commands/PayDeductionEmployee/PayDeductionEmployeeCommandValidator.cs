@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EmployeeOrders.Commands.PayDeductionEmployee
+namespace Domain.EmployeeOrders.Commands.PayDeductionEmployee
 {
     public class PayDeductionEmployeeCommandValidator :AbstractValidator<PayDeductionEmployeeCommand>
     {

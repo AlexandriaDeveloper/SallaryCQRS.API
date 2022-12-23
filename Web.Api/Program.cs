@@ -1,4 +1,4 @@
-using Application;
+using Domain;
 using Microsoft.AspNetCore.Builder;
 using Persistence;
 using WatchDog;

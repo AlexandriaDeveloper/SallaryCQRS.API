@@ -1,5 +1,5 @@
-﻿using Application.Common;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.Interfaces;
 using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,21 +23,21 @@ namespace Persistence.Data.Repository
         }
 
 
-        public async Task<Result<int?>> EmployeeStartPartTimeDuration(int employeeId, DateTime startDate, string? details) {
+        public async Task<Result<int>> EmployeeStartPartTimeDuration(int employeeId, DateTime startDate, string? details) {
 
-            Result<int?> response = new Result<int?>();
+           // Result<int?> response = new Result<int?>();
 
             var employee = _context.Employees.Include(x => x.PartTimeDurations).SingleOrDefault(x => x.Id == employeeId);
             if (employee == null)
             {
-               return Result<int?>.Failure("Employee Not Found");
+               return Result<int>.Failure(new Error("", "Employee Not Found"));
               
             }
             if(employee.PartTimeDurations== null) { 
                 employee.PartTimeDurations= new List<EmployeePartTime>();
             }
             if (employee.PartTimeDurations.Any(x => x.IsPartTimeActive)) {
-                 return Result<int?>.Failure ("Employee Alredy In PartTime");
+                 return Result<int>.Failure (new Error( "","Employee Alredy In PartTime"));
               
             }
 
@@ -52,7 +52,7 @@ namespace Persistence.Data.Repository
             employee.PartTimeDurations.Add(createdEmployeePartTime);
             await _context.SaveChangesAsync();
             
-            return Result<int?>.Success(createdEmployeePartTime.Id);
+            return Result<int>.Success(createdEmployeePartTime.Id);
         }
 
 

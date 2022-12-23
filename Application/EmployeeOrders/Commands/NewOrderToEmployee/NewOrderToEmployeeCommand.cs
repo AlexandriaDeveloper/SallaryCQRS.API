@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Common;
-using Application.DTOS.EmploueeOrdersDtos;
-using Application.Interfaces;
-using Domain.Constant;
+using Domain.Shared;
+using Domain.DTOS.EmploueeOrdersDtos;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
-namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
+using Application.Common.Messaging;
+
+namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 {
-    public record NewEmployeeOrderCommand(EmployeeOrderDto employeeOrder, int financialYearId) : IRequest<Result<Unit?>>;
-    public class NewEmployeeOrderCommandHandler : Handler<NewEmployeeOrderCommand, Result<Unit?>>
+    public record NewEmployeeOrderCommand(EmployeeOrderDto employeeOrder, int financialYearId) : ICommand<Unit>;
+    public class NewEmployeeOrderCommandHandler : ICommandHandler<NewEmployeeOrderCommand, Unit>
     {
+        private readonly IUOW _uow;
         private readonly IAuthService _authService;
 
-        public NewEmployeeOrderCommandHandler(IUOW uow, IAuthService authService) : base(uow)
+        public NewEmployeeOrderCommandHandler(IUOW uow, IAuthService authService) 
         {
+            _uow = uow;
             _authService = authService;
         }
 
-        public override async Task<Result<Unit?>> Handle(NewEmployeeOrderCommand request, CancellationToken cancellationToken)
+        public  async Task<Result<Unit>> Handle(NewEmployeeOrderCommand request, CancellationToken cancellationToken)
         {
 
             var validation = new NewOrderToEmployeeCommandValidator();
             var validate = await validation.ValidateAsync(request, cancellationToken);
             if (!validate.IsValid) {
-                return Result<Unit?>.Failure(validate.Errors.First().ErrorMessage);
+                return Result<Unit>.Failure(new Error("",validate.Errors.First().ErrorMessage));
             }
 
             //GetEmployeeFinancialData
@@ -40,7 +44,7 @@ namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
             int numberOfMonths = 1;
             if (employeeSallary == null)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST));
             }
 
             //check if Employee Is Part Time And Calculat Data Depend On That
@@ -56,7 +60,7 @@ namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
             Order order = await _uow.OrderRepository.GetByIdAsync(request.employeeOrder.OrderId);
             if (order == null)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<Unit>.Failure(new Error("",Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST));
             }
             // Assign Order To Employee
             EmployeeOrder employeeOrder = new EmployeeOrder();
@@ -136,9 +140,9 @@ namespace Application.EmployeeOrders.Commands.NewOrderToEmployee
 
             if (!result)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+                return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA));
             }
-            return Result<Unit?>.Success(Unit.Value);
+            return Result<Unit>.Success(Unit.Value);
             /*
 {
   "employeeOrder": {

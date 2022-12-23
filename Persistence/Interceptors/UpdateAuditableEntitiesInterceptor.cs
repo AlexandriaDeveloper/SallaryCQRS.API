@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Domain.Interfaces;
 using Domain.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

@@ -1,8 +1,8 @@
-﻿using Application.Common;
-using Application.DTOS.EmployeeOrderDeductionBalance;
-using Application.EmployeeOrders.Commands.PayDeductionEmployee;
-using Application.Interfaces;
-using Domain.Constant;
+﻿using Domain.Shared;
+using Domain.DTOS.EmployeeOrderDeductionBalance;
+using Domain.EmployeeOrders.Commands.PayDeductionEmployee;
+using Domain.Interfaces;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -10,31 +10,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
+namespace Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
 {
-    public record EmployeeOrderDeductionBalanceQuery(int employeeId) : IRequest<Result<EmployeeOrderDeductionBalanceDto>>;
+    public record EmployeeOrderDeductionBalanceQuery(int employeeId) : IQuery<EmployeeOrderDeductionBalanceDto>;
 
-    public class EmployeeOrderDeductionBalanceQueryHandler : Handler<EmployeeOrderDeductionBalanceQuery, Result<EmployeeOrderDeductionBalanceDto>>
+    public class EmployeeOrderDeductionBalanceQueryHandler : IQueryHandler<EmployeeOrderDeductionBalanceQuery, EmployeeOrderDeductionBalanceDto>
     {
-        public EmployeeOrderDeductionBalanceQueryHandler(IUOW uow, IAuthService authService) : base(uow)
+        private readonly IUOW _uow;
+
+        public EmployeeOrderDeductionBalanceQueryHandler(IUOW uow, IAuthService authService)
         {
+            _uow = uow;
+            AuthService = authService;
         }
 
-        public override async Task<Result<EmployeeOrderDeductionBalanceDto>> Handle(EmployeeOrderDeductionBalanceQuery request, CancellationToken cancellationToken)
-        {
+        public IAuthService AuthService { get; }
 
-            var validation = new EmployeeOrderDeductionBalanceQueryValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid)
-            {
-                return Result<EmployeeOrderDeductionBalanceDto>.Failure(validate.Errors.First().ErrorMessage);
-            }
+        public  async Task<Result<EmployeeOrderDeductionBalanceDto>> Handle(EmployeeOrderDeductionBalanceQuery request, CancellationToken cancellationToken)
+        {
             //GetEmployee Data
             Employee employee = await _uow.EmployeeRepository.GetByIdAsync(request.employeeId);
             if (employee == null)
             {
-                return Result<EmployeeOrderDeductionBalanceDto>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<EmployeeOrderDeductionBalanceDto>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST));
             }
             //Get Employee Orders Grouped
             EmployeeOrderDeductionBalanceDto employeeBalance = new EmployeeOrderDeductionBalanceDto();

@@ -1,7 +1,7 @@
-﻿using Application.Common;
-using Application.Interfaces;
+﻿using Domain.Shared;
+using Domain.Interfaces;
 using AutoMapper;
-using Domain.Constant;
+using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -9,32 +9,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Messaging;
 
-namespace Application.Employees.Commands.UpdateEmployeeInfo
+namespace Domain.Employees.Commands.UpdateEmployeeInfo
 {
-    public record class UpdateEmployeeInfoCommand(EmployeeDto employee) : IRequest<Result<Unit?>>;
+    public record class UpdateEmployeeInfoCommand(EmployeeDto employee) : ICommand<Unit>;
 
-    public class UpdateEmployeeInfoCommandHandler : Handler<UpdateEmployeeInfoCommand, Result<Unit?>>
+    public class UpdateEmployeeInfoCommandHandler : ICommandHandler<UpdateEmployeeInfoCommand, Unit>
     {
+        private readonly IUOW _uow;
         private readonly IMapper _mapper;
 
-        public UpdateEmployeeInfoCommandHandler(IUOW uow,IMapper mapper) : base(uow)
+        public UpdateEmployeeInfoCommandHandler(IUOW uow,IMapper mapper) 
         {
+            _uow = uow;
             _mapper = mapper;
         }
 
-        public override async Task<Result<Unit?>> Handle(UpdateEmployeeInfoCommand request, CancellationToken cancellationToken)
+        public  async Task<Result<Unit>> Handle(UpdateEmployeeInfoCommand request, CancellationToken cancellationToken)
         {
-
-            var validator = new UpdateEmployeeInfoCommandValidator();
-            var validatorResult = await validator.ValidateAsync(request.employee, cancellationToken);
-            if (!validatorResult.IsValid) {
-                return Result<Unit?>.Failure(validatorResult.Errors.First().ErrorMessage);
-            }
             var entity = await _uow.EmployeeRepository.GetByIdAsync(request.employee.Id);
             if (entity == null)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
 
             entity = _mapper.Map<EmployeeDto, Employee>(request.employee,entity);
@@ -43,9 +40,9 @@ namespace Application.Employees.Commands.UpdateEmployeeInfo
             var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
             if (!result)
             {
-                return Result<Unit?>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }
-            return Result<Unit?>.Success(Unit.Value);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
