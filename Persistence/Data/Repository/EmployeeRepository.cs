@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces.Repository;
 
 namespace Persistence.Data.Repository
 {
@@ -77,6 +78,29 @@ namespace Persistence.Data.Repository
             _context.EmployeesPartTimes.Update(existPartTime);
             await _context.SaveChangesAsync();
         }
+        public async Task EmployeeAddBankAccount(int employeeId, EmployeeBank employeeBank)
+        {
+            var employee = await _context.Employees.FindAsync(employeeId);
+            if (employee==null)
+            {
+                throw new Exception("Not Found");
+            }
+            employee.EmployeeBank = employeeBank;
+
+
+        }
+        public async Task EmployeeRemoveBankAccount(Employee employee)
+        {
+            if (employee == null)
+            {
+                throw new Exception("Not Found");
+            }
+            _context.EmployeeBanks.Remove(employee.EmployeeBank);
+
+
+        }
     }
+
+ 
 }
 //YL2PXXTJPB

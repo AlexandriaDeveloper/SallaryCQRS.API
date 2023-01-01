@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Primitives
 {
+        #nullable enable
     public abstract class Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
         [MaxLength(150), Required]
-        public virtual string? Name { get; set; }
+        public virtual string Name { get; set; } = "";
 
         //Audtiting
         [MaxLength(40)]

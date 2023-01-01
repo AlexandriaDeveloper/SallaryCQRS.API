@@ -1,6 +1,6 @@
 ﻿using Domain.Shared;
+using Domain.Constants;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -27,6 +27,14 @@ namespace Domain.EmployeeOrders.Commands.EmployeeToSubscription
 
         public  async Task<Result<Unit>> Handle(EmployeeToSubscriptionOrderCommand request, CancellationToken cancellationToken)
         {
+            if (!await _uow.SubscriptionRepository.CheckExistAsync(request.subscriptionId))
+            {
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+            }
+            //if (!await _uow.FormRepository.CheckExistAsync(request.subscriptionId))
+            //{
+            //    return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+            //}
             var order =await _uow.OrderRepository.GetByNameAsync(Constant.Model.OrderConstants.SUBSCRIPTIONS);
             var budget= await _uow.BudgetItemRepository.GetByNameAsync(Constant.Model.OrderConstants.SUBSCRIPTIONS);
             
@@ -44,18 +52,19 @@ namespace Domain.EmployeeOrders.Commands.EmployeeToSubscription
                     CreatedDate = DateTime.Now,
                     CreatedBy = _authService.GetCurrentLoggedInUser(),
                     OrderId = order.Id,
-                    FormId=request.formId,
-                    CreditOrDebit='d'
+                    FormId = request.formId,
+                    CreditOrDebit = 'd',
+                    PeriodicSubscriptions = new List<PeriodicSubscription>()
                   
 
                 };
-                employeeOrder.EmployeeOrderExecuations = new List<EmployeeOrderExecuation>
+                employeeOrder.PeriodicSubscriptions = new List<PeriodicSubscription>
                 {
-                    new EmployeeOrderExecuation()
+                    new PeriodicSubscription()
                     {
+                        
                         Amount = employee.Amount,
-                        BudgetItemId = budget.Id,
-                        SubscribtionId = employee.SubscriptionId,
+                        SubscriptionId = employee.SubscriptionId,
                         CreatedDate = DateTime.Now,
                         CreatedBy = _authService.GetCurrentLoggedInUser()
                     }
@@ -65,8 +74,8 @@ namespace Domain.EmployeeOrders.Commands.EmployeeToSubscription
 
             }
     
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result)
+            var result = await _uow.SaveChangesAsync(cancellationToken);
+            if (result!= Enums.SaveState.Saved)
             {
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }

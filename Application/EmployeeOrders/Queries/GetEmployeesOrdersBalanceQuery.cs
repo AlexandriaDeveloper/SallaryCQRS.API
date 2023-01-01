@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EmployeeOrders.Queries
 {
-   public record  GetEmployeesOrdersBalance : IRequest< Result<IPagination<EmployeeOrderBalanceDto>>>;
+   public record  GetEmployeesOrdersBalance : IRequest< Result<PagedList<EmployeeOrderBalanceDto>>>;
    
 }
 public class EmployeeOrderBalanceDto {

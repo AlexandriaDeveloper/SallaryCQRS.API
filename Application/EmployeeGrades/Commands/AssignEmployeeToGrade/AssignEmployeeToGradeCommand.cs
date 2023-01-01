@@ -1,8 +1,9 @@
 ﻿using Domain.Shared;
+using Domain.Constants;
 using Domain.Interfaces;
 using MediatR;
-using Domain.Common;
 using Application.Common.Messaging;
+using Domain.Enums;
 
 namespace Domain.EmployeeGrades.Commands.AssignEmployeeToGrade
 {
@@ -18,16 +19,23 @@ namespace Domain.EmployeeGrades.Commands.AssignEmployeeToGrade
 
         public  async Task<Result<Unit>> Handle(AssignEmployeeToGradeCommand request, CancellationToken cancellationToken)
         {
-            var validation = new AssignEmployeeToGradeCommandValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid)
+           if(! await _uow.EmployeeRepository.CheckExistAsync(request.employeeId))
             {
-                return  Result<Unit>.Failure<Unit>(new Error("", validate.Errors.First().ErrorMessage) );
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+            }
+            if (!await  _uow.GradeRepository.CheckExistAsync(request.employeeId))
+            {
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
             await _uow.EmployeeGradeRepository.AssignEmployeeToGrade(request.employeeId,request.gradeId,request.assignDate);
 
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if(!result) {
+            var result = await _uow.SaveChangesAsync(cancellationToken);
+            if(result == SaveState.SqlException)
+            {
+                return Result<Unit>.Failure<Unit>(new Error("", Constant.ResultMessages.ErrorMessages.ENTITY_DUBLICATION_EXCEPTION));
+
+            }
+            if(result != SaveState.Saved) {
 
                 return Result<Unit>.Failure<Unit>(new Error("",Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA));
             }

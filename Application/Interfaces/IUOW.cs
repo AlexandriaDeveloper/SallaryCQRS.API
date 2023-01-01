@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.Interfaces.Repository;
+using Domain;
+using Domain.Enums;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -26,8 +28,13 @@ namespace Domain.Interfaces
 
         IEmployeeGradeRepository EmployeeGradeRepository { get; }
         IGradeRepository GradeRepository { get; }
+
+        IBankRepository BankRepository { get; }
+        IBranchRepository BranchRepository { get; }
+
+        IEmployeeBankRepository EmployeeBankRepository { get; }
         IEmployeeSubscriptionRepository EmployeeSubscriptionRepository { get; }
         ISubscriptionRepository SubscriptionRepository { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<SaveState> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

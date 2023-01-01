@@ -11,6 +11,7 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
         public string? CollageName { get; set; }
         public string? Section { get; set; }
         public string? NationalId { get; set; }
+        public bool? EmployeeHasBank { get; set; }
     };
 
 

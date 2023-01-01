@@ -19,6 +19,8 @@ namespace Persistence.Services
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
         public int Take { get; private set; }
         public int Skip { get; private set; }
+        public int PageIndex { get; private set; }
+        public int PageSize { get; private set; }
 
         public bool IsPagination { get; private set; }
         public Specification()
@@ -49,8 +51,10 @@ namespace Persistence.Services
             OrderByDescending = orderByDescExpression;
         }
 
-        protected void ApplyPaging(int skip, int take)
+        protected void ApplyPaging(int skip, int take, int pageIndex,int pageSize)
         {
+            PageIndex = pageIndex;
+            PageSize = pageSize;
             Skip = skip;
             Take = take;
             IsPagination = true;

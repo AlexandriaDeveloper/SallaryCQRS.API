@@ -1,7 +1,6 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
 using AutoMapper;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.Employees.Commands.UpdateEmployeeInfo
 {
     public record class UpdateEmployeeInfoCommand(EmployeeDto employee) : ICommand<Unit>;
@@ -37,8 +36,8 @@ namespace Domain.Employees.Commands.UpdateEmployeeInfo
             entity = _mapper.Map<EmployeeDto, Employee>(request.employee,entity);
    
             await _uow.EmployeeRepository.Update(entity!);
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result)
+            var result = await _uow.SaveChangesAsync(cancellationToken) ;
+            if (result != Enums.SaveState.Saved)
             {
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }

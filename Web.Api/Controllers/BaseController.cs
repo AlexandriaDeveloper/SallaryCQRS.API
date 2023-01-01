@@ -25,6 +25,14 @@ namespace Web.Api.Controllers
        => result switch
        {
            { IsSuccess: true } => throw new InvalidOperationException(),
+           { Error.Code :"Not Found"} => NotFound(CreateProblemDetails(
+                       "Not Found Error", StatusCodes.Status404NotFound,
+                       result.Error
+                       )),
+           { Error.Code: "Dublication" } => BadRequest(CreateProblemDetails(
+                    "Dublication", StatusCodes.Status400BadRequest,
+                    result.Error
+                    )),
            IValidationResult validationResult =>
                BadRequest(
                    CreateProblemDetails(

@@ -10,6 +10,6 @@ namespace Domain.Models
     public class BudgetItem :Entity
     {
 
-        public ICollection<EmployeeOrderExecuation> EmployeeOrderExecuations { get; set; }
+        public ICollection<EmployeeOrderExecuation>? EmployeeOrderExecuations { get; set; }
     }
 }

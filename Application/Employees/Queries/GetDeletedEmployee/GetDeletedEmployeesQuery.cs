@@ -19,8 +19,8 @@ namespace Domain.Employees.Queries.GetDeletedEmployee
 
         public string? NationalId { get; set; }
     };
-    public record GetDeletedEmployeesQuery(GetDeltetdEmployeeListQueryParam param) : IQuery<IReadOnlyList<Employee>>;
-    public partial class GetDeletedEmployeesQueryHandler : IQueryHandler<GetDeletedEmployeesQuery, IReadOnlyList<Employee>>
+    public record GetDeletedEmployeesQuery(GetDeltetdEmployeeListQueryParam param) : IQuery<PagedList<Employee>>;
+    public partial class GetDeletedEmployeesQueryHandler : IQueryHandler<GetDeletedEmployeesQuery, PagedList<Employee>>
     {
         private new readonly IUOW _uow;
 
@@ -28,10 +28,10 @@ namespace Domain.Employees.Queries.GetDeletedEmployee
         {
             _uow = uow;
         }
-        public  async Task<Result<IReadOnlyList<Employee>>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<PagedList<Employee>>> Handle(GetDeletedEmployeesQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetDeletedEmployeeListQuerySpecification(request.param);
-            return Result<IReadOnlyList<Employee>>.Success(await _uow.EmployeeRepository.GetAlDeletedlAsync(spec));
+            return Result<PagedList<Employee>>.Success(await _uow.EmployeeRepository.GetAlDeletedlAsync(spec));
         }
     }
 

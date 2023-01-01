@@ -23,6 +23,26 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
             {
                 AddCriteries(x => x.NationalId.Equals(param.NationalId));
             }
+            if (param.EmployeeHasBank is not null && param.EmployeeHasBank==(true))
+            {
+          
+                AddCriteries(x => x.EmployeeBank!=null);
+            }
+            if (param.EmployeeHasBank is not null && param.EmployeeHasBank == (false))
+            {
+               
+                AddCriteries(x => x.EmployeeBank == null);
+            }
+            if (!string.IsNullOrEmpty(param.SortBy) && !string.IsNullOrEmpty(param.Sort))
+            {
+                if (param.SortBy.Equals("name"))
+                    if (param.Sort == "asc")
+                        AddOrderBy(x => x.Name);
+                if (param.Sort == "desc")
+                    AddOrderByDescending(x => x.Name);
+                
+            }
+            ApplyPaging(param.pageIndex, param.PageSize, param.pageIndex, param.PageSize);
 
         }
     }

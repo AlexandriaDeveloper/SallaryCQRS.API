@@ -14,8 +14,8 @@ using Application.Common.Messaging;
 
 namespace Domain.Employees.Queries.GetEmployeesListQuery
 {
-    public record GetEmployeesListQuery(GetEmployeeListQueryParam param) : IQuery<IReadOnlyList<EmployeeDto>>;
-    public class GetEmployeesListQueryHandler : IQueryHandler<GetEmployeesListQuery, IReadOnlyList<EmployeeDto>>
+    public record GetEmployeesListQuery(GetEmployeeListQueryParam param) : IQuery<PagedList<EmployeeDto>>;
+    public class GetEmployeesListQueryHandler : IQueryHandler<GetEmployeesListQuery, PagedList<EmployeeDto>>
     {
         private readonly IUOW _uow;
         private readonly IMapper _mapper;
@@ -27,14 +27,15 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
         }
    
 
-       async Task<Result<IReadOnlyList<EmployeeDto>>> IRequestHandler<GetEmployeesListQuery, Result<IReadOnlyList<EmployeeDto>>>.Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
+       async Task<Result<PagedList<EmployeeDto>>> IRequestHandler<GetEmployeesListQuery, Result <PagedList<EmployeeDto>>>.Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetEmployeeListQuerySpecification(request.param);
+           
+            var data = await _uow.EmployeeRepository.GetAllAsync(spec, false);
+            var EmployeeToReturn = _mapper.Map<List<EmployeeDto>>(data.Data);
+ 
 
-
-            var EmployeeToReturn = _mapper.Map<IReadOnlyList<EmployeeDto>>(await _uow.EmployeeRepository.GetAllAsync(spec, false));
-
-            return Result<IReadOnlyList<EmployeeDto>>.Success(EmployeeToReturn);
+            return Result<EmployeeDto>.Success(new PagedList<EmployeeDto>(EmployeeToReturn, data.Pagination));
         }
     }
 

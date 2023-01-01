@@ -1,11 +1,10 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
 using AutoMapper;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.EmployeeSubscriptions.Commands.AssignEmployeeToSubscription
 {
     public record AssignEmployeeToSubscriptionCommand(EmployeeSubscriptionDto employeeSubscriptionModel) :ICommand<Unit>;
@@ -30,9 +29,10 @@ namespace Domain.EmployeeSubscriptions.Commands.AssignEmployeeToSubscription
             employeeSubscripToDb.CreatedDate= DateTime.Now;
             await _uow.EmployeeSubscriptionRepository.AddItem(employeeSubscripToDb);
 
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result) {
-                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+            var result = await _uow.SaveChangesAsync(cancellationToken)         ;
+        
+            if (result != Enums.SaveState.Saved) {
+                return Result<Unit>.Failure(result);
             }
             return Result<Unit>.Success(Unit.Value);
         }

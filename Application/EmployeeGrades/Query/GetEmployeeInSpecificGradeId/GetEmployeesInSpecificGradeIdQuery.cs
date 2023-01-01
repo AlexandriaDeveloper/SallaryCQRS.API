@@ -2,7 +2,7 @@
 using Domain.Employees.Queries.GetEmployeeById;
 using Domain.Interfaces;
 using Domain.Models;
-using Domain.Shared;
+using Domain.Constants;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-using Domain.Common;
 
 namespace Domain.EmployeeGrades.Query.GetEmployeeInSpecificGradeId
 {

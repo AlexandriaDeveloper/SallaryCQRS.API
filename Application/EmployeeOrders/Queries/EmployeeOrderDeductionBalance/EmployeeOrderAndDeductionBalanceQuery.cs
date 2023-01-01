@@ -1,8 +1,8 @@
 ﻿using Domain.Shared;
+using Domain.Constants;
 using Domain.DTOS.EmployeeOrderDeductionBalance;
 using Domain.EmployeeOrders.Commands.PayDeductionEmployee;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;

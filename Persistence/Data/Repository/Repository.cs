@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Shared;
 
 namespace Persistence.Data.Repository
 {
@@ -53,38 +54,26 @@ namespace Persistence.Data.Repository
          
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync(  ISpecification<T>? spec = null, bool trackChanges = true)
+        public async Task<PagedList<T>> GetAllAsync(  ISpecification<T>? spec = null, bool trackChanges = true)
         {
            
-          return await ApplySpecification(spec,trackChanges).ToListAsync() ;       
+          return await ApplySpecification(spec,trackChanges) ;       
         }
-        //public async Task<IPagination< T>> GetAllPaginatedAsync(IParam? param, ISpecification<T>? spec = null)
-        //{
-        //    IPagination<T> result;
-
-        //    if (spec == null)
-        //    {
-        //      result= await Pagination<T>.CreateAsync(_dbSet.AsQueryable(),param.PageIndex,
-        //          param.PageSize);
-        //    }
-        //     result = await Pagination<T>.CreateAsync(ApplySpecification(spec).AsQueryable(), param.PageIndex,
-        //          param.PageSize);
-
-          
-        //    return result;
-
-        //}
+        public async Task<bool> CheckExistAsync(int id) { 
+        
+        return await _dbSet.AnyAsync(x => x.Id == id);
+        }
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.SingleOrDefaultAsync(x=> x.Id== id);
         }
         public async Task<T?> GetByNameAsync(string name)
         {
-            return await _dbSet.SingleOrDefaultAsync(x => x.Name == name);
+            return await _dbSet.SingleOrDefaultAsync(x => x.Name.Equals(name));
         }
-        public async Task<T> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null, bool trackChanges = true)
+        public async Task<PagedList<T>> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null, bool trackChanges = true)
         {
-            return await ApplySpecification(spec,trackChanges).SingleOrDefaultAsync();
+            return await ApplySpecification(spec,trackChanges);
         }
      
         public Task Update(T entity)
@@ -101,17 +90,21 @@ namespace Persistence.Data.Repository
         }
         public async Task<int> CountAsync(ISpecification<T> spec)
         {
-            return await ApplySpecification(spec).CountAsync();
+            var list = await ApplySpecification(spec);
+
+            return  list.Data.Count();
         }
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec,bool trackingChanges=true)
+        private Task< PagedList<T>> ApplySpecification(ISpecification<T> spec,bool trackingChanges=true)
+            
         {
-            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate==null).AsQueryable(),trackingChanges, spec); ;
+            spec.Criteries.Add(x => x.DeletedDate == null);
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(),trackingChanges, spec); ;
         }
-        public async Task<IReadOnlyList<T>> GetAlDeletedlAsync(ISpecification<T>? spec = null, bool trackingChanges = true)
+        public async Task<PagedList<T>> GetAlDeletedlAsync(ISpecification<T>? spec = null, bool trackingChanges = true)
         {
            
-                return await ApplyDeletedSpecification(trackingChanges, spec).ToListAsync();
+                return await ApplyDeletedSpecification(trackingChanges, spec);
  
         }
         public async Task Restore(int id)
@@ -128,9 +121,10 @@ namespace Persistence.Data.Repository
             _dbSet.Update(entity);
 
         }
-        private IQueryable<T> ApplyDeletedSpecification(bool trackingChanges ,ISpecification<T> spec)
+        private Task< PagedList<T>> ApplyDeletedSpecification(bool trackingChanges ,ISpecification<T> spec)
         {
-            return SpecificationEvaluator<T>.GetQuery(_dbSet.Where(x => x.DeletedDate != null).AsQueryable(),trackingChanges, spec); ;
+            spec.Criteries.Add(x => x.DeletedDate != null);
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(),trackingChanges, spec); ;
         }
     }
 }

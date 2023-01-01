@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Persistence.Interceptors
 {
@@ -26,7 +29,7 @@ namespace Persistence.Interceptors
         {
 
          
-            DbContext? dbContext = eventData.Context;
+            DbContext dbContext = eventData.Context;
            
             if(dbContext  is null)
             {

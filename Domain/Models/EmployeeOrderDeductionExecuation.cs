@@ -9,7 +9,7 @@ namespace Domain.Models
         [NotMapped]
         public override string? Name { get; set; }
         public int? BudgetItemId { get; set; }
-        public int? SubscribtionId { get; set; }
+        //public int? SubscriptionId { get; set; }
         public decimal Amount { get; set; }
         public int EmployeeOrderDeductionId { get; set; }
         public EmployeeOrderDeduction EmployeeOrderDeduction { get; set; }

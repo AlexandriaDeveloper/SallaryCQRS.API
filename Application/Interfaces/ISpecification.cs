@@ -9,8 +9,10 @@ namespace Domain.Interfaces
 {
     public  interface ISpecification <T>
     {
-        int Take { get; }
-        int Skip { get; }
+        //int Take { get; }
+        //int Skip { get; }
+        int PageIndex { get; }
+        int PageSize { get; }
         bool IsPagination { get; }
         Expression<Func<T, bool>> Criteria { get; }
         List<Expression<Func<T, bool>>> Criteries { get; }

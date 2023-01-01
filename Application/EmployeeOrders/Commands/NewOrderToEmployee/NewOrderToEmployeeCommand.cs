@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Domain.Shared;
 using Domain.DTOS.EmploueeOrdersDtos;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using Application.Common.Messaging;
+using Domain.Enums;
+using Domain.Constants;
 
 namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 {
@@ -27,14 +28,6 @@ namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 
         public  async Task<Result<Unit>> Handle(NewEmployeeOrderCommand request, CancellationToken cancellationToken)
         {
-
-            var validation = new NewOrderToEmployeeCommandValidator();
-            var validate = await validation.ValidateAsync(request, cancellationToken);
-            if (!validate.IsValid) {
-                return Result<Unit>.Failure(new Error("",validate.Errors.First().ErrorMessage));
-            }
-
-            //GetEmployeeFinancialData
             EmployeeBasicSallary? employeeSallary = await _uow.EmployeeBasicSallaryRepository.GetEmployeeBasicSallaryByFinancialIdAsync(request.employeeOrder.EmployeeId, request.financialYearId);
 
             decimal? wazifi = employeeSallary.Wazifi;
@@ -72,6 +65,8 @@ namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
             employeeOrder.Quantity = request.employeeOrder.Quantity;
             employeeOrder.Details = request.employeeOrder.Details;
             employeeOrder.CreditOrDebit = request.employeeOrder.CreditOrDepit;
+            employeeOrder.CreatedDate=DateTime.Now;
+            employeeOrder.CreatedBy=_authService.GetCurrentLoggedInUser();
 
             // If Order Have Limited Duration
             // Clcualt number of days 
@@ -136,27 +131,14 @@ namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 
 
 
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _uow.SaveChangesAsync(cancellationToken);
 
-            if (!result)
+            if (result==SaveState.Exception)
             {
                 return Result<Unit>.Failure(new Error("", Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA));
             }
             return Result<Unit>.Success(Unit.Value);
-            /*
-{
-  "employeeOrder": {
-    "orderId": "4",
-    "employeeId": "1",
-    "quantity": 3,
-    "creditOrDepit": "d",
-  "startFrom": "2022-12-07T21:26:27.384Z",
-    "endAt": "2022-12-22T21:26:27.384Z",
-    "details":"تجربه"
-  },
-  "financialYearId": "1"
-}
-             */
+
 
 
         }

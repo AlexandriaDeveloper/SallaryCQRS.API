@@ -1,5 +1,7 @@
-﻿using Domain.Interfaces;
+﻿using Domain.DTOS;
+using Domain.Interfaces;
 using Domain.Primitives;
+using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,14 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Persistence.Services
 {
     public class SpecificationEvaluator <TEntity>  where TEntity : Entity
     {
-        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery,bool trackingChange, ISpecification<TEntity> spec)
+        public  static async Task< PagedList<TEntity>>  GetQuery(IQueryable<TEntity> inputQuery,bool trackingChange, ISpecification<TEntity> spec)
         {
-            var query = inputQuery;
+          IPagination pagination = null;
 
+            var query = inputQuery;
+            query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
             if (!trackingChange) {
               query=  query.AsNoTracking();
             }
@@ -35,28 +40,35 @@ namespace Persistence.Services
             if (spec.OrderBy != null)
             {
                 query = query.OrderBy(spec.OrderBy);
+               
             }
             if (spec.OrderByDescending != null)
             {
                 query = query.OrderByDescending(spec.OrderByDescending);
             }
+            
             if (spec.IsPagination)
             {
+                pagination = new Pagination() { Length =await query.CountAsync(), PageIndx = spec.PageIndex,PageSize=spec.PageSize };
 
                 if (spec.OrderBy == null && spec.OrderByDescending == null)
 
-                    query = query.OrderBy(x => x.Id).Skip(spec.Skip).Take(spec.Take);
+                    query = query.OrderBy(x => x.Id).Skip(pagination.PageIndx*pagination.PageSize).Take(pagination.PageSize);
                 else
                 {
-                    query = query.Skip(spec.Skip).Take(spec.Take);
+                    query = query.Skip(pagination.PageIndx * pagination.PageSize).Take(pagination.PageSize);
                 }
 
-
+               
 
             }
-
-            query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
-            return query;
+           
+                query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
+           
+            return new PagedList<TEntity>( query.ToList(), pagination);
         }
+
+ 
+
     }
 }

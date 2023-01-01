@@ -1,6 +1,5 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
@@ -9,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Constants;
+using Application.Interfaces.Repository;
 
 namespace Persistence.Data.Repository
 {

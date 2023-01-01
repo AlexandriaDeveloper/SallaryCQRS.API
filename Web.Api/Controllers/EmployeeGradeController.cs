@@ -4,11 +4,7 @@ using Domain.EmployeeGrades.Commands.AssignEmployeeToGrade;
 using Domain.EmployeeGrades.Query.GetEmployeeCurrentGrade;
 using Domain.EmployeeGrades.Query.GetEmployeeInSpecificGradeId;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Domain.Employees.Queries.GetEmployeeById;
-using Domain.Models;
 
 namespace Web.Api.Controllers
 {

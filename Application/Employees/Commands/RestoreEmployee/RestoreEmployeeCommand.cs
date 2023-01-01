@@ -1,6 +1,5 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
-using Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.Employees.Commands.RestoreEmployee
 {
 
-        public record class RestorEmployeeCommand(int id) : ICommand<Unit>;
+    public record class RestorEmployeeCommand(int id) : ICommand<Unit>;
         public class RestoreEmployeeCommandHandler : ICommandHandler<RestorEmployeeCommand, Unit>
         {
         private readonly IUOW _uow;
@@ -34,8 +33,8 @@ namespace Domain.Employees.Commands.RestoreEmployee
 
 
                     await _uow.EmployeeRepository.Restore(request.id);
-                    var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-                    if (!result)
+                    var result = await _uow.SaveChangesAsync(cancellationToken) ;
+                    if (result != Enums.SaveState.Saved)
                     {
                         return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
                     }

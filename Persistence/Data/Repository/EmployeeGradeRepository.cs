@@ -1,6 +1,11 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces.Repository;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence.Data.Repository
 {
@@ -32,13 +37,13 @@ namespace Persistence.Data.Repository
         }
 
 
-        public async Task<EmployeeGrade?> GetEmployeeCurrentGrade(int employeeId)
+        public async Task<EmployeeGrade> GetEmployeeCurrentGrade(int employeeId)
         {
             var grade=await _context.EmployeeGrades.Where(x => x.EmployeeId == employeeId && x.EndAt == null)
                 .Include(t => t.Grade)
                 .Include( t=> t.Employees)       
                 .OrderByDescending(x => x.CreatedDate).FirstOrDefaultAsync();
-            return grade;
+            return grade?? null;
 
         }
 

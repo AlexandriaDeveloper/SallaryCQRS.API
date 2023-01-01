@@ -1,6 +1,5 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
 {
     public record EmployeesGetRaiseByGradeCommand(
@@ -49,9 +48,9 @@ namespace Domain.EmployeesSallaries.Commands.EmployeesGetRaiseByGrade
 
                 await _uow.EmployeeBasicSallaryRepository.AddItem(employeeNewSallary);
             }
-            var saveResult = await _uow.SaveChangesAsync(cancellationToken) > 0;
+            var saveResult = await _uow.SaveChangesAsync(cancellationToken) ;
 
-            if (!saveResult) {
+            if (saveResult != Enums.SaveState.Saved) {
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }
             return  Result<Unit>.Success(Unit.Value);

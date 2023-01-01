@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Shared;
+using Application.EmployeeBankAccount;
 
 namespace Domain.Services
 {
@@ -15,8 +17,10 @@ namespace Domain.Services
         public AutomapperProfile()
         {
             CreateMap<Employee, EmployeeDto>().ReverseMap();
-
+            CreateMap<PagedList<Employee>,PagedList<EmployeeDto>>().ReverseMap();
             CreateMap<EmployeeSubscription,EmployeeSubscriptionDto>().ReverseMap();
+            CreateMap<Bank, BankDto>().ReverseMap();
+            CreateMap<Branch, BrancheDto>().ReverseMap();
         }
 
        

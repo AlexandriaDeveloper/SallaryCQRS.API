@@ -3,7 +3,6 @@ using Domain.DTOS.EmploueeOrdersDtos;
 using Domain.EmployeeOrders.Queries.GetEmployeeOrderData;
 using Domain.Employees.Commands.UpdateEmployeeInfo;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -12,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary
 {
     public record UpdateEmployeeBasicSallaryCommand(int Id, int? FinancialYearId, decimal? BasicSallary, decimal? Wazifi, decimal? Mokamel, decimal? Ta3widi) : ICommand<Unit>;
@@ -54,8 +53,8 @@ namespace Domain.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary
                 currentEmployeeSallaryData.Ta3widi = request.Ta3widi.Value;
             }
             await _uow.EmployeeBasicSallaryRepository.Update(currentEmployeeSallaryData);
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result)
+            var result = await _uow.SaveChangesAsync(cancellationToken);
+            if (result != Enums.SaveState.Saved)
             {
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }

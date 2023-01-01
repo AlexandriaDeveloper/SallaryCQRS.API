@@ -1,4 +1,5 @@
 ﻿
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,25 @@ namespace Domain.Shared
             IsSuccess = isSuccess;
             Error = error;
         }
+        protected internal Result(bool isSuccess, SaveState saveState)
+        {
+            if (!isSuccess && saveState == SaveState.SqlDublicateException)
+            {
+                Error = Constants.Constant.ResultMessages.ErrorMessages.ENTITY_DUBLICATION_EXCEPTION;
+            }
+            if (!isSuccess && saveState == SaveState.SqlException)
+            {
+                Error = Constants.Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA;
+            }
+            if (!isSuccess && saveState == SaveState.Exception)
+            {
+                Error = Constants.Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA;
+            }
+
+            IsSuccess = isSuccess;
+            //Error = error;
+        }
+
         public bool IsSuccess { get;  }
         public bool IsFailure  => !IsSuccess; 
 
@@ -33,7 +53,7 @@ namespace Domain.Shared
          public static Result Success() => new( true, Error.None);
          public static Result<TValue> Success <TValue>(TValue value) => new(value,true,Error.None);
 
-
+        public static Result Failure(SaveState saveState) => new(false, saveState);
         public static Result Failure (Error error) => new (false,error);
         public static Result<TValue> Failure<TValue>(Error error) => new(default,false, error);
 

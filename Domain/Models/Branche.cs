@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public class Branche : Entity
+    public class Branch : Entity
     {
         public int BankId { get; set; }
 

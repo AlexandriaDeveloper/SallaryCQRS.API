@@ -15,6 +15,12 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddWatchDogServices();
+builder.Services.AddCors(opt => {
+    opt.AddPolicy("local", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
 
 builder.Services.AddHealthChecks();
 var app = builder.Build();
@@ -28,6 +34,9 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseStaticFiles();
+app.UseCors("local");
 app.UseAuthorization();
 
 app.MapControllers();

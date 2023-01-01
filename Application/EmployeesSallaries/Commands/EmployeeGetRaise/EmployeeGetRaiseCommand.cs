@@ -1,7 +1,6 @@
 ﻿using Domain.Shared;
-using Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear;
+using Domain.Constants;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -53,8 +52,8 @@ namespace Domain.EmployeesSallaries.Commands.EmployeeGetRaise
 
 
             await _uow.EmployeeBasicSallaryRepository.AddItem(result);
-                  var saveResult = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!saveResult) {
+                  var saveResult = await _uow.SaveChangesAsync(cancellationToken);
+            if (saveResult != Enums.SaveState.Saved) {
 
                 return Result<EmployeeBasicSallary>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
             }

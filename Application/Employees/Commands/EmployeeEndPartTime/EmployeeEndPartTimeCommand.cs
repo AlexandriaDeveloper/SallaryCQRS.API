@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-
+using Domain.Constants;
 namespace Domain.Employees.Commands.EmployeeEndPartTime
 {
     public record class EmployeeEndPartTimeCommand(int PartTimeId, DateTime EndPartTimeDate, string? Details) : ICommand<Unit>;
@@ -25,12 +25,7 @@ namespace Domain.Employees.Commands.EmployeeEndPartTime
 
         public  async Task<Result<Unit>> Handle(EmployeeEndPartTimeCommand request, CancellationToken cancellationToken)
         {
-            //var validation = new EmployeeEndPartTimeCommandValidator();
-            //var validate =await validation.ValidateAsync(request, cancellationToken);
-            //if (!validate.IsValid) {
-
-            //    return Result<Unit>.Failure(validate.Errors.First().ErrorMessage);
-            //}
+          
 
             EmployeePartTime selectedPartTime = await _uow.EmployeePartTimeRepository.GetByIdAsync(request.PartTimeId);
 
@@ -43,7 +38,11 @@ namespace Domain.Employees.Commands.EmployeeEndPartTime
             if (string.IsNullOrEmpty(request.Details))
                 selectedPartTime.Details += "/n" + request.Details;
 
-            await _uow.SaveChangesAsync(cancellationToken);
+          var result =   await _uow.SaveChangesAsync(cancellationToken);
+            if (result == Enums.SaveState.Exception)
+            {
+                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+            }
           
             return Result<Unit>.Success(Unit.Value);
         }

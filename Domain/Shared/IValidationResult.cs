@@ -14,4 +14,6 @@ namespace Domain.Shared
 
         Error[] Errors { get; }
     }
+
+   
 }

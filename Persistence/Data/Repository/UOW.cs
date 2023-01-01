@@ -1,10 +1,16 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces.Repository;
+using Domain.Enums;
+using Domain.Exceptions;
+using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Persistence.Data.Repository
@@ -29,6 +35,9 @@ namespace Persistence.Data.Repository
 
         private Lazy<ISubscriptionRepository> _subscriptionRepository;
         private Lazy<IEmployeeSubscriptionRepository> _employeeSubscriptionRepository;
+        private Lazy<IBankRepository> _bankRepository;
+        private Lazy<IBranchRepository> _branchRepository;
+        private Lazy<IEmployeeBankRepository> _employeeBankRepository;
         public UOW(SallaryCQRSAppContext context, IAuthService authService)
         {
             this._context = context;
@@ -50,15 +59,41 @@ namespace Persistence.Data.Repository
         public ISubscriptionRepository SubscriptionRepository => _subscriptionRepository.Value;
         public IEmployeeSubscriptionRepository EmployeeSubscriptionRepository => _employeeSubscriptionRepository.Value;
         public IGradeRepository GradeRepository => _gradeRepository.Value;
+        public IBankRepository BankRepository => _bankRepository.Value;
+        public IBranchRepository BranchRepository => _branchRepository.Value;
+        public IEmployeeBankRepository EmployeeBankRepository => _employeeBankRepository.Value;
 
         public void Dispose()
         {
             _context.Dispose();
         }
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        public async Task<SaveState> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            return await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+                return SaveState.Saved;
+            }
+            catch (DbUpdateException ex)
+            {
+                SqlException innerException = ex.InnerException as SqlException;
+                if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
+                {
+
+                  
+                    return SaveState.SqlDublicateException;
+                }
+
+                return SaveState.SqlException;
+
+            }
+            catch (Exception)
+            {
+
+                return SaveState.Exception;
+            }
+            
         }
 
 
@@ -77,6 +112,9 @@ namespace Persistence.Data.Repository
             this._employeeSallaryRepository = this._employeeSallaryRepository ?? new Lazy<IEmployeeBasicSallaryRepository>(() => new EmployeeBasicSallaryRepository(context, authService));
             this._subscriptionRepository = this._subscriptionRepository ?? new Lazy<ISubscriptionRepository>(() => new SubscriptionRepository(context, authService));
             this._employeeSubscriptionRepository = this._employeeSubscriptionRepository ?? new Lazy<IEmployeeSubscriptionRepository>(() => new EmployeeSubscriptionRepository(context, authService));
+            this._bankRepository = this._bankRepository ?? new Lazy<IBankRepository>(() => new BankRepository(context, authService));
+            this._branchRepository = this._branchRepository ?? new Lazy<IBranchRepository>(() => new BranchRepository(context, authService));
+            this._employeeBankRepository = this._employeeBankRepository ?? new Lazy<IEmployeeBankRepository>(() => new EmployeeBankRepository(context, authService));
         }
       
     }

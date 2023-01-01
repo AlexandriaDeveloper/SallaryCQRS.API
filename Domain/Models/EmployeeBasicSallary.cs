@@ -6,7 +6,7 @@ namespace Domain.Models
     public class EmployeeBasicSallary :Entity {
 
         [NotMapped]
-        public virtual string Name { get; set; }
+        public override  string Name { get; set; }
         public int EmployeeId { get; set; }
         public int FinancialYearId { get; set; }
         public decimal? BasicSallary { get; set; }

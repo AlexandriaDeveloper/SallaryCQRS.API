@@ -1,7 +1,11 @@
-﻿using Domain.DTOS.EmployeeOrderDeductionBalance;
+﻿using Application.Interfaces.Repository;
+using Domain.DTOS.EmployeeOrderDeductionBalance;
 using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence.Data.Repository
 {
@@ -19,7 +23,7 @@ namespace Persistence.Data.Repository
 
             List<EmployeeTotalOrderDeductionDto> employeeTotalOrderDeductionDtos
                = new List<EmployeeTotalOrderDeductionDto>();
-            var result = _context.EmployeeOrderDeductions.Include(x => x.EmployeeOrderDeductionExecuations)
+            var result = _context.EmployeeOrderDeductions.Include(x => x.EmployeeOrderDeductionExecuations).Include(x => x.PeriodicSubscriptions)
                 .Where(x => x.EmployeeId==employeeId)
                 .Include(x => x.Order)
                 .GroupBy(x => x.OrderId);
@@ -38,6 +42,7 @@ namespace Persistence.Data.Repository
 
                     employeeTotalOrderDeductionDto.OrderDeductionName = employeeOrder.Order.Name;
                     employeeTotalOrderDeductionDto.Total += employeeOrder.EmployeeOrderDeductionExecuations.Sum(x => x.Amount);
+                    employeeTotalOrderDeductionDto.Total += employeeOrder.PeriodicSubscriptions.Sum(x => x.Amount);
                 }
 
 

@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces.Repository;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,6 +34,10 @@ namespace Persistence.Data.Repository
             decimal? mokamelMaxAmount
             )
         {
+            //check employee and financial year exist
+
+
+
             //Get Existing Employee Last Sallary Data 
             var lastSallary = await _context.EmployeeBasicSallaries
                 .Where(e => e.EmployeeId==employeeId)

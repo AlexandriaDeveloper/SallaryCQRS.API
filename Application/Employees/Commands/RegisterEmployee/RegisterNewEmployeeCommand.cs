@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.Shared;
-using Domain.Common;
 using AutoMapper;
 using Application.Common.Messaging;
 
@@ -33,10 +32,10 @@ namespace Domain.Employees.Commands.RegisterEmployee
         {
             Employee emplyeeToDb = _mapper.Map<Employee>(request.employee);
             await _uow.EmployeeRepository.AddItem(emplyeeToDb);
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result)
+            var result = await _uow.SaveChangesAsync(cancellationToken) ;
+            if (result != Enums.SaveState.Saved)
             {
-                return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
+                return Result<Unit>.Failure(result);
             };
             return Result<Unit>.Success(Unit.Value);
         }

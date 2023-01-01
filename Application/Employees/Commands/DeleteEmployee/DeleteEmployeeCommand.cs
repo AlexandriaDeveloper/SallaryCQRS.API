@@ -1,6 +1,5 @@
 ﻿using Domain.Shared;
 using Domain.Interfaces;
-using Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common.Messaging;
-using Domain.Primitives;
+using Domain.Constants;
 
 namespace Domain.Employees.Commands.DeleteEmployee
 {
@@ -25,15 +24,15 @@ namespace Domain.Employees.Commands.DeleteEmployee
 
        async Task<Result<Unit>> IRequestHandler<DeleteEmployeeCommand, Result<Unit>>.Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _uow.EmployeeRepository.GetByIdAsync(request.id);
-            if (entity == null)
+           
+            if (! await _uow.EmployeeRepository.CheckExistAsync(request.id))
             {
 
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
             await _uow.EmployeeRepository.Delete(request.id);
-            var result = await _uow.SaveChangesAsync(cancellationToken) > 0;
-            if (!result)
+            var result = await _uow.SaveChangesAsync(cancellationToken);
+            if (result != Enums.SaveState.Saved)
                 return Result<Unit>.Failure(Constant.ResultMessages.ErrorMessages.FAIL_WHILE_SAVING_DATA);
 
             return Result<Unit>.Success(Unit.Value);

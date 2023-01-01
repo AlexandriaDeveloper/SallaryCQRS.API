@@ -1,8 +1,8 @@
 ﻿using Domain.Shared;
+using Domain.Constants;
 using Domain.Employees.Queries;
 using Domain.EmployeesSallaries.Commands.UpdateEmployeeBasicSallary;
 using Domain.Interfaces;
-using Domain.Common;
 using Domain.Models;
 using MediatR;
 using System;
@@ -14,8 +14,8 @@ using Application.Common.Messaging;
 
 namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
-    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IQuery<EmployeeBasicSallary>;
-    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : IQueryHandler<GetEmployeeBasicSallaryByFinancialYearQuery, EmployeeBasicSallary>
+    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IQuery<PagedList< EmployeeBasicSallary>>;
+    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : IQueryHandler<GetEmployeeBasicSallaryByFinancialYearQuery, PagedList<EmployeeBasicSallary>>
     {
         private readonly IUOW _uow;
 
@@ -24,23 +24,15 @@ namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYe
             _uow = uow;
         }
 
-        public  async Task<Result<EmployeeBasicSallary>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<PagedList<EmployeeBasicSallary>>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
         {
-
-
-            //var validation = new GetEmployeeBasicSallaryByFinancialYearQueryValidator();
-            //var validate = await validation.ValidateAsync(request, cancellationToken);
-            //if (!validate.IsValid)
-            //{
-            //    return Result<EmployeeBasicSallary>.Failure(validate.Errors.First().ErrorMessage);
-            //}
             ISpecification<EmployeeBasicSallary> spec = new GetEmployeeBasicSallaryByFinancialYearSpecification(request);
 
 
             var result = await _uow.EmployeeBasicSallaryRepository.GetBySingleOrDefaultAsync(spec);
             if (result == null) {
 
-                return Result<EmployeeBasicSallary>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<PagedList<EmployeeBasicSallary>>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
 
             return Result<EmployeeBasicSallary>.Success(result);
