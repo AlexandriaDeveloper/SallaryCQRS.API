@@ -1,5 +1,6 @@
 ﻿
 
+using Application.Employees.Commands.UploadEmployeesFile;
 using Domain.Employees.Commands.DeleteEmployee;
 using Domain.Employees.Commands.EmployeeEndPartTime;
 using Domain.Employees.Commands.EmployeeStratPartTime;
@@ -69,6 +70,16 @@ namespace Web.Api.Controllers
                 return HandleFailureResult(result);
             }
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+        }
+        [HttpPost("UploadEmployee")]
+        public async Task<ActionResult<Result<Unit>>> UploadEmployee([FromForm] UploadEmployeeFileCommand command)
+        {
+            var result = await Mediator.Send(command);
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+            }
+            return result.IsSuccess ? Ok(result) : NotFound(result.Error);
         }
         [HttpPut]
         public async Task<ActionResult<Result<Unit?>>> RegisterEmployee([FromBody] UpdateEmployeeInfoCommand command)

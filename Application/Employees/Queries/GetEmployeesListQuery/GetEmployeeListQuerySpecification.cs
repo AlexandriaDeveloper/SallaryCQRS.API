@@ -36,11 +36,35 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
             if (!string.IsNullOrEmpty(param.SortBy) && !string.IsNullOrEmpty(param.Sort))
             {
                 if (param.SortBy.Equals("name"))
+                {
                     if (param.Sort == "asc")
                         AddOrderBy(x => x.Name);
-                if (param.Sort == "desc")
-                    AddOrderByDescending(x => x.Name);
-                
+                    if (param.Sort == "desc")
+                        AddOrderByDescending(x => x.Name);
+                }
+
+                if (param.SortBy.Equals("tabCode"))
+                {
+                    if (param.Sort == "asc")
+                        AddOrderBy(x => x.TabCode);
+                    if (param.Sort == "desc")
+                        AddOrderByDescending(x => x.TabCode);
+                }
+                if (param.SortBy.Equals("tegaraCode"))
+                {
+                    if (param.Sort == "asc")
+                        AddOrderBy(x => x.TegaraCode);
+                    if (param.Sort == "desc")
+                        AddOrderByDescending(x => x.TegaraCode);
+                }
+                if (param.SortBy.Equals("nationalId"))
+                {
+                    if (param.Sort == "asc")
+                        AddOrderBy(x => x.NationalId);
+                    if (param.Sort == "desc")
+                        AddOrderByDescending(x => x.NationalId);
+                }
+
             }
             ApplyPaging(param.pageIndex, param.PageSize, param.pageIndex, param.PageSize);
 

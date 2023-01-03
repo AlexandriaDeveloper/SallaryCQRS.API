@@ -26,7 +26,7 @@ namespace Domain.Models
 
         [MaxLength(20)]
         public string? CollageName { get; set; }
-        [MaxLength(20)]
+        [MaxLength(40)]
         public string? Section { get; set; }
 
         public int? EmployeeBankId { get; set; }
@@ -39,6 +39,7 @@ namespace Domain.Models
         public ICollection<EmployeeSubscription>? EmployeeSubscriptions { get; set; }
         public ICollection<EmployeeGrade>? EmployeeGrades { get; set; }
         public ICollection<PeriodicSubscription>? PeriodicSubscriptions { get; set; }
+        public ICollection<EmployeeBasicSallary> EmployeeBasicSallaries { get; set; }
         public EmployeeBank? EmployeeBank { get; set; }
 
 

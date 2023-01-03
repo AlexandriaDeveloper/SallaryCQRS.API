@@ -47,7 +47,7 @@ $my-theme: mat.define-light-theme((
 
     .example-form-field{
       position: relative;
-      top: 20px;
+      top: 10px;
      mat-label{
       position: relative;
       top: 5px;
@@ -63,6 +63,10 @@ $my-theme: mat.define-light-theme((
 
   }
 
+  div.mat-sort-header-arrow{
+    color: rgba(255,255,255,1) !important;
+
+  }
 
 }
 @include mat.core-theme($my-theme);

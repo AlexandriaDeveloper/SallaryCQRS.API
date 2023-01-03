@@ -1,3 +1,4 @@
+import { MatSortModule } from '@angular/material/sort';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -13,7 +14,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    MatSortModule
   ] ,
   exports:[
     LayoutModule,
@@ -25,7 +27,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatTableModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSortModule
   ]
 })
 export class MaterialModule { }

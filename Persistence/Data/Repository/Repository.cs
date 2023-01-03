@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Shared;
+using System.Linq.Expressions;
 
 namespace Persistence.Data.Repository
 {
@@ -70,6 +71,14 @@ namespace Persistence.Data.Repository
         public async Task<T?> GetByNameAsync(string name)
         {
             return await _dbSet.SingleOrDefaultAsync(x => x.Name.Equals(name));
+        }
+        public async Task<T?> GetByAsync(Expression<Func<T,bool>> expression)
+        {
+            return await _dbSet.SingleOrDefaultAsync(expression);
+        }
+        public  bool CheckByAsync(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Any(expression);
         }
         public async Task<PagedList<T>> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null, bool trackChanges = true)
         {

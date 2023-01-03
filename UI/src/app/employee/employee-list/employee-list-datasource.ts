@@ -45,7 +45,7 @@ this.employeeParam=param;
 
 
           this.data= this.employeeService.getEmployees(this.employeeParam).pipe(map((x:any) => {
-console.log(x);
+
        //     this.paginator.pageIndex+=x.pagination.pageIndex+1;
              this.paginator.length=x.pagination.length;
             // this.paginator.pageSize=x.pagination.pageSize;

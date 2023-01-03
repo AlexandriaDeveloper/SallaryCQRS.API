@@ -19,7 +19,7 @@ namespace Persistence.Services
           IPagination pagination = null;
 
             var query = inputQuery;
-            query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
+            //query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
             if (!trackingChange) {
               query=  query.AsNoTracking();
             }
@@ -51,13 +51,13 @@ namespace Persistence.Services
             {
                 pagination = new Pagination() { Length =await query.CountAsync(), PageIndx = spec.PageIndex,PageSize=spec.PageSize };
 
-                if (spec.OrderBy == null && spec.OrderByDescending == null)
+               // if (spec.OrderBy == null && spec.OrderByDescending == null)
 
-                    query = query.OrderBy(x => x.Id).Skip(pagination.PageIndx*pagination.PageSize).Take(pagination.PageSize);
-                else
-                {
+              //      query = query.OrderBy(x => x.Id).Skip(pagination.PageIndx*pagination.PageSize).Take(pagination.PageSize);
+              //  else
+             //   {
                     query = query.Skip(pagination.PageIndx * pagination.PageSize).Take(pagination.PageSize);
-                }
+              //  }
 
                
 

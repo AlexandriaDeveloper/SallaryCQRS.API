@@ -1,21 +1,21 @@
 export class Param {
-  pageSize: number=2 ;
+  pageSize: number=15 ;
   pageIndex: number=0;
   length:number;
   isPagination: boolean = true;
-  sort:string;
-  sortBy:string;
-  totalCount:number
+  sort:string=null;
+  sortBy:string=null;
+  totalCount:number=0;
 
 }
 
 export class EmployeeParam extends Param{
-  name:string;
-  nationalId:string;
-  tabCode:string;
-  tegaraCode:string;
-  section:string;
-  collage :string;
+  name?:string=null;
+  nationalId?:string=null;
+  tabCode?:string=null;
+  tegaraCode?:string=null;
+  section?:string=null;
+  collage? :string=null;
 
   employeeHasBank:boolean=null;
 }
