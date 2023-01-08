@@ -14,5 +14,7 @@ namespace Persistence.Data.Repository
         public OrderRepository(SallaryCQRSAppContext context, IAuthService authService) : base(context, authService)
         {
         }
+
+
     }
 }

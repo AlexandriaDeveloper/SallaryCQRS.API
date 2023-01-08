@@ -31,7 +31,7 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
         {
             var spec = new GetEmployeeListQuerySpecification(request.param);
            
-            var data = await _uow.EmployeeRepository.GetAllAsync(spec, false);
+            var data = await _uow.EmployeeRepository.GetAllBySpecAsync(spec, false);
             var EmployeeToReturn = _mapper.Map<List<EmployeeDto>>(data.Data);
  
 

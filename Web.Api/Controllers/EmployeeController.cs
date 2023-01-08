@@ -1,5 +1,6 @@
 ﻿
 
+using Application.EmployeeOrders.Queries.GetEmployeeByTabCodeOrTegaraCode;
 using Application.Employees.Commands.UploadEmployeesFile;
 using Domain.Employees.Commands.DeleteEmployee;
 using Domain.Employees.Commands.EmployeeEndPartTime;
@@ -37,6 +38,18 @@ namespace Web.Api.Controllers
             }
 
             return result.IsSuccess? Ok(result.Value):NotFound(result.Error);
+        }
+
+        [HttpGet("GetEmployeeByTabCodeOrTegaraCode")]
+        public async Task<ActionResult<Result<Employee>>> GetEmployeeByTabCodeOrTegaraCode([FromQuery] string? tabCode,string? tegaraCode)
+        {
+            var result = await Mediator.Send(new GetEmployeeByTabCodeOrTegaraCodeQuery(tabCode,tegaraCode));
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
         [HttpGet("DeletedEmployees")]

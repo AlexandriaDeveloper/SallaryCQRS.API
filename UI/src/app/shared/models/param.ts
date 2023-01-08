@@ -19,3 +19,18 @@ export class EmployeeParam extends Param{
 
   employeeHasBank:boolean=null;
 }
+export class OrderFileParam extends Param{
+
+}
+export class OrderFileDetailsParam extends Param{
+  orderFileId?:number=null;
+  tabCode?:string=null;
+  tegaraCode?:string=null;
+  employeeName?:string=null;
+  orderName?:string=null;
+  details?:string=null;
+  startFrom?:Date=null;
+  endAt?:Date=null
+  amount? :number;
+
+}

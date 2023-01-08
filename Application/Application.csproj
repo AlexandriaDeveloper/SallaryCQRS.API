@@ -33,6 +33,9 @@
 
   <ItemGroup>
     <Folder Include="EmployeeSubscriptions\Queries\" />
+    <Folder Include="FinancialYears\Commands\" />
+    <Folder Include="FinancialYears\Queries\GetFinancialYearById\" />
+    <Folder Include="Order\Commands\" />
   </ItemGroup>
 
 </Project>

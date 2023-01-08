@@ -30,6 +30,7 @@ namespace Persistence.Data.Repository
             var result = _context.EmployeeOrders
                 .Include(x => x.EmployeeOrderExecuations)
                 .Include(x => x.PeriodicSubscriptions)
+                .Include(x => x.OrderFile)
                 .Where(x => x.EmployeeId==employeeId)
                 .Include(x => x.Order)
                 .GroupBy(x => x.OrderId);
@@ -65,7 +66,7 @@ namespace Persistence.Data.Repository
         public async Task<List<EmployeeOrder>> GetEmployeeOrdersByOrderId(int orderId, int employeeId) { 
         
         
-         return await _context.EmployeeOrders.Where(x => x.OrderId==orderId && x.EmployeeId==employeeId).Include(x => x.EmployeeOrderExecuations).ToListAsync();
+         return await _context.EmployeeOrders.Where(x => x.OrderId==orderId && x.EmployeeId==employeeId).Include(x => x.EmployeeOrderExecuations).Include(x => x.OrderFile).ToListAsync();
         }
     }
 }

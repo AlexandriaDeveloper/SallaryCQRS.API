@@ -84,8 +84,11 @@ namespace Persistence.Data.Repository
         
         }
 
-        public async Task<EmployeeBasicSallary?> GetLastEmployeeBasicSallaryAsync(int employeeId) => await _context.EmployeeBasicSallaries.OrderBy(x => x.CreatedDate).LastOrDefaultAsync();
-        public async Task<EmployeeBasicSallary?> GetEmployeeBasicSallaryByFinancialIdAsync(int employeeId,int financialYearId) => await _context.EmployeeBasicSallaries.OrderBy(x => x.CreatedDate).LastOrDefaultAsync( x=> x.EmployeeId==employeeId&& x.FinancialYearId==financialYearId);
+        public async Task<EmployeeBasicSallary?> GetLastEmployeeBasicSallaryAsync(int employeeId) {
+         return   await _context.EmployeeBasicSallaries.OrderByDescending(x => x.CreatedDate).FirstOrDefaultAsync(x => x.EmployeeId == employeeId);
+                
+            }
+        public async Task<EmployeeBasicSallary?> GetEmployeeBasicSallaryByFinancialIdAsync(int employeeId,int financialYearId) => await _context.EmployeeBasicSallaries.OrderByDescending(x => x.CreatedDate).FirstOrDefaultAsync( x=> x.EmployeeId==employeeId&& x.FinancialYearId==financialYearId);
 
         private async Task<decimal?> CaluclateRaiseByPercentage(decimal? AmountBefor ,decimal? Percentage,decimal? HasMin,decimal? HasMax) {
             

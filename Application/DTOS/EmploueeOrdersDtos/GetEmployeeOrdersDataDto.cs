@@ -36,7 +36,7 @@ namespace Domain.DTOS.EmploueeOrdersDtos
             public char CreditOrDebit { get; set; }
 
             public decimal Amount { get; set; }
-
+            public string OrderFileName { get; set; }
             public DateTime? StartFrom { get; set; }
             public DateTime? EndAt { get; set; }
 

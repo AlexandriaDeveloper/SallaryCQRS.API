@@ -1,4 +1,6 @@
-﻿using Domain.Shared;
+﻿
+using Application.FinancialYears.Queries;
+using Domain.Shared;
 using MediatR;
 
 namespace Application.Common.Messaging
@@ -7,6 +9,7 @@ namespace Application.Common.Messaging
         : IRequestHandler<TQuery, Result<TResponse>>
         where TQuery : IQuery<TResponse>
     {
+       // Task<Result<FinancialYearDto>> Handle(GetLastFinancialYearQuery request, CancellationToken cancellationToken);
     }
 
 

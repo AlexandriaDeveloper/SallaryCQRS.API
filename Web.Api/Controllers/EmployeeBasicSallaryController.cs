@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallary;
 
 namespace Web.Api.Controllers
 {
@@ -22,7 +23,7 @@ namespace Web.Api.Controllers
         }
 
         [HttpGet("GetEmployeeBasicSallaryByFinancialYear")]
-        public async Task<ActionResult<Result<EmployeeBasicSallary>>> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryByFinancialYearQuery command)
+        public async Task<ActionResult<Result<EmployeeBasicSallary>>> GetEmployeeBasicSallaryByFinancialYear([FromQuery]  GetEmployeeBasicSallaryQuery command)
         {
            var result =(  await Mediator.Send(command));
 
@@ -33,7 +34,18 @@ namespace Web.Api.Controllers
             }
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Result<EmployeeBasicSallary>>> GetEmployeeLastBasicSallaryQuery(int id)
+        {
+            var result = (await Mediator.Send(new GetEmployeeLastBasicSallaryQuery(id)));
 
+
+            if (result.IsFailure)
+            {
+                return HandleFailureResult(result);
+            }
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+        }
         [HttpPost("EmployeeGetRaised")]
         public async Task<ActionResult<Result<EmployeeBasicSallary>>> EmployeeGetRaised([FromQuery] EmployeeGetRaisedCommand command)
         {

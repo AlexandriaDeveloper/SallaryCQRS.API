@@ -38,7 +38,7 @@ export class TableSearchBoxComponent implements OnInit, AfterViewInit {
         else
         this.closeIcon=false;
         if(!Object.hasOwn( this.Param,'pageIndex')){
-          Object.defineProperty(this.Param, 'pageIndex', { value: 0 });
+          Object.defineProperty(this.Param, 'pageIndex', { value:0 });
         }
         else{
           this.Param['pageIndex']=0;

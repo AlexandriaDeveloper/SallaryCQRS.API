@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { HttpCustomClientService } from './http-custom-client.service';
 import { EmployeeParam } from './../models/param';
 import { Injectable } from '@angular/core';
@@ -12,8 +13,9 @@ export class EmployeeService extends HttpCustomClientService {
 /**
  *
  */
-constructor() {
-  super('employee')
+url =environment.apiUrl;
+constructor(private httpCall : HttpClient) {
+  super('employee/')
 
 }
   getEmployees(employeeParam :EmployeeParam):Observable<IEmployee[]>{
@@ -27,10 +29,30 @@ constructor() {
     param =param.append('tabCode',employeeParam.tabCode)
     if(employeeParam.tegaraCode)
     param =param.append('tegaraCode',employeeParam.tegaraCode)
+    if(employeeParam.section)
+    param =param.append('section',employeeParam.section)
     if(employeeParam.employeeHasBank !==null)
     param=param.append("employeeHasBank",employeeParam.employeeHasBank.toString())
     return this.getAll<IEmployee[]>(param,employeeParam);
 
   }
+
+  getEmployee(id:number):Observable< IEmployee>{
+    return this.getById<IEmployee>(id);
+  }
+
+  findEmployeeByTabCodeOrTegaraCode (tabCode : string,tegaraCode:string) :Observable< IEmployee>{
+    let params = new HttpParams();
+    if(tabCode!=='')
+      params= params.append('tabCode',tabCode);
+    if(tegaraCode!=='')
+      params= params.append('tegaraCode',tegaraCode);
+
+      return this.httpCall.get<IEmployee>(this.baseApiUrl+'GetEmployeeByTabCodeOrTegaraCode',{params});
+  }
+
+
+
+
 
 }

@@ -13,7 +13,7 @@ using Application.Common.Messaging;
 namespace Domain.EmployeeOrders.Commands.EmployeeToSubscription
 {
 
-    public record EmployeeToSubscriptionOrderCommand(int subscriptionId,int formId):ICommand<Unit>;
+    public record EmployeeToSubscriptionOrderCommand(int subscriptionId,int orderFileId):ICommand<Unit>;
     public class EmployeeToSubscriptionOrderCommandHandler : ICommandHandler<EmployeeToSubscriptionOrderCommand, Unit>
     {
         private readonly IUOW _uow;
@@ -52,7 +52,7 @@ namespace Domain.EmployeeOrders.Commands.EmployeeToSubscription
                     CreatedDate = DateTime.Now,
                     CreatedBy = _authService.GetCurrentLoggedInUser(),
                     OrderId = order.Id,
-                    FormId = request.formId,
+                    OrderFileId = request.orderFileId,
                     CreditOrDebit = 'd',
                     PeriodicSubscriptions = new List<PeriodicSubscription>()
                   

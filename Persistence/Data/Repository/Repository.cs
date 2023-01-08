@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Shared;
 using System.Linq.Expressions;
+using Domain.Models;
 
 namespace Persistence.Data.Repository
 {
@@ -54,8 +55,20 @@ namespace Persistence.Data.Repository
             _dbSet.Update(entity);
          
         }
-
-        public async Task<PagedList<T>> GetAllAsync(  ISpecification<T>? spec = null, bool trackChanges = true)
+        public async Task<int?> Next(Expression<Func<T,int>> orderBy , int id)
+        {
+          var ids =await _dbSet.Where(x => x.Id>id && x.DeletedDate == null).OrderBy(orderBy).Select(x => x.Id).FirstOrDefaultAsync();
+          return  ids;
+        }
+        public async Task<int?> Previous(Expression<Func<T, int>> orderBy, int id)
+        {
+            var ids = await _dbSet.Where(x => x.Id < id && x.DeletedDate == null).OrderByDescending(orderBy).Select(x => x.Id).FirstOrDefaultAsync();
+            return ids;
+        }
+        public async Task<IReadOnlyList<T>> GetAllAsync() { 
+          return await _dbSet.ToListAsync();
+        }
+        public async Task<PagedList<T>> GetAllBySpecAsync(  ISpecification<T>? spec = null, bool trackChanges = true)
         {
            
           return await ApplySpecification(spec,trackChanges) ;       

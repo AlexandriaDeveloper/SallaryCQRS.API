@@ -23,6 +23,10 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
             {
                 AddCriteries(x => x.NationalId.Equals(param.NationalId));
             }
+            if (!string.IsNullOrEmpty(param.Section))
+            {
+                AddCriteries(x => x.Section.Contains(param.Section));
+            }
             if (param.EmployeeHasBank is not null && param.EmployeeHasBank==(true))
             {
           
@@ -64,9 +68,16 @@ namespace Domain.Employees.Queries.GetEmployeesListQuery
                     if (param.Sort == "desc")
                         AddOrderByDescending(x => x.NationalId);
                 }
+                if (param.SortBy.Equals("section"))
+                {
+                    if (param.Sort == "asc")
+                        AddOrderBy(x => x.Section);
+                    if (param.Sort == "desc")
+                        AddOrderByDescending(x => x.Section);
+                }
 
             }
-            ApplyPaging(param.pageIndex, param.PageSize, param.pageIndex, param.PageSize);
+            ApplyPaging( param.pageIndex, param.PageSize);
 
         }
     }

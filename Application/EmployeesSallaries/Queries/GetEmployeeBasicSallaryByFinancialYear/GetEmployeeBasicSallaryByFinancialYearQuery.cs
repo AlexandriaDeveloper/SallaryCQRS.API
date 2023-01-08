@@ -14,8 +14,8 @@ using Application.Common.Messaging;
 
 namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
-    public record GetEmployeeBasicSallaryByFinancialYearQuery(int? EmployeeId, int? FinancialYearId) : IQuery<PagedList< EmployeeBasicSallary>>;
-    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : IQueryHandler<GetEmployeeBasicSallaryByFinancialYearQuery, PagedList<EmployeeBasicSallary>>
+    public record GetEmployeeBasicSallaryQuery(int? EmployeeId, int? FinancialYearId) : IQuery<PagedList< EmployeeBasicSallary>>;
+    public class GetEmployeeBasicSallaryByFinancialYearQueryHandler : IQueryHandler<GetEmployeeBasicSallaryQuery, PagedList<EmployeeBasicSallary>>
     {
         private readonly IUOW _uow;
 
@@ -24,7 +24,7 @@ namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYe
             _uow = uow;
         }
 
-        public  async Task<Result<PagedList<EmployeeBasicSallary>>> Handle(GetEmployeeBasicSallaryByFinancialYearQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<PagedList<EmployeeBasicSallary>>> Handle(GetEmployeeBasicSallaryQuery request, CancellationToken cancellationToken)
         {
             ISpecification<EmployeeBasicSallary> spec = new GetEmployeeBasicSallaryByFinancialYearSpecification(request);
 

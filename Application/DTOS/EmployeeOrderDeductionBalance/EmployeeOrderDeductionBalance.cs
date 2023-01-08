@@ -15,18 +15,18 @@ namespace Domain.DTOS.EmployeeOrderDeductionBalance
         public string TegaraCode { get; set; }
         public string NationalId { get; set; }
 
-        public List<EmployeeTotalOrderDto>? EmploueeOrdersDtos { get; set; }
+        public List<EmployeeTotalOrderDto>? EmployeeOrdersDtos { get; set; }
         public EmployeeOrderDeductionBalanceDto()
         {
-            if (EmploueeOrdersDtos == null) { 
-            EmploueeOrdersDtos= new List<EmployeeTotalOrderDto>();
+            if (EmployeeOrdersDtos == null) {
+                EmployeeOrdersDtos = new List<EmployeeTotalOrderDto>();
             }
         }
     }
 
     public class EmployeeTotalOrderDto{
         public int OrderId { get; set; }
-  
+        public string OrderFileName { get; set; }
         public string OrderName { get; set; }
         public string OrderDeductionName { get; set; }
         public decimal OrderTotal { get; set; } = 0;

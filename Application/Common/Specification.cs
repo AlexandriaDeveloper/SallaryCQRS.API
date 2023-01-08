@@ -51,12 +51,10 @@ namespace Domain.Shared
             OrderByDescending = orderByDescExpression;
         }
 
-        protected void ApplyPaging(int skip, int take,int pageIndex,int pageSize)
+        protected void ApplyPaging(int pageIndex,int pageSize)
         {
             PageIndex= pageIndex;
             PageSize= pageSize;
-            //Skip = skip;
-            //Take = take;
             IsPagination = true;
         }
     }

@@ -7,9 +7,9 @@ using AutoMapper;
 using Domain.Constants;
 namespace Domain.Employees.Queries.GetEmployeeById
 {
-    public record GetEmployeesByIdQuery(int Id) : IQuery<EmployeeDto>;
+    public record GetEmployeesByIdQuery(int Id) : IQuery<EmployeeDetailsDto>;
 
-    public class GetEmployeesByIdQueryHandler : IQueryHandler<GetEmployeesByIdQuery, EmployeeDto>
+    public class GetEmployeesByIdQueryHandler : IQueryHandler<GetEmployeesByIdQuery, EmployeeDetailsDto>
     {
         private readonly IUOW _uow;
         private readonly IMapper _mapper;
@@ -20,16 +20,18 @@ namespace Domain.Employees.Queries.GetEmployeeById
             _mapper = mapper;
         }
 
-        public  async Task<Result<EmployeeDto>> Handle(GetEmployeesByIdQuery request, CancellationToken cancellationToken)
+        public  async Task<Result<EmployeeDetailsDto>> Handle(GetEmployeesByIdQuery request, CancellationToken cancellationToken)
         {
             var Employee = await _uow.EmployeeRepository.GetByIdAsync(request.Id);
             if (Employee == null)
             {
-                return Result<EmployeeDto>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
+                return Result<EmployeeDetailsDto>.Failure(Constant.ResultMessages.ErrorMessages.ENTITY_NOT_EXIST);
             }
-            var empToReturn = _mapper.Map<EmployeeDto>(Employee);
+            var empToReturn = _mapper.Map<EmployeeDetailsDto>(Employee);
 
-            return Result<Employee>.Success(empToReturn);
+            empToReturn.Next =  await _uow.EmployeeRepository.Next(x => x.Id, empToReturn.Id);
+            empToReturn.Previous = await _uow.EmployeeRepository.Previous(x => x.Id, empToReturn.Id);
+            return Result< EmployeeDetailsDto>.Success(empToReturn);
         }
     }
 }

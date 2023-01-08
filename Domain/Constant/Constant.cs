@@ -14,7 +14,7 @@ public static class Constant
             public static string VACATION_WITHOT_SALLARY = "أجازة بدون مرتب";
             public static string PUNISHMENT_EXAMINATION_REWARD = "أمر عقاب خصم من مكافأة الامتحانات";
             public static string SUBSCRIPTIONS = "أشتراكات";
-
+           
 
 
 

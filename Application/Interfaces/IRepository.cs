@@ -11,12 +11,15 @@ namespace Domain.Interfaces
 {
     public interface IRepository<T> where T : Entity
     {
-        Task<PagedList<T>> GetAllAsync(ISpecification<T>? spec = null, bool trackingChanges = true);
+        Task<IReadOnlyList<T>> GetAllAsync();
+        Task<PagedList<T>> GetAllBySpecAsync(ISpecification<T>? spec = null, bool trackingChanges = true);
         Task<T> GetByIdAsync(int id);
         Task<bool> CheckExistAsync(int id);
         Task<T?> GetByNameAsync(string name);
         Task<T?> GetByAsync(Expression<Func<T, bool>> expression);
         bool CheckByAsync(Expression<Func<T, bool>> expression);
+        Task<int?> Next(Expression<Func<T, int>> orderBy, int id);
+        Task<int?> Previous(Expression<Func<T, int>> orderBy, int id);
         Task<PagedList<T>> GetBySingleOrDefaultAsync(ISpecification<T>? spec = null, bool trackChanges = true);
 
         Task AddItem(T entity);

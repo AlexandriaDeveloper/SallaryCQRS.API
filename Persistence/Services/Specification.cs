@@ -22,7 +22,7 @@ namespace Persistence.Services
         public int PageIndex { get; private set; }
         public int PageSize { get; private set; }
 
-        public bool IsPagination { get; private set; }
+        public bool IsPagination { get; private set; } = false;
         public Specification()
         {
 

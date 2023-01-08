@@ -65,7 +65,7 @@ namespace Persistence.Services
            
                 query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
            
-            return new PagedList<TEntity>( query.ToList(), pagination);
+             return new PagedList<TEntity>( query.ToList(), pagination);
         }
 
  

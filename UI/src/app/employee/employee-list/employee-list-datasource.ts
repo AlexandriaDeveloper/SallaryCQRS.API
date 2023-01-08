@@ -5,7 +5,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, of, BehaviorSubject } from 'rxjs';
-import { OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { OnInit, AfterViewInit, ChangeDetectorRef, inject, Injectable, Inject } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { EmployeeParam } from 'src/app/shared/models/param';
 
@@ -26,13 +26,14 @@ export class EmployeeListDataSource  extends DataSource<IEmployee>  {
   sort: MatSort | undefined;
   employeeParam:EmployeeParam;
 
-  constructor(private employeeService :EmployeeService,  param :EmployeeParam,  paginatorSource? :MatPaginator) {
+  constructor( private employeeService:EmployeeService, param :EmployeeParam,  paginatorSource? :MatPaginator) {
     super();
-if(paginatorSource!=null){
-  this.paginator= paginatorSource;
-}
 
-this.employeeParam=param;
+      if(paginatorSource!=null){
+        this.paginator= paginatorSource;
+      }
+
+      this.employeeParam=param;
   }
 
 

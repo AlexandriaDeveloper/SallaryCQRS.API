@@ -31,10 +31,11 @@ namespace Domain.Interfaces
 
         IBankRepository BankRepository { get; }
         IBranchRepository BranchRepository { get; }
-
+        IFinancialYearRepository FinancialYearRepository { get; }
         IEmployeeBankRepository EmployeeBankRepository { get; }
         IEmployeeSubscriptionRepository EmployeeSubscriptionRepository { get; }
         ISubscriptionRepository SubscriptionRepository { get; }
+        IOrderFileRepository OrderFileRepository { get; }
         Task<SaveState> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

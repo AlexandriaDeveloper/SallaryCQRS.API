@@ -16,13 +16,16 @@ namespace Domain.Models
     {
         [NotMapped]
         public override string Name { get; set; }
+        [MaxLength(5)]
+        public string OrderNumber { get; set; }
         [MaxLength(200)]
         public string Details { get; set; }
         public int OrderId { get; set; }
         public int EmployeeId { get; set; }
 
-        public int FormId { get; set; }
-
+       // public int FormId { get; set; }
+        [Required]
+        public int OrderFileId { get; set; }
         public int? Quantity { get; set; }
         public char CreditOrDebit { get; set; }
 
@@ -31,11 +34,11 @@ namespace Domain.Models
 
         public Order Order{ get; set; }
         public Employee Employee { get; set; }
-
+        public OrderFile OrderFile { get; set; }
         public ICollection<EmployeeOrderExecuation>? EmployeeOrderExecuations { get; set; }
         public ICollection<PeriodicSubscription>? PeriodicSubscriptions { get; set; }
 
-        public Form Form { get; set; }
+       // public Form Form { get; set; }
         
         public EmployeeOrder()
         {

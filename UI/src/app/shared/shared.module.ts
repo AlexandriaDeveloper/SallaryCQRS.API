@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableSearchBoxComponent } from './components/table-search-box/table-search-box.component';
 
 
@@ -18,13 +18,13 @@ import { TableSearchBoxComponent } from './components/table-search-box/table-sea
   imports: [
     CommonModule,
     RouterModule,
-
     MaterialModule
 
   ],
   exports:[MaterialModule,
     NavbarComponent,
     TableSearchBoxComponent,
+     ReactiveFormsModule,
 
   ]
 })

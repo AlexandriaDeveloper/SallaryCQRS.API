@@ -11,10 +11,10 @@
 
 
 <div style="display:flex;justify-items:center">
-  <mat-form-field  class="example-form-field" appearance="fill"  >
+  <mat-form-field matRipple   class="example-form-field" appearance="fill"  >
 
     <mat-label> {{label}}</mat-label>
-    <input matInput type="text" @myAnimation  #element>
+    <input   matInput type="text" @myAnimation  #element>
 
     <button  @myAnimation *ngIf="closeIcon" color="primary"  matSuffix mat-icon-button aria-label="Clear" style="color: black;" (click)="clear()">
       <mat-icon>close</mat-icon>

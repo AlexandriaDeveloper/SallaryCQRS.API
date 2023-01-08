@@ -1,15 +1,9 @@
 ﻿using Application.Interfaces.Repository;
 using Domain.Enums;
-using Domain.Exceptions;
 using Domain.Interfaces;
-using Domain.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,6 +32,8 @@ namespace Persistence.Data.Repository
         private Lazy<IBankRepository> _bankRepository;
         private Lazy<IBranchRepository> _branchRepository;
         private Lazy<IEmployeeBankRepository> _employeeBankRepository;
+        private Lazy<IOrderFileRepository> _orderFileRepository;
+        private Lazy<IFinancialYearRepository> _financialYearRepository;
         public UOW(SallaryCQRSAppContext context, IAuthService authService)
         {
             this._context = context;
@@ -62,7 +58,8 @@ namespace Persistence.Data.Repository
         public IBankRepository BankRepository => _bankRepository.Value;
         public IBranchRepository BranchRepository => _branchRepository.Value;
         public IEmployeeBankRepository EmployeeBankRepository => _employeeBankRepository.Value;
-
+        public IOrderFileRepository OrderFileRepository => _orderFileRepository.Value;
+        public IFinancialYearRepository FinancialYearRepository => _financialYearRepository.Value;
         public void Dispose()
         {
             _context.Dispose();
@@ -115,6 +112,8 @@ namespace Persistence.Data.Repository
             this._bankRepository = this._bankRepository ?? new Lazy<IBankRepository>(() => new BankRepository(context, authService));
             this._branchRepository = this._branchRepository ?? new Lazy<IBranchRepository>(() => new BranchRepository(context, authService));
             this._employeeBankRepository = this._employeeBankRepository ?? new Lazy<IEmployeeBankRepository>(() => new EmployeeBankRepository(context, authService));
+            this._orderFileRepository = this._orderFileRepository ?? new Lazy<IOrderFileRepository>(() => new OrderFileRepository(context, authService));
+            this._financialYearRepository = this._financialYearRepository ?? new Lazy<IFinancialYearRepository>(() => new FinancialYearRepository(context, authService));
         }
       
     }

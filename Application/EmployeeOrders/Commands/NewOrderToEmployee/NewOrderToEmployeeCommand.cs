@@ -14,7 +14,7 @@ using Domain.Constants;
 
 namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 {
-    public record NewEmployeeOrderCommand(EmployeeOrderDto employeeOrder, int financialYearId) : ICommand<Unit>;
+    public record NewEmployeeOrderCommand(EmployeeOrderDto employeeOrder) : ICommand<Unit>;
     public class NewEmployeeOrderCommandHandler : ICommandHandler<NewEmployeeOrderCommand, Unit>
     {
         private readonly IUOW _uow;
@@ -28,7 +28,7 @@ namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
 
         public  async Task<Result<Unit>> Handle(NewEmployeeOrderCommand request, CancellationToken cancellationToken)
         {
-            EmployeeBasicSallary? employeeSallary = await _uow.EmployeeBasicSallaryRepository.GetEmployeeBasicSallaryByFinancialIdAsync(request.employeeOrder.EmployeeId, request.financialYearId);
+            EmployeeBasicSallary? employeeSallary = await _uow.EmployeeBasicSallaryRepository.GetEmployeeBasicSallaryByFinancialIdAsync(request.employeeOrder.EmployeeId, request.employeeOrder.FinancialYearId);
 
             decimal? wazifi = employeeSallary.Wazifi;
             decimal? ta3widi = employeeSallary.Ta3widi;
@@ -58,10 +58,10 @@ namespace Domain.EmployeeOrders.Commands.NewOrderToEmployee
             // Assign Order To Employee
             EmployeeOrder employeeOrder = new EmployeeOrder();
             employeeOrder.EmployeeOrderExecuations = new List<EmployeeOrderExecuation>();
-
+            employeeOrder.OrderNumber = request.employeeOrder.OrderNumber;
             employeeOrder.EmployeeId = request.employeeOrder.EmployeeId;
             employeeOrder.OrderId = request.employeeOrder.OrderId;
-            employeeOrder.FormId= request.employeeOrder.FormId;
+            employeeOrder.OrderFileId= request.employeeOrder.OrderFileId;
             employeeOrder.Quantity = request.employeeOrder.Quantity;
             employeeOrder.Details = request.employeeOrder.Details;
             employeeOrder.CreditOrDebit = request.employeeOrder.CreditOrDepit;

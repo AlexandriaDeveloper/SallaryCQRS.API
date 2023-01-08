@@ -5,7 +5,7 @@ namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYe
 {
     public class GetEmployeeBasicSallaryByFinancialYearSpecification : Specification<EmployeeBasicSallary>
     {
-        public GetEmployeeBasicSallaryByFinancialYearSpecification(GetEmployeeBasicSallaryByFinancialYearQuery param) : base()
+        public GetEmployeeBasicSallaryByFinancialYearSpecification(GetEmployeeBasicSallaryQuery param) : base()
         {
             if (param.EmployeeId.HasValue)
             {

@@ -43,7 +43,7 @@ namespace Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
             employeeBalance.NationalId = employee.NationalId;
             employeeBalance.TabCode = employee.TabCode;
             employeeBalance.TegaraCode = employee.TegaraCode;
-            employeeBalance.EmploueeOrdersDtos = new List<EmployeeTotalOrderDto>();
+            employeeBalance.EmployeeOrdersDtos = new List<EmployeeTotalOrderDto>();
 
             var employeeOrdes = _uow.EmployeeOrderRepository.GetEmployeeSumOrders(request.employeeId);
             var employeeOrdesDeduction = _uow.EmployeeOrderDeductionRepository.GetEmployeeDeductionOrders(request.employeeId);
@@ -56,10 +56,11 @@ namespace Domain.EmployeeOrders.Queries.EmployeeOrderDeductionBalance
                     empOrder.DeductionTotal = employeeDeduction.Total;
                     empOrder.OrderDeductionName = employeeDeduction.OrderDeductionName;
                     empOrder.OrderId = employeeDeduction.OrderDeductionId;
+                    
                 }
             }
 
-            employeeBalance.EmploueeOrdersDtos = employeeOrdes;
+            employeeBalance.EmployeeOrdersDtos = employeeOrdes;
             return Result<EmployeeOrderDeductionBalanceDto>.Success(employeeBalance);
         }
     }

@@ -25,6 +25,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api", "Web.Api\Web.Api.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ui", "Ui", "{E2F56B59-17A3-427D-AA98-FB8C5C80A158}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "UI", "UI\", "{EC10F9C1-9AAB-4912-8E3A-CBB3C2958AD8}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61219"
+		Debug.AspNetCompiler.PhysicalPath = "UI\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61219\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61219"
+		Release.AspNetCompiler.PhysicalPath = "UI\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61219\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "61219"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +71,10 @@ Global
 		{73F73840-7948-4BA1-8DB0-9919C7D65197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F73840-7948-4BA1-8DB0-9919C7D65197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F73840-7948-4BA1-8DB0-9919C7D65197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC10F9C1-9AAB-4912-8E3A-CBB3C2958AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC10F9C1-9AAB-4912-8E3A-CBB3C2958AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC10F9C1-9AAB-4912-8E3A-CBB3C2958AD8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC10F9C1-9AAB-4912-8E3A-CBB3C2958AD8}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

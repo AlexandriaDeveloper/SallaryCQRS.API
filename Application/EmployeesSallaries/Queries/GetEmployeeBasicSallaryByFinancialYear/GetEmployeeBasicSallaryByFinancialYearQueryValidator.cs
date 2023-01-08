@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EmployeesSallaries.Queries.GetEmployeeBasicSallaryByFinancialYear
 {
-    public class GetEmployeeBasicSallaryByFinancialYearQueryValidator :AbstractValidator<GetEmployeeBasicSallaryByFinancialYearQuery>
+    public class GetEmployeeBasicSallaryByFinancialYearQueryValidator :AbstractValidator<GetEmployeeBasicSallaryQuery>
     {
         public GetEmployeeBasicSallaryByFinancialYearQueryValidator()
         {

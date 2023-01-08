@@ -51,8 +51,9 @@ namespace Domain.EmployeeOrders.Queries.GetEmployeeOrderData
                     EndAt = employeeOrder.EndAt,
                     Quantity = employeeOrder.Quantity,
                     StartFrom = employeeOrder.StartFrom,
-                    Id = employeeOrder.Id
-
+                    Id = employeeOrder.Id,
+                    OrderFileName= employeeOrder.OrderFile.Details
+                    
                 });
 
             }

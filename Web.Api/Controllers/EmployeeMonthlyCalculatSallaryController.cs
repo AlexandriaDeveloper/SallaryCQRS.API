@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using MySqlX.XDevAPI.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Domain.EmployeeOrders;
 
 namespace Web.Api.Controllers
 {
@@ -22,8 +23,8 @@ namespace Web.Api.Controllers
 
         public EmployeeMonthlyCalculatSallaryController(IMediator mediator) :base(mediator) { }
      
-        [HttpGet("GetEmployeeOrderBalance")]
-        public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand([FromQuery] int employeeId)
+        [HttpGet("GetEmployeeOrderBalance/{employeeId}")]
+        public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand( int employeeId)
         {
 
 
@@ -49,10 +50,10 @@ namespace Web.Api.Controllers
         }
 
         [HttpPost("NewEmployeeOrder")]
-        public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand([FromBody]NewEmployeeOrderCommand command) {
+        public async Task<ActionResult<Result<Unit?>>> NewEmployeeOrderCommand([FromBody]EmployeeOrderDto command) {
 
           
-       var result =(await Mediator.Send(command));
+       var result =await Mediator.Send(new NewEmployeeOrderCommand(command));
             if (result.IsFailure)
             {
                 return HandleFailureResult(result);

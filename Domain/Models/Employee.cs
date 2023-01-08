@@ -40,6 +40,7 @@ namespace Domain.Models
         public ICollection<EmployeeGrade>? EmployeeGrades { get; set; }
         public ICollection<PeriodicSubscription>? PeriodicSubscriptions { get; set; }
         public ICollection<EmployeeBasicSallary> EmployeeBasicSallaries { get; set; }
+        public ICollection<EmployeeCollection>? EmployeeCollection { get; set; }
         public EmployeeBank? EmployeeBank { get; set; }
 
 

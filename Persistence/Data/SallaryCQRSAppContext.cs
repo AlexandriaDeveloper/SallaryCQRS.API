@@ -29,11 +29,12 @@ namespace Persistence.Data
         public DbSet<EmployeeOrderDeduction> EmployeeOrderDeductions { get; set; }
         public DbSet<EmployeeGrade> EmployeeGrades { get; set; }
         public DbSet<Grade> Grades { get; set; }
-       
+        public DbSet<EmployeeCollection> EmployeeCollections { get; set; }
+
         public DbSet<EmployeeSubscription> EmployeeSubscriptions { get; set; }
 
         public DbSet<EmployeeBank> EmployeeBanks { get; set; }
-
+        public DbSet<OrderFile> OrderFiles { get; set; }
         public SallaryCQRSAppContext(DbContextOptions<SallaryCQRSAppContext> options):base(options) {
 
         }
@@ -147,6 +148,12 @@ namespace Persistence.Data
           new Grade() { Id = 6, Name = "درجة خامسه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
           new Grade() { Id = 7, Name = "درجة سادسه", CreatedBy = "Admin", CreatedDate = DateTime.Now }
     );
+
+            modelBuilder.Entity<Collection>().HasData(
+          new Collection() { Id=1,Name ="مرتبات بطاقات حكوميه", CreatedBy = "Admin", CreatedDate = DateTime.Now },
+          new Collection() { Id = 2, Name = "مرتبات تحويلات بنكيه", CreatedBy = "Admin", CreatedDate = DateTime.Now }
+
+                );
         }
     }
 
